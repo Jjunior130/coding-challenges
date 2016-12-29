@@ -61,9 +61,9 @@
 
 (defn starfield-panel []
  [:div
-  [starfield/view]
+  [link-to-home-page]
   [:br]
-  [link-to-home-page]])
+  [starfield/view]])
 
 ;; main
 
