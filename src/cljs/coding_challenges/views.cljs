@@ -6,16 +6,16 @@
               [coding-challenges.starfield.views :as starfield]
               [com.rpl.specter :as sp :refer [ALL]]))
 
-(defonce p
- (js/setInterval #(rf/dispatch [:server/ping]) 3500))
+;; (defonce p
+;;  (js/setInterval #(rf/dispatch [:server/ping]) 3500))
 
-(defn ping []
- (let [p (rf/subscribe [:select-one [:server :ping]])]
-  (fn []
-   [:div {:style {:font-size "3em"}}
-    "Client to server: " (first @p) "ms"
-    [:br]
-    "Server to client: " (last @p) "ms"])))
+;; (defn ping []
+;;  (let [p (rf/subscribe [:select-one [:server :ping]])]
+;;   (fn []
+;;    [:div {:style {:font-size "3em"}}
+;;     "Client to server: " (first @p) "ms"
+;;     [:br]
+;;     "Server to client: " (last @p) "ms"])))
 
 ;; home
 
@@ -61,8 +61,9 @@
 
 (defn starfield-panel []
  [:div
-  [ping] [:br]
-  [starfield/view]])
+  [starfield/view]
+  [:br]
+  [link-to-home-page]])
 
 ;; main
 
