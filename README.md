@@ -1,6 +1,6 @@
 # coding-challenges
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+Coding challenge demos written by me inspired by Daniel Shiffman's [coding challenge videos](https://youtu.be/17WoOqgXsRM?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH)
 
 ## Development Mode
 
@@ -13,7 +13,7 @@ lein figwheel dev
 
 Figwheel will automatically push cljs changes to the browser.
 
-Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
+Wait a bit, then browse to http://[localhost:3449](http://localhost:3449).
 
 ## Production Build
 
