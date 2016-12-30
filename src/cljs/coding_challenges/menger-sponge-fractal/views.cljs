@@ -10,34 +10,32 @@
 (def h 400)
 
 (defn setup []
-  {:sponge [(box/make 0 0 0 200)]
-   :angle 0})
+ {:sponge [(box/make 0 0 0 200)]
+  :angle 0})
 
 (defn update* [state]
- (transform
-  :angle (partial + 0.01)
-  (if (and (not (:clicked? state)) (q/mouse-button))
-   (let [v (->> state
-                (transform :sponge (comp flatten (partial map box/generate)))
-                (setval :clicked? true))]
-    (println v)
-    v)
-   (if-not (q/mouse-button)
-    (setval :clicked? false state)
-    state))))
+ (->> state
+      (transform :angle (partial + 0.01))))
 
 (defn draw [state]
  (q/background 51)
- ;#_(q/rotate-x (:angle state))
+ (q/lights)
+ (q/translate (/ w 2) (/ h 2))
+ (q/rotate-x (:angle state))
  (q/rotate-y (* 0.4 (:angle state)))
  (q/rotate-z (* 0.1 (:angle state)))
  (doseq [b (:sponge state)]
   (box/draw b)))
 
+(defn mouse-clicked [state event]
+ (->> state
+      (transform :sponge (partial mapcat box/generate))))
+
 (q/defsketch menger-sponge-fractal-sketch
              :setup  setup
              :update update*
              :draw   draw
+             :mouse-clicked mouse-clicked
              :renderer :p3d
              :host "menger-sponge-fractal"
              :no-start true
