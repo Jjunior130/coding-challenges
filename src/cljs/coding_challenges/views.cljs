@@ -4,6 +4,7 @@
               [reagent.core :as reagent]
               [coding-challenges.socket :as socket]
               [coding-challenges.starfield.views :as starfield]
+              [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
               [com.rpl.specter :as sp :refer [ALL]]))
 
 ;; (defonce p
@@ -34,13 +35,18 @@
    :label "Starfield demo"
    :href "#/starfield"])
 
+(defn link-to-menger-sponge-fractal []
+ [rc/hyperlink-href
+   :label "Menger sponge fractal demo"
+   :href "#/menger-sponge-fractal"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
    :children [[home-title]
               [link-to-starfield]
+              [link-to-menger-sponge-fractal]
               [link-to-about-page]]])
-
 
 ;; about
 
@@ -65,6 +71,12 @@
   [:br]
   [starfield/view]])
 
+(defn menger-sponge-fractal-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [menger-sponge-fractal/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -72,6 +84,7 @@
   :home-panel [home-panel]
   :about-panel [about-panel]
   :starfield-panel [starfield-panel]
+  :menger-sponge-fractal-panel [menger-sponge-fractal-panel]
   [:div]))
 
 (defn show-panel [panel-name]
