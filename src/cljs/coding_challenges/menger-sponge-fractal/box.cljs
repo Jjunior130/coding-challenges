@@ -24,8 +24,7 @@
  (q/translate (-> box :pos :x)
               (-> box :pos :y)
               (-> box :pos :z))
- (q/stroke 255)
- (q/fill 255)
+ (q/no-stroke)
  (q/box (:r box))
  (q/pop-matrix))
 

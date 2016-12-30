@@ -10,8 +10,7 @@
 (def h 400)
 
 (defn setup []
- {:sponge [(box/make 0 0 0 200)]
-  :angle 0})
+ {:sponge [(box/make 0 0 0 200)]})
 
 (defn update* [state]
  (->> state
