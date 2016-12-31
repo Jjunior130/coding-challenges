@@ -10,22 +10,26 @@
 (def h 600)
 
 (defn setup []
- {:snake (snake/make)})
+ (q/frame-rate 10)
+ {:snake (snake/make)
+  :scale 20})
 
 (defn update* [sketch]
  (->> sketch
-      (transform :snake snake/update)))
+      (transform [(collect-one :scale) :snake]
+                 (partial snake/update w h))))
 
 (defn draw [sketch]
  (q/background 51)
- (-> sketch :snake snake/draw))
+ (snake/draw (:scale sketch) (:snake sketch)))
 
 (defn key-pressed [sketch event]
  (case (:key event)
   :up (->> sketch (transform :snake (partial snake/dir 0 -1)))
   :down (->> sketch (transform :snake (partial snake/dir 0 1)))
   :left (->> sketch (transform :snake (partial snake/dir -1 0)))
-  :right (->> sketch (transform :snake (partial snake/dir 1 0)))))
+  :right (->> sketch (transform :snake (partial snake/dir 1 0)))
+  sketch))
 
 (q/defsketch snake-game-sketch
              :setup  setup

@@ -12,14 +12,18 @@
    :xspeed xv
    :yspeed yv}))
 
-(defn update [snake]
+(defn update [w h scl snake]
  (->> snake
-      (transform [(collect-one :xspeed) :x] +)
-      (transform [(collect-one :yspeed) :y] +)))
+      (transform [(collect-one :xspeed) :x]
+                 (comp #(q/constrain % 0 (- w scl))
+                       #(+ (* %1 scl) %2)))
+      (transform [(collect-one :yspeed) :y]
+                 (comp #(q/constrain % 0 (- h scl))
+                       #(+ (* %1 scl) %2)))))
 
-(defn draw [snake]
+(defn draw [scl snake]
  (q/fill 255)
- (q/rect (:x snake) (:y snake) 10 10))
+ (q/rect (:x snake) (:y snake) scl scl))
 
 (defn dir [x y snake]
  (->> snake
