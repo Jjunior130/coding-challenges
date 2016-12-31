@@ -1,6 +1,6 @@
 (ns coding-challenges.snake-game.snake
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
 
 (defn make
  ([]
@@ -10,10 +10,31 @@
    :x x
    :y y
    :xspeed xv
-   :yspeed yv}))
+   :yspeed yv
+   :tail []}))
 
 (defn update [w h scl food snake]
  (->> snake
+      (transform [(collect-one :x)
+                  (collect-one :y)
+                  (collect-one :xspeed)
+                  (collect-one :yspeed)
+                  (putval scl)
+                  (putval food)
+                  :tail]
+                 (fn [sx sy sxv syv scl food tail]
+                  (let [d (q/dist (+ (* sxv scl) sx)
+                                  (+ (* syv scl) sy)
+                                  (:x food) (:y food))]
+                   (cond
+                    (< d 1)
+                    (conj tail {:x sx
+                                :y sy})
+                    (seq tail)
+                    (subvec (conj tail {:x sx
+                                        :y sy})
+                            1)
+                    :else tail))))
       (transform [(collect-one :xspeed) :x]
                  (comp #(q/constrain % 0 (- w scl))
                        #(+ (* %1 scl) %2)))
@@ -21,10 +42,12 @@
                  (comp #(q/constrain % 0 (- h scl))
                        #(+ (* %1 scl) %2)))))
 
-
 (defn draw [scl snake]
  (q/fill 255)
- (q/rect (:x snake) (:y snake) scl scl))
+ (q/rect (:x snake) (:y snake) scl scl)
+ (doseq [{y :y x :x} (:tail snake)]
+  (q/rect x y scl scl)))
+
 
 (defn dir [x y snake]
  (->> snake
