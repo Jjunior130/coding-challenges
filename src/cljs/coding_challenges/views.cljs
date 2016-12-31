@@ -5,6 +5,7 @@
               [coding-challenges.socket :as socket]
               [coding-challenges.starfield.views :as starfield]
               [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
+              [coding-challenges.snake-game.views :as snake-game]
               [com.rpl.specter :as sp :refer [ALL]]))
 
 ;; (defonce p
@@ -40,12 +41,18 @@
    :label "Menger sponge fractal demo"
    :href "#/menger-sponge-fractal"])
 
+(defn link-to-snake-game []
+ [rc/hyperlink-href
+   :label "Snake game demo"
+   :href "#/snake-game"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
    :children [[home-title]
               [link-to-starfield]
               [link-to-menger-sponge-fractal]
+              [link-to-snake-game]
               [link-to-about-page]]])
 
 ;; about
@@ -77,6 +84,12 @@
   [:br]
   [menger-sponge-fractal/view]])
 
+(defn snake-game-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [snake-game/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -85,6 +98,7 @@
   :about-panel [about-panel]
   :starfield-panel [starfield-panel]
   :menger-sponge-fractal-panel [menger-sponge-fractal-panel]
+  :snake-game-panel [snake-game-panel]
   [:div]))
 
 (defn show-panel [panel-name]

@@ -12,22 +12,22 @@
 (defn setup []
  {:sponge [(box/make 0 0 0 200)]})
 
-(defn update* [state]
- (->> state
+(defn update* [sketch]
+ (->> sketch
       (transform :angle (partial + 0.01))))
 
-(defn draw [state]
+(defn draw [sketch]
  (q/background 51)
  (q/lights)
  (q/translate (/ w 2) (/ h 2))
- (q/rotate-x (:angle state))
- (q/rotate-y (* 0.4 (:angle state)))
- (q/rotate-z (* 0.1 (:angle state)))
- (doseq [b (:sponge state)]
+ (q/rotate-x (:angle sketch))
+ (q/rotate-y (* 0.4 (:angle sketch)))
+ (q/rotate-z (* 0.1 (:angle sketch)))
+ (doseq [b (:sponge sketch)]
   (box/draw b)))
 
-(defn mouse-clicked [state event]
- (->> state
+(defn mouse-clicked [sketch event]
+ (->> sketch
       (transform :sponge (partial mapcat box/generate))))
 
 (q/defsketch menger-sponge-fractal-sketch
@@ -47,7 +47,7 @@
    (fn []
     [:div
      [rc/title
-      :label "Menger sponge fractal sketch"
+      :label "Menger sponge fractal demo"
       :level :level1] [:br]
      [:canvas#menger-sponge-fractal {:width w :height h}]])
    :component-did-mount menger-sponge-fractal-sketch}))

@@ -27,6 +27,9 @@
  (defroute "/menger-sponge-fractal" []
   (rf/dispatch [:set-active-panel :menger-sponge-fractal-panel]))
 
+ (defroute "/snake-game" []
+  (rf/dispatch [:set-active-panel :snake-game-panel]))
+
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 
