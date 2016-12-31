@@ -9,16 +9,29 @@
 (def w 600)
 (def h 600)
 
-(defn setup [])
+(defn setup []
+ {:snake (snake/make)})
 
-(defn update* [sketch])
+(defn update* [sketch]
+ (->> sketch
+      (transform :snake snake/update)))
 
-(defn draw [sketch])
+(defn draw [sketch]
+ (q/background 51)
+ (-> sketch :snake snake/draw))
+
+(defn key-pressed [sketch event]
+ (case (:key event)
+  :up (->> sketch (transform :snake (partial snake/dir 0 -1)))
+  :down (->> sketch (transform :snake (partial snake/dir 0 1)))
+  :left (->> sketch (transform :snake (partial snake/dir -1 0)))
+  :right (->> sketch (transform :snake (partial snake/dir 1 0)))))
 
 (q/defsketch snake-game-sketch
              :setup  setup
              :update update*
              :draw   draw
+             :key-pressed key-pressed
              :host "snake-game"
              :no-start true
              :middleware [m/fun-mode]
