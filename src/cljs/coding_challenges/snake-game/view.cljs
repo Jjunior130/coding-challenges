@@ -18,9 +18,11 @@
 
 (defn setup []
  (q/frame-rate 10)
- {:snake (snake/make)
-  :food (pick-location w h 20)
-  :scale 20})
+ (->> {:snake (snake/make)
+       :scale 20}
+      (transform [(collect-one :scale)
+                  :food]
+                 (partial pick-location w h))))
 
 (defn update* [sketch]
  (->> sketch
