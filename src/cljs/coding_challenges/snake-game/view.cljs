@@ -12,6 +12,9 @@
 (defn setup []
  (q/frame-rate 10)
  {:snake (snake/make)
+  :food {:type 'Food
+         :x (rand w)
+         :y (rand h)}
   :scale 20})
 
 (defn update* [sketch]
@@ -19,9 +22,18 @@
       (transform [(collect-one :scale) :snake]
                  (partial snake/update w h))))
 
-(defn draw [sketch]
+(defn draw [{food :food
+             snake :snake
+             scl :scale
+             :as sketch}]
  (q/background 51)
- (snake/draw (:scale sketch) (:snake sketch)))
+ (snake/draw scl snake)
+
+ (q/fill 255 0 100)
+ (q/rect (-> food :x)
+         (-> food :y)
+         scl
+         scl))
 
 (defn key-pressed [sketch event]
  (case (:key event)
