@@ -13,6 +13,11 @@
    :yspeed yv
    :tail []}))
 
+(defn eat? [food snake]
+ (< (q/dist (:x snake) (:y snake)
+            (:x food) (:y food))
+    1))
+
 (defn update [w h scl food snake]
  (->> snake
       (transform [(collect-one :x)
@@ -23,18 +28,16 @@
                   (putval food)
                   :tail]
                  (fn [sx sy sxv syv scl food tail]
-                  (let [d (q/dist (+ (* sxv scl) sx)
-                                  (+ (* syv scl) sy)
-                                  (:x food) (:y food))]
-                   (cond
-                    (< d 1)
-                    (conj tail {:x sx
-                                :y sy})
-                    (seq tail)
-                    (subvec (conj tail {:x sx
-                                        :y sy})
-                            1)
-                    :else tail))))
+                  (cond
+                   (eat? food {:x (+ (* sxv scl) sx)
+                               :y (+ (* syv scl) sy)})
+                   (conj tail {:x sx
+                               :y sy})
+                   (seq tail)
+                   (subvec (conj tail {:x sx
+                                       :y sy})
+                           1)
+                   :else tail)))
       (transform [(collect-one :xspeed) :x]
                  (comp #(q/constrain % 0 (- w scl))
                        #(+ (* %1 scl) %2)))
@@ -47,7 +50,6 @@
  (q/rect (:x snake) (:y snake) scl scl)
  (doseq [{y :y x :x} (:tail snake)]
   (q/rect x y scl scl)))
-
 
 (defn dir [x y snake]
  (->> snake

@@ -3,7 +3,7 @@
            [quil.middleware :as m]
            [reagent.core :as reagent]
            [re-com.core :as rc]
-           [coding-challenges.snake-game.snake :as snake]
+           [coding-challenges.snake-game.snake :as snake :refer [eat?]]
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
 
 (def w 600)
@@ -32,11 +32,9 @@
                   (collect-one :snake)
                   :food]
                  (fn [scl snake food]
-                  (let [d (q/dist (:x snake) (:y snake)
-                                  (:x food) (:y food))]
-                   (if (< d 1)
-                    (pick-location w h scl)
-                    food))))))
+                  (if (eat? food snake)
+                   (pick-location w h scl)
+                   food)))))
 
 (defn draw [{food :food
              snake :snake
