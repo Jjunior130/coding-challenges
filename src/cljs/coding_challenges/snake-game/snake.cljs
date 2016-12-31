@@ -2,12 +2,15 @@
  (:require [quil.core :as q :include-macros true]
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
 
-(defn make [x y xv yv]
- {:type 'Snake
-  :x (or x 0)
-  :y (or y 0)
-  :xspeed (or xv 1)
-  :yspeed (or yv 0)})
+(defn make
+ ([]
+  (make 0 0 1 0))
+ ([x y xv yv]
+  {:type 'Snake
+   :x x
+   :y y
+   :xspeed xv
+   :yspeed yv}))
 
 (defn update [snake]
  (->> snake
