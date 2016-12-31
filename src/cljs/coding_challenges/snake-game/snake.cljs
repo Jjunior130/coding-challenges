@@ -12,7 +12,7 @@
    :xspeed xv
    :yspeed yv}))
 
-(defn update [w h scl snake]
+(defn update [w h scl food snake]
  (->> snake
       (transform [(collect-one :xspeed) :x]
                  (comp #(q/constrain % 0 (- w scl))
@@ -20,6 +20,7 @@
       (transform [(collect-one :yspeed) :y]
                  (comp #(q/constrain % 0 (- h scl))
                        #(+ (* %1 scl) %2)))))
+
 
 (defn draw [scl snake]
  (q/fill 255)

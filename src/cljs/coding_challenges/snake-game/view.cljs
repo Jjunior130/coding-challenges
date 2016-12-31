@@ -9,18 +9,34 @@
 (def w 600)
 (def h 600)
 
+(defn pick-location [w h scl]
+ (let [cols (q/floor (/ w scl))
+       rows (q/floor (/ h scl))]
+  {:type 'Food
+   :x (* scl (rand-int cols))
+   :y (* scl (rand-int rows))}))
+
 (defn setup []
  (q/frame-rate 10)
  {:snake (snake/make)
-  :food {:type 'Food
-         :x (rand w)
-         :y (rand h)}
+  :food (pick-location w h 20)
   :scale 20})
 
 (defn update* [sketch]
  (->> sketch
-      (transform [(collect-one :scale) :snake]
-                 (partial snake/update w h))))
+      (transform [(collect-one :scale)
+                  (collect-one :food)
+                  :snake]
+                 (partial snake/update w h))
+      (transform [(collect-one :scale)
+                  (collect-one :snake)
+                  :food]
+                 (fn [scl snake food]
+                  (let [d (q/dist (:x snake) (:y snake)
+                                  (:x food) (:y food))]
+                   (if (< d 1)
+                    (pick-location w h scl)
+                    food))))))
 
 (defn draw [{food :food
              snake :snake
