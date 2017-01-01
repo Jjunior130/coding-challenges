@@ -10,7 +10,7 @@
 (def h 360)
 
 (defn setup []
- {:drops (repeatedly 100 (partial d/make w))})
+ {:drops (repeatedly 500 (partial d/make w))})
 
 (defn update* [sketch]
  (->> sketch
