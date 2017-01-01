@@ -6,14 +6,21 @@
            [coding-challenges.purple-rain.drop :as d]
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
 
-(def w 600)
-(def h 600)
+(def w 640)
+(def h 360)
 
-(defn setup [])
+(defn setup []
+ {:drops (repeatedly 100 (partial d/make w))})
 
-(defn update* [sketch])
+(defn update* [sketch]
+ (->> sketch
+      (transform [:drops ALL]
+                 d/update)))
 
-(defn draw [sketch])
+(defn draw [sketch]
+ (q/background 230 230 250)
+ (doseq [d (:drops sketch)]
+  (d/draw d)))
 
 (q/defsketch purple-rain-sketch
              :setup  setup

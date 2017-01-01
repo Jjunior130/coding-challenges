@@ -2,8 +2,20 @@
  (:require [quil.core :as q :include-macros true]
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
 
-(defn make [])
+(defn make [w]
+ {:x (rand w)
+  :y (- (rand 100) 199)
+  :yspeed 1})
 
-(defn update [])
+(defn fall [yspeed y]
+ (+ yspeed y))
 
-(defn draw [])
+(defn update [d]
+ (->> d
+      (transform [(collect-one :yspeed) :y] fall)))
+
+(defn draw [d]
+ (q/stroke 138 43 226)
+ (q/line (:x d) (:y d)
+         (:x d) (+ 10 (:y d))))
+
