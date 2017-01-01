@@ -5,7 +5,7 @@
               [coding-challenges.socket :as socket]
               [coding-challenges.starfield.views :as starfield]
               [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
-              [coding-challenges.purple-rain :as purple-rain]
+              [coding-challenges.purple-rain.views :as purple-rain]
               [coding-challenges.snake-game.views :as snake-game]
               [com.rpl.specter :as sp :refer [ALL]]))
 

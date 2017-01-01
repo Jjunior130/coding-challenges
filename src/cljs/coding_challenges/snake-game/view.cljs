@@ -53,10 +53,34 @@
 
 (defn key-pressed [sketch event]
  (case (:key event)
-  :up (->> sketch (transform :snake (partial snake/dir 0 -1)))
-  :down (->> sketch (transform :snake (partial snake/dir 0 1)))
-  :left (->> sketch (transform :snake (partial snake/dir -1 0)))
-  :right (->> sketch (transform :snake (partial snake/dir 1 0)))
+  :up
+  (->> sketch
+       (transform [:snake]
+                  (fn [snake]
+                   (if-not (= 1 (:yspeed snake))
+                    (snake/dir 0 -1 snake)
+                    snake))))
+  :down
+  (->> sketch
+       (transform [:snake]
+                  (fn [snake]
+                   (if-not (= -1 (:yspeed snake))
+                    (snake/dir 0 1 snake)
+                    snake))))
+  :left
+  (->> sketch
+       (transform [:snake]
+                  (fn [snake]
+                   (if-not (= 1 (:xspeed snake))
+                    (snake/dir -1 0 snake)
+                    snake))))
+  :right
+  (->> sketch
+       (transform [:snake]
+                  (fn [snake]
+                   (if-not (= -1 (:xspeed snake))
+                    (snake/dir 1 0 snake)
+                    snake))))
   sketch))
 
 (defn mouse-clicked [sketch event]
