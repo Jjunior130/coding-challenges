@@ -18,6 +18,9 @@
             (:x food) (:y food))
     1))
 
+(defn death? [tail x y]
+ ((set tail) {:x x :y y}))
+
 (defn update [w h scl food snake]
  (->> snake
       (transform [(collect-one :x)
@@ -33,6 +36,8 @@
                                :y (+ (* syv scl) sy)})
                    (conj tail {:x sx
                                :y sy})
+                   (death? tail sx sy)
+                   (empty tail)
                    (seq tail)
                    (subvec (conj tail {:x sx
                                        :y sy})
@@ -49,6 +54,7 @@
  (q/fill 255)
  (q/rect (:x snake) (:y snake) scl scl)
  (doseq [{y :y x :x} (:tail snake)]
+  (q/fill 155) ; distinguish head from tail
   (q/rect x y scl scl)))
 
 (defn dir [x y snake]
