@@ -5,14 +5,19 @@
 (defn make [w]
  {:x (rand w)
   :y (- (rand 100) 199)
-  :yspeed 1})
+  :yspeed (+ 4 (rand 6))})
 
 (defn fall [yspeed y]
  (+ yspeed y))
 
-(defn update [d]
+(defn update [h d]
  (->> d
-      (transform [(collect-one :yspeed) :y] fall)))
+      (transform [(collect-one :yspeed) :y]
+                 (comp
+                  #(if (> % h)
+                    (- (rand 100) 199)
+                    %)
+                  fall))))
 
 (defn draw [d]
  (q/stroke 138 43 226)

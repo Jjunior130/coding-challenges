@@ -4,7 +4,7 @@
            [reagent.core :as reagent]
            [re-com.core :as rc]
            [coding-challenges.purple-rain.drop :as d]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
 
 (def w 640)
 (def h 360)
@@ -14,7 +14,9 @@
 
 (defn update* [sketch]
  (->> sketch
-      (transform [:drops ALL]
+      (transform [:drops
+                  (putval h)
+                  ALL]
                  d/update)))
 
 (defn draw [sketch]
