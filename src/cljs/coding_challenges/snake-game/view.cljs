@@ -59,11 +59,25 @@
   :right (->> sketch (transform :snake (partial snake/dir 1 0)))
   sketch))
 
+(defn mouse-clicked [sketch event]
+ (->> sketch
+      (transform [(collect-one :scale)
+                  :snake
+                  (collect-one :x)
+                  (collect-one :y)
+                  (collect-one :xspeed)
+                  (collect-one :yspeed)
+                  :tail]
+                 (fn [scl sx sy sxv syv tail]
+                  (conj tail {:x (- sx (* scl sxv))
+                              :y (- sy (* scl syv))})))))
+
 (q/defsketch snake-game-sketch
              :setup  setup
              :update update*
              :draw   draw
              :key-pressed key-pressed
+             :mouse-clicked mouse-clicked
              :host "snake-game"
              :no-start true
              :middleware [m/fun-mode]
