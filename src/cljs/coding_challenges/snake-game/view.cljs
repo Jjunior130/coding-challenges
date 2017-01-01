@@ -4,7 +4,7 @@
            [reagent.core :as reagent]
            [re-com.core :as rc]
            [coding-challenges.snake-game.snake :as snake :refer [eat?]]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
 
 (def w 600)
 (def h 600)
@@ -53,7 +53,7 @@
 
 (defn turn
  "Change direction only if next position doesn't result in death."
- [nxd nyd w h scl snake]
+ [nxd nyd scl w h snake]
  (let [nsd (snake/dir nxd nyd snake)
        nsxp (+ (:x nsd) (* scl (:xspeed nsd)))
        nsyp (+ (:y nsd) (* scl (:yspeed nsd)))
@@ -73,23 +73,31 @@
   :up
   (->> sketch
        (transform [(collect-one :scale)
+                   (putval w)
+                   (putval h)
                    :snake]
-                  (partial turn 0 -1 w h)))
+                  (partial turn 0 -1)))
   :down
   (->> sketch
        (transform [(collect-one :scale)
+                   (putval w)
+                   (putval h)
                    :snake]
-                  (partial turn 0 1 w h)))
+                  (partial turn 0 1)))
   :left
   (->> sketch
        (transform [(collect-one :scale)
+                   (putval w)
+                   (putval h)
                    :snake]
-                  (partial turn -1 0 w h)))
+                  (partial turn -1 0)))
   :right
   (->> sketch
        (transform [(collect-one :scale)
+                   (putval w)
+                   (putval h)
                    :snake]
-                  (partial turn 1 0 w h)))
+                  (partial turn 1 0)))
   sketch))
 
 (defn mouse-clicked [sketch event]
