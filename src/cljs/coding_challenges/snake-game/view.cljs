@@ -51,36 +51,40 @@
          scl
          scl))
 
+(defn turn
+ "Change direction only if next position doesn't result in death."
+ [nxd nyd scl snake]
+ (let [nsd (snake/dir nxd nyd snake)
+       death? (snake/death?
+               (:tail nsd)
+               (+ (:x nsd) (* scl (:xspeed nsd)))
+               (+ (:y nsd) (* scl (:yspeed nsd))))]
+  (if-not death?
+   nsd
+   snake)))
+
 (defn key-pressed [sketch event]
  (case (:key event)
   :up
   (->> sketch
-       (transform [:snake]
-                  (fn [snake]
-                   (if-not (= 1 (:yspeed snake))
-                    (snake/dir 0 -1 snake)
-                    snake))))
+       (transform [(collect-one :scale)
+                   :snake]
+                  (partial turn 0 -1)))
   :down
   (->> sketch
-       (transform [:snake]
-                  (fn [snake]
-                   (if-not (= -1 (:yspeed snake))
-                    (snake/dir 0 1 snake)
-                    snake))))
+       (transform [(collect-one :scale)
+                   :snake]
+                  (partial turn 0 1)))
   :left
   (->> sketch
-       (transform [:snake]
-                  (fn [snake]
-                   (if-not (= 1 (:xspeed snake))
-                    (snake/dir -1 0 snake)
-                    snake))))
+       (transform [(collect-one :scale)
+                   :snake]
+                  (partial turn -1 0)))
   :right
   (->> sketch
-       (transform [:snake]
-                  (fn [snake]
-                   (if-not (= -1 (:xspeed snake))
-                    (snake/dir 1 0 snake)
-                    snake))))
+       (transform [(collect-one :scale)
+                   :snake]
+                  (partial turn 1 0)))
   sketch))
 
 (defn mouse-clicked [sketch event]
