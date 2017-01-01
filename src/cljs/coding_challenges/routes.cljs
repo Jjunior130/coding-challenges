@@ -30,6 +30,9 @@
  (defroute "/snake-game" []
   (rf/dispatch [:set-active-panel :snake-game-panel]))
 
+ (defroute "/purple-rain" []
+  (rf/dispatch [:set-active-panel :purple-rain-panel]))
+
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 

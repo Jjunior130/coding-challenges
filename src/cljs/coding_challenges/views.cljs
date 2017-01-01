@@ -5,6 +5,7 @@
               [coding-challenges.socket :as socket]
               [coding-challenges.starfield.views :as starfield]
               [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
+              [coding-challenges.purple-rain :as purple-rain]
               [coding-challenges.snake-game.views :as snake-game]
               [com.rpl.specter :as sp :refer [ALL]]))
 
@@ -46,6 +47,11 @@
    :label "Snake game demo"
    :href "#/snake-game"])
 
+(defn link-to-purple-rain []
+ [rc/hyperlink-href
+  :label "Purple rain demo"
+  :href "#/purple-rain"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
@@ -53,6 +59,7 @@
               [link-to-starfield]
               [link-to-menger-sponge-fractal]
               [link-to-snake-game]
+              [link-to-purple-rain]
               [link-to-about-page]]])
 
 ;; about
@@ -90,6 +97,12 @@
   [:br]
   [snake-game/view]])
 
+(defn purple-rain-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [purple-rain/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -99,6 +112,7 @@
   :starfield-panel [starfield-panel]
   :menger-sponge-fractal-panel [menger-sponge-fractal-panel]
   :snake-game-panel [snake-game-panel]
+  :purple-rain-panel [purple-rain-panel]
   [:div]))
 
 (defn show-panel [panel-name]
