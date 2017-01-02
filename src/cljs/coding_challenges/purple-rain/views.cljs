@@ -17,7 +17,7 @@
       (transform [:drops
                   (putval h)
                   ALL]
-                 d/update)))
+                 d/update*)))
 
 (defn draw [sketch]
  (q/background 230 230 250)

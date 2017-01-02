@@ -21,7 +21,7 @@
 (defn death? [tail x y]
  ((set tail) {:x x :y y}))
 
-(defn update [w h scl food snake]
+(defn update* [w h scl food snake]
  (->> snake
       (transform [(collect-one :x)
                   (collect-one :y)

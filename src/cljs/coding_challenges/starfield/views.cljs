@@ -18,7 +18,7 @@
        :speed (/ (q/mouse-x) 12))
       (transform
        [(collect-one :speed) :stars ALL]
-       (partial star/update w h))))
+       (partial star/update* w h))))
 
 (defn draw [state]
  (q/background 0)

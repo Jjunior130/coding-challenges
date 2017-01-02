@@ -17,7 +17,7 @@
    :y (* scl (rand-int rows))}))
 
 (defn setup []
- (q/frame-rate 10)
+ (q/frame-rate 8)
  (->> {:snake (snake/make)
        :scale 20}
       (transform [(collect-one :scale)

@@ -9,7 +9,7 @@
   :y (- (rand (* 2 h)) h)
   :z (rand w)})
 
-(defn update [w h speed star]
+(defn update* [w h speed star]
  (let [u (->> star
               (transform [(collect-one :z) :pz] #(identity %1))
               (transform :z #(- % speed)))]
