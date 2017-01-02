@@ -7,6 +7,7 @@
               [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
               [coding-challenges.purple-rain.views :as purple-rain]
               [coding-challenges.snake-game.views :as snake-game]
+              [coding-challenges.space-invaders.views :as space-invaders]
               [com.rpl.specter :as sp :refer [ALL]]))
 
 ;; (defonce p
@@ -52,6 +53,11 @@
   :label "Purple rain demo"
   :href "#/purple-rain"])
 
+(defn link-to-space-invaders []
+ [rc/hyperlink-href
+  :label "Space invader demo"
+  :href "#/space-invader"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
@@ -60,6 +66,7 @@
               [link-to-menger-sponge-fractal]
               [link-to-snake-game]
               [link-to-purple-rain]
+              [link-to-space-invaders]
               [link-to-about-page]]])
 
 ;; about
@@ -103,6 +110,12 @@
   [:br]
   [purple-rain/view]])
 
+(defn space-invaders-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [space-invaders/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -113,6 +126,7 @@
   :menger-sponge-fractal-panel [menger-sponge-fractal-panel]
   :snake-game-panel [snake-game-panel]
   :purple-rain-panel [purple-rain-panel]
+  :space-invaders-panel [space-invaders-panel]
   [:div]))
 
 (defn show-panel [panel-name]

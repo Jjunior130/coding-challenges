@@ -33,6 +33,9 @@
  (defroute "/purple-rain" []
   (rf/dispatch [:set-active-panel :purple-rain-panel]))
 
+ (defroute "/space-invaders" []
+  (rf/dispatch [:set-active-panel :space-invaders-panel]))
+
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 
