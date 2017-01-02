@@ -17,22 +17,19 @@
  (+ yspeed y))
 
 (defn update* [h d]
- (->> d
-      (transform [(collect-one :yspeed) :y]
-                 (comp
-                  #(if (> % h)
-                    (- (rand 100) 199)
-                    %)
-                  fall))
-      (transform [(collect-one :y)
-                  (collect-one :z)
-                  :yspeed]
-                 (fn [y z yspeed]
-                  (let [grav (q/map-range z 0 20 0 0.2)]
-                   (cond
-                    (> y h)
-                    (+ grav yspeed)
-                    :else (q/map-range z 0 20 4 10)))))))
+ (if (> (:y d) h)
+  (->> d
+       (setval :y (- (rand 100) 199))
+       (transform [(collect-one :z)
+                   :yspeed]
+                  #(q/map-range %1 0 20 4 10)))
+  (->> d
+       (transform [(collect-one :yspeed) :y]
+                  fall)
+       (transform [(collect-one :z (view #(q/map-range % 0 20 0 0.2)))
+                   :yspeed]
+                  (fn [grav yspeed]
+                   (+ grav yspeed))))))
 
 (defn draw [d]
  (let [thick (q/map-range (:z d) 0 20 1 3)]
