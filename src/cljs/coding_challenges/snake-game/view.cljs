@@ -69,36 +69,40 @@
    snake)))
 
 (defn key-pressed [sketch event]
- (case (:key event)
-  :up
-  (->> sketch
-       (transform [(collect-one :scale)
-                   (putval w)
-                   (putval h)
-                   :snake]
-                  (partial turn 0 -1)))
-  :down
-  (->> sketch
-       (transform [(collect-one :scale)
-                   (putval w)
-                   (putval h)
-                   :snake]
-                  (partial turn 0 1)))
-  :left
-  (->> sketch
-       (transform [(collect-one :scale)
-                   (putval w)
-                   (putval h)
-                   :snake]
-                  (partial turn -1 0)))
-  :right
-  (->> sketch
-       (transform [(collect-one :scale)
-                   (putval w)
-                   (putval h)
-                   :snake]
-                  (partial turn 1 0)))
-  sketch))
+ (letfn [(any-of
+          [& ks]
+          (some (partial = (:key event))
+                ks))]
+  (cond
+   (any-of :up :w)
+   (->> sketch
+        (transform [(collect-one :scale)
+                    (putval w)
+                    (putval h)
+                    :snake]
+                   (partial turn 0 -1)))
+   (any-of :down :s)
+   (->> sketch
+        (transform [(collect-one :scale)
+                    (putval w)
+                    (putval h)
+                    :snake]
+                   (partial turn 0 1)))
+   (any-of :left :a)
+   (->> sketch
+        (transform [(collect-one :scale)
+                    (putval w)
+                    (putval h)
+                    :snake]
+                   (partial turn -1 0)))
+   (any-of :right :d)
+   (->> sketch
+        (transform [(collect-one :scale)
+                    (putval w)
+                    (putval h)
+                    :snake]
+                   (partial turn 1 0)))
+   :else sketch)))
 
 (defn mouse-clicked [sketch event]
  (->> sketch
