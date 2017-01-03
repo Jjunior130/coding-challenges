@@ -32,12 +32,12 @@
                   :tail]
                  (fn [sx sy sxv syv scl food tail]
                   (cond
+                   (death? tail sx sy)
+                   (empty tail)
                    (eat? food {:x (+ (* sxv scl) sx)
                                :y (+ (* syv scl) sy)})
                    (conj tail {:x sx
                                :y sy})
-                   (death? tail sx sy)
-                   (empty tail)
                    (seq tail)
                    (subvec (conj tail {:x sx
                                        :y sy})
