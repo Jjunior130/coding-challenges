@@ -29,7 +29,7 @@
       (transform [(collect-one :scale)
                   (collect-one :food)
                   :snake]
-                 (partial snake/update w h))
+                 (partial snake/update* w h))
       (transform [(collect-one :scale)
                   (collect-one :snake)
                   :food]
