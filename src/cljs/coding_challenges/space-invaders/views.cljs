@@ -8,19 +8,40 @@
            [coding-challenges.space-invaders.drop :as d]
            [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
 
-(def w 640)
-(def h 360)
+(def w 600)
+(def h 400)
 
-(defn setup [])
+(defn setup []
+ {:ship (ship/make w)
+  :flowers (for [i (range 6)]
+            (flower/make (* i (+ 80 80))
+                         60))})
 
-(defn update* [sketch])
+(defn update* [sketch]
+ (->> sketch))
 
-(defn draw [sketch])
+(defn draw [sketch]
+ (q/background 51)
+ (ship/draw h (:ship sketch)))
+
+(defn key-pressed [sketch event]
+ (letfn [(any-of
+          [& ks]
+          (some (partial = (:key event))
+                ks))]
+  (cond
+   (any-of :left :a)
+   (->> sketch
+        (transform :ship (partial ship/move -1)))
+   (any-of :right :d)
+   (->> sketch
+        (transform :ship (partial ship/move 1))))))
 
 (q/defsketch space-invaders-sketch
              :setup  setup
              :update update*
              :draw   draw
+             :key-pressed key-pressed
              :host "space-invaders"
              :no-start true
              :middleware [m/fun-mode]
