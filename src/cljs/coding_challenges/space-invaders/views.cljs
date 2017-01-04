@@ -35,7 +35,8 @@
         (transform :ship (partial ship/move -1)))
    (any-of :right :d)
    (->> sketch
-        (transform :ship (partial ship/move 1))))))
+        (transform :ship (partial ship/move 1)))
+   :else sketch)))
 
 (q/defsketch space-invaders-sketch
              :setup  setup
