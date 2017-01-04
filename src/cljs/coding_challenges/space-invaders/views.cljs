@@ -15,16 +15,17 @@
  {:ship (ship/make w)
   :flowers (for [i (range 6)]
             (flower/make (+ (* i 80) 80)
-                         60))
-  :drop (d/make (/ w 2) (/ h 2))})
+                         60))})
 
 (defn update* [sketch]
  (->> sketch
-      (transform :drop d/update*)))
+      (transform [:drops ALL] d/update*)))
 
 (defn draw [sketch]
  (q/background 51)
  (ship/draw h (:ship sketch))
+ (doseq [d (:drops sketch)]
+  (d/draw d))
  (d/draw (:drop sketch))
  (doseq [flower (:flowers sketch)]
   (flower/draw flower)))
@@ -35,6 +36,12 @@
           (some (partial = (:key event))
                 ks))]
   (cond
+   (any-of (keyword " "))
+   (->> sketch
+        (transform [(collect-one :ship)
+                    :drops]
+                   (fn [ship drops]
+                    (conj drops (d/make (:x ship) h)))))
    (any-of :left :a)
    (->> sketch
         (transform :ship (partial ship/move -1)))

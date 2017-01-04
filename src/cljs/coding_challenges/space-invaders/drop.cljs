@@ -9,7 +9,7 @@
   :r 8})
 
 (defn move [y]
- (- y 1))
+ (- y 5))
 
 (defn update* [d]
  (->> d
@@ -17,4 +17,4 @@
 
 (defn draw [d]
  (q/fill 150 0 255)
- (q/ellipse (:x d) (:y d) 8 8))
+ (q/ellipse (:x d) (:y d) 16 16))
