@@ -15,14 +15,17 @@
  {:ship (ship/make w)
   :flowers (for [i (range 6)]
             (flower/make (+ (* i 80) 80)
-                         60))})
+                         60))
+  :drop (d/make (/ w 2) (/ h 2))})
 
 (defn update* [sketch]
- (->> sketch))
+ (->> sketch
+      (transform :drop d/update*)))
 
 (defn draw [sketch]
  (q/background 51)
  (ship/draw h (:ship sketch))
+ (d/draw (:drop sketch))
  (doseq [flower (:flowers sketch)]
   (flower/draw flower)))
 

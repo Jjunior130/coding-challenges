@@ -8,9 +8,13 @@
   :y y
   :r 8})
 
+(defn move [y]
+ (- y 1))
+
 (defn update* [d]
  (->> d
-      (transform :y #(- % 5))))
+      (transform :y move)))
 
-(defn draw [d])
-
+(defn draw [d]
+ (q/fill 150 0 255)
+ (q/ellipse (:x d) (:y d) 8 8))
