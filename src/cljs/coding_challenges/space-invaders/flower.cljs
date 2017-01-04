@@ -11,5 +11,7 @@
 
 (defn update* [flower])
 
-(defn draw [flower])
+(defn draw [flower]
+ (q/fill 255 0 200)
+ (q/ellipse (:x flower) (:y flower) 60 60))
 

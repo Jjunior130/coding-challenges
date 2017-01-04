@@ -14,7 +14,7 @@
 (defn setup []
  {:ship (ship/make w)
   :flowers (for [i (range 6)]
-            (flower/make (* i (+ 80 80))
+            (flower/make (+ (* i 80) 80)
                          60))})
 
 (defn update* [sketch]
@@ -22,7 +22,9 @@
 
 (defn draw [sketch]
  (q/background 51)
- (ship/draw h (:ship sketch)))
+ (ship/draw h (:ship sketch))
+ (doseq [flower (:flowers sketch)]
+  (flower/draw flower)))
 
 (defn key-pressed [sketch event]
  (letfn [(any-of
