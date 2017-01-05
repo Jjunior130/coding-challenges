@@ -21,16 +21,14 @@
 (defn death? [tail x y]
  ((set tail) {:x x :y y}))
 
-(defn update* [w h scl food snake]
+(defn update-tail [scl food snake]
  (->> snake
       (transform [(collect-one :x)
                   (collect-one :y)
                   (collect-one :xspeed)
                   (collect-one :yspeed)
-                  (putval scl)
-                  (putval food)
                   :tail]
-                 (fn [sx sy sxv syv scl food tail]
+                 (fn [sx sy sxv syv tail]
                   (cond
                    (death? tail sx sy)
                    (empty tail)
@@ -42,13 +40,21 @@
                    (subvec (conj tail {:x sx
                                        :y sy})
                            1)
-                   :else tail)))
+                   :else tail)))))
+
+(defn move-forward [scl w h snake]
+ (->> snake
       (transform [(collect-one :xspeed) :x]
                  (comp #(q/constrain % 0 (- w scl))
                        #(+ (* %1 scl) %2)))
       (transform [(collect-one :yspeed) :y]
                  (comp #(q/constrain % 0 (- h scl))
                        #(+ (* %1 scl) %2)))))
+
+(defn update* [w h scl food snake]
+ (->> snake
+      (update-tail scl food)
+      (move-forward scl w h)))
 
 (defn draw [scl snake]
  (q/fill 255)
