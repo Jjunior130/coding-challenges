@@ -55,7 +55,7 @@
 
 (defn link-to-space-invaders []
  [rc/hyperlink-href
-  :label "Space invader demo"
+  :label "Space invaders demo"
   :href "#/space-invaders"])
 
 (defn home-panel []

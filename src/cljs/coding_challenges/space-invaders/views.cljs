@@ -5,8 +5,8 @@
            [re-com.core :as rc]
            [coding-challenges.space-invaders.flower :as flower]
            [coding-challenges.space-invaders.ship :as ship]
-           [coding-challenges.space-invaders.drop :as d]
-           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
+           [coding-challenges.space-invaders.drop :as d :refer [hits?]]
+           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one collect]]))
 
 (def w 600)
 (def h 400)
@@ -19,14 +19,20 @@
 
 (defn update* [sketch]
  (->> sketch
-      (transform [:drops ALL] d/update*)))
+      (transform [(collect-one :flowers)
+                  :drops]
+                 (fn [flowers drops]
+                  (->> (remove #(some (partial hits? %) flowers) drops)
+                       (transform ALL d/update*))))
+      (transform [(collect-one :drops)
+                  :flowers ALL]
+                 flower/update*)))
 
 (defn draw [sketch]
  (q/background 51)
  (ship/draw h (:ship sketch))
  (doseq [d (:drops sketch)]
   (d/draw d))
- (d/draw (:drop sketch))
  (doseq [flower (:flowers sketch)]
   (flower/draw flower)))
 

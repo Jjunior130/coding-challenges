@@ -6,15 +6,21 @@
  {:type 'Drop
   :x x
   :y y
-  :r 8})
+  :r 16})
 
-(defn move [y]
- (- y 5))
+(defn move [d]
+ (->> d
+      (transform :y #(- % 5))))
+
+(defn hits? [d flower]
+ (< (q/dist (:x d) (:y d)
+            (:x flower) (:y flower))
+    (+ (:r d) (:r flower))))
 
 (defn update* [d]
- (->> d
-      (transform :y move)))
+ (move d))
 
 (defn draw [d]
  (q/fill 150 0 255)
- (q/ellipse (:x d) (:y d) 16 16))
+ (q/ellipse (:x d) (:y d)
+            (:r d) (:r d)))
