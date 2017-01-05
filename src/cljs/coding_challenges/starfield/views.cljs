@@ -10,10 +10,10 @@
 (def h 600)
 
 (defn setup []
-  {:stars (repeatedly 800 #(star/new w h))})
+  {:stars (repeatedly 800 #(star/make w h))})
 
-(defn update* [state]
- (->> state
+(defn update* [sketch]
+ (->> sketch
       (setval
        :speed (/ (q/mouse-x) 12))
       (transform

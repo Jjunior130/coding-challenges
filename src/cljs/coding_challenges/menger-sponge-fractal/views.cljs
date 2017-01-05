@@ -12,9 +12,12 @@
 (defn setup []
  {:sponge [(box/make 0 0 0 200)]})
 
-(defn update* [sketch]
+(defn rotate [sketch]
  (->> sketch
       (transform :angle (partial + 0.01))))
+
+(defn update* [sketch]
+ (rotate sketch))
 
 (defn draw [sketch]
  (q/background 51)

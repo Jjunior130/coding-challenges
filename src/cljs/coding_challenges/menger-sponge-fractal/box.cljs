@@ -21,9 +21,10 @@
 
 (defn draw [box]
  (q/push-matrix)
- (q/translate (-> box :pos :x)
-              (-> box :pos :y)
-              (-> box :pos :z))
+ (q/translate
+  (-> box :pos :x)
+  (-> box :pos :y)
+  (-> box :pos :z))
  (q/no-stroke)
  (q/box (:r box))
  (q/pop-matrix))

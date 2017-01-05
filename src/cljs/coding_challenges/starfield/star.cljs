@@ -3,23 +3,22 @@
            [quil.middleware :as m]
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
 
-(defn new [w h]
+(defn make [w h]
  {:type 'Star
   :x (- (rand (* 2 w)) w)
   :y (- (rand (* 2 h)) h)
   :z (rand w)})
 
+(defn move-forward [speed star]
+ (->> star
+      (transform [(collect-one :z) :pz] #(identity %1))
+      (transform :z #(- % speed))))
+
 (defn update* [w h speed star]
- (let [u (->> star
-              (transform [(collect-one :z) :pz] #(identity %1))
-              (transform :z #(- % speed)))]
-  (if (< (:z u) 1)
-   (->> u
-        (setval :z w)
-        (setval :x (- (rand (* 2 w)) w))
-        (setval :y (- (rand (* 2 h)) h))
-        (transform [(collect-one :z) :pz] #(identity %1)))
-   u)))
+ (as-> (move-forward speed star) $
+       (if (< (:z $) 1)
+        (make w h)
+        $)))
 
 (defn draw [w h star]
  (q/fill 255)
