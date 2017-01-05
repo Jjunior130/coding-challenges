@@ -7,7 +7,15 @@
   :x (/ w 2)
   :xdir 0})
 
-(defn update* [ship])
+(defn move [vel ship]
+ (->> ship
+      (transform :x (partial + vel))))
+
+(defn update* [ship]
+ (case (:xdir ship)
+  -1 (move -1 ship)
+  0 ship
+  1 (move 1 ship)))
 
 (defn draw [h ship]
  (q/fill 255)

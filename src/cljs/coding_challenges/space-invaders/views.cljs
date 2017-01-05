@@ -26,7 +26,8 @@
                        (transform ALL d/update*))))
       (transform [(collect-one :drops)
                   :flowers ALL]
-                 flower/update*)))
+                 flower/update*)
+      (transform :ship ship/update*)))
 
 (defn draw [sketch]
  (q/background 51)
@@ -36,7 +37,7 @@
  (doseq [flower (:flowers sketch)]
   (flower/draw flower)))
 
-(defn key-pressed [sketch event]
+(defn key-typed [sketch event]
  (letfn [(any-of
           [& ks]
           (some (partial = (:key event))
@@ -50,17 +51,23 @@
                     (conj drops (d/make (:x ship) h)))))
    (any-of :left :a)
    (->> sketch
-        (transform :ship (partial ship/move -1)))
+        (setval [:ship :xdir] -1))
    (any-of :right :d)
    (->> sketch
-        (transform :ship (partial ship/move 1)))
+        (setval [:ship :xdir] 1))
    :else sketch)))
+
+
+(defn key-released [sketch]
+ (->> sketch
+      (setval [:ship :xdir] 0)))
 
 (q/defsketch space-invaders-sketch
              :setup  setup
              :update update*
              :draw   draw
-             :key-pressed key-pressed
+             :key-typed key-typed
+             :key-released key-released
              :host "space-invaders"
              :no-start true
              :middleware [m/fun-mode]
