@@ -9,7 +9,7 @@
 
 (defn move [vel ship]
  (->> ship
-      (transform :x (partial + vel))))
+      (transform :x (partial + (* 5 vel)))))
 
 (defn update* [ship]
  (case (:xdir ship)
@@ -21,6 +21,3 @@
  (q/fill 255)
  (q/rect-mode :center)
  (q/rect (:x ship) (- h 20) 20 60))
-
-(defn move [dir ship]
- (transform :x (partial + (* 5 dir)) ship))
