@@ -14,10 +14,23 @@
  (->> flower
       (transform :r (partial + 2))))
 
-(defn update* [drops flower]
- (if (some #(hits? % flower) drops)
-  (grow flower)
-  flower))
+(defn move [flower]
+ (->> flower
+      (transform [(collect-one :xdir)
+                  :x]
+                 +)))
+
+(defn shift-down [flower]
+ (->> flower
+      (transform [(collect-one :r)
+                  :y] +)
+      (transform :xdir (partial * -1))))
+
+(defn update* [edge? drops flower]
+ (cond->> flower
+          (some #(hits? % flower) drops) grow
+          edge? shift-down
+          :always move))
 
 (defn draw [flower]
  (q/fill 255 0 200)
