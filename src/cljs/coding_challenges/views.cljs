@@ -154,7 +154,7 @@
   :purple-rain-panel [purple-rain-panel]
   :space-invaders-panel [space-invaders-panel]
   :mitosis-panel [mitosis-panel]
-  :solar-planet-panel [solar-system-panel]
+  :solar-system-panel [solar-system-panel]
   [:div]))
 
 (defn show-panel [panel-name]

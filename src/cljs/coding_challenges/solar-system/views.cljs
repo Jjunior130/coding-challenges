@@ -9,18 +9,23 @@
 (def w 600)
 (def h 600)
 
-(defn setup [])
+(defn setup []
+ (->> (planet/make 50 0 0)
+      (planet/spawn-moons 5 1)))
 
-(defn update* [sketch])
+(defn update* [sun]
+ (planet/update* sun))
 
-(defn draw [sketch])
+(defn draw [sun]
+ (q/background 0)
+ (q/translate (/ w 2)
+              (/ h 2))
+ (planet/draw sun))
 
 (q/defsketch solar-system-sketch
              :setup  setup
              :update update*
              :draw   draw
-             :key-pressed key-pressed
-             :mouse-clicked mouse-clicked
              :host "solar-system"
              :no-start true
              :middleware [m/fun-mode]
