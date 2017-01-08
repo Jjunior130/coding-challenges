@@ -39,6 +39,9 @@
  (defroute "/mitosis" []
   (rf/dispatch [:set-active-panel :mitosis-panel]))
 
+ (defroute "/solar-system" []
+  (rf/dispatch [:set-active-panel :solar-system-panel]))
+
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 
