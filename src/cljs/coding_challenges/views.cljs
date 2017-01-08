@@ -8,6 +8,7 @@
               [coding-challenges.purple-rain.views :as purple-rain]
               [coding-challenges.snake-game.views :as snake-game]
               [coding-challenges.space-invaders.views :as space-invaders]
+              [coding-challenges.mitosis.views :as mitosis]
               [com.rpl.specter :as sp :refer [ALL]]))
 
 ;; (defonce p
@@ -58,6 +59,11 @@
   :label "Space invaders demo"
   :href "#/space-invaders"])
 
+(defn link-to-mitosis []
+ [rc/hyperlink-href
+  :label "Mitosis demo"
+  :href "#/mitosis"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
@@ -67,6 +73,7 @@
               [link-to-snake-game]
               [link-to-purple-rain]
               [link-to-space-invaders]
+              [link-to-mitosis]
               [link-to-about-page]]])
 
 ;; about
@@ -116,6 +123,12 @@
   [:br]
   [space-invaders/view]])
 
+(defn mitosis-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [mitosis/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -127,6 +140,7 @@
   :snake-game-panel [snake-game-panel]
   :purple-rain-panel [purple-rain-panel]
   :space-invaders-panel [space-invaders-panel]
+  :mitosis-panel [mitosis-panel]
   [:div]))
 
 (defn show-panel [panel-name]

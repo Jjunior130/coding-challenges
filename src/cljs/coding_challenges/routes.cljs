@@ -36,6 +36,9 @@
  (defroute "/space-invaders" []
   (rf/dispatch [:set-active-panel :space-invaders-panel]))
 
+ (defroute "/mitosis" []
+  (rf/dispatch [:set-active-panel :mitosis-panel]))
+
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 
