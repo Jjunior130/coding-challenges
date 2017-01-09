@@ -30,7 +30,7 @@
              :renderer :p3d
              :host "solar-system-3d"
              :no-start true
-             :middleware [m/fun-mode]
+             :middleware [m/fun-mode m/navigation-3d]
              :size [w h])
 
 (defn view []

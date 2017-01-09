@@ -3,11 +3,26 @@
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
 
 (defn make [r d o]
- {:type 'Planet
-  :radius r
-  :distance d
-  :angle (rand q/TWO-PI)
-  :orbit-speed o})
+ (->> {:type 'Planet
+       :radius r
+       :distance d
+       :angle (rand q/TWO-PI)
+       :orbit-speed o}
+      (transform [(collect-one :distance) :v]
+                 (fn [d _]
+                  (let [theta (Math/acos (q/random -1 1))
+                        phi (Math/atan (q/random -1 1))
+                        x (* d
+                             (Math/sin theta)
+                             (Math/cos phi))
+                        y (* d
+                             (Math/sin theta)
+                             (Math/sin phi))
+                        z (* d
+                             (Math/cos phi))]
+                   {:x x
+                    :y y
+                    :z z})))))
 
 (defn spawn-moons [total level planet]
  (->> planet
@@ -35,17 +50,35 @@
 (defn update* [planet]
  (orbit planet))
 
-(defn draw [planet]
+(defn cross [{x1 :x
+              y1 :y
+              z1 :z}
+             {x2 :x
+              y2 :y
+              z2 :z}]
+ {:x (- (* y1 z2) (* z1 y2))
+  :y (- (* z1 x2) (* x1 z2))
+  :z (- (* x1 y2) (* y1 x2))})
+
+(defn draw [{angle :angle
+             radius :radius
+             planets :planets
+             v :v
+             :as planet}]
  (q/push-matrix)
  (q/no-stroke)
  (q/fill 255)
- (q/rotate (:angle planet))
- (q/translate (:distance planet) 0)
- (q/sphere (:radius planet))
- #_(q/ellipse 0 0
-              (* (:radius planet) 2)
-              (* (:radius planet) 2))
- (doseq [p (:planets planet)]
+ (let [v2 {:x 1 :y 0 :z 1}
+       {x :x
+        y :y
+        z :z
+        :as p} (cross v v2)]
+  (q/rotate angle x y z))
+ (q/translate (-> v :x)
+              (-> v :y)
+              (-> v :z))
+ (q/sphere radius)
+ (doseq [p planets]
   (draw p))
  (q/pop-matrix))
 
