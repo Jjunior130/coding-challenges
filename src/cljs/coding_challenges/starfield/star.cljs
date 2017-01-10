@@ -22,7 +22,7 @@
              (setval :x (q/random (- (q/width)) (q/width)))
              (setval :y (q/random (- (q/height)) (q/height)))
              (transform [(collect-one :z) :pz]
-                        #(identity %1)))
+                        identity))
         $)))
 
 (defn draw [star]
