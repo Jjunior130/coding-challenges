@@ -4,18 +4,18 @@
 
 (defn random-coordinate [distance]
  (let [theta (Math/acos (q/random -1 1))
-        phi (Math/atan (q/random -1 1))
-        x (* distance
-             (Math/sin theta)
-             (Math/cos phi))
-        y (* distance
-             (Math/sin theta)
-             (Math/sin phi))
-        z (* distance
-             (Math/cos phi))]
-      {:x x
-       :y y
-       :z z}))
+       phi (Math/atan (q/random -1 1))
+       x (* distance
+            (Math/sin theta)
+            (Math/cos phi))
+       y (* distance
+            (Math/sin theta)
+            (Math/sin phi))
+       z (* distance
+            (Math/cos phi))]
+  {:x x
+   :y y
+   :z z}))
 
 (defn make [r d o]
  (->> {:type 'Planet
