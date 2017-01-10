@@ -10,12 +10,11 @@
 (def h 360)
 
 (defn setup []
- {:drops (repeatedly 500 (partial d/make w))})
+ {:drops (repeatedly 500 d/make)})
 
 (defn update* [sketch]
  (->> sketch
       (transform [:drops
-                  (putval h)
                   ALL]
                  d/update*)))
 

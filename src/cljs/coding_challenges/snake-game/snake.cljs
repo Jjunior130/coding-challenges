@@ -42,19 +42,19 @@
                            1)
                    :else tail)))))
 
-(defn move-forward [scl w h snake]
+(defn move-forward [scl snake]
  (->> snake
       (transform [(collect-one :xspeed) :x]
-                 (comp #(q/constrain % 0 (- w scl))
+                 (comp #(q/constrain % 0 (- (q/width) scl))
                        #(+ (* %1 scl) %2)))
       (transform [(collect-one :yspeed) :y]
-                 (comp #(q/constrain % 0 (- h scl))
+                 (comp #(q/constrain % 0 (- (q/height) scl))
                        #(+ (* %1 scl) %2)))))
 
-(defn update* [w h scl food snake]
+(defn update* [scl food snake]
  (->> snake
       (update-tail scl food)
-      (move-forward scl w h)))
+      (move-forward scl)))
 
 (defn draw [scl snake]
  (q/fill 255)

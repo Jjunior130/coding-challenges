@@ -12,7 +12,7 @@
 (def h 400)
 
 (defn setup []
- {:ship (ship/make w)
+ {:ship (ship/make)
   :flowers (for [i (range 6)]
             (flower/make (+ (* i 80) 80)
                          60))})
@@ -29,7 +29,7 @@
                  (fn [drops flowers]
                   (if (some (comp
                              (some-fn (partial > 0)
-                                     (partial < w))
+                                     (partial < (q/width)))
                              :x)
                             flowers)
                    (transform ALL (partial flower/update* true drops)
@@ -40,7 +40,7 @@
 
 (defn draw [sketch]
  (q/background 51)
- (ship/draw h (:ship sketch))
+ (ship/draw (:ship sketch))
  (doseq [d (:drops sketch)]
   (d/draw d))
  (doseq [flower (:flowers sketch)]
@@ -57,7 +57,7 @@
         (transform [(collect-one :ship)
                     :drops]
                    (fn [ship drops]
-                    (conj drops (d/make (:x ship) h)))))
+                    (conj drops (d/make (:x ship) (q/height))))))
    (any-of :left :a)
    (->> sketch
         (setval [:ship :xdir] -1))

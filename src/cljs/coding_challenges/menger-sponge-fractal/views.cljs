@@ -22,7 +22,7 @@
 (defn draw [sketch]
  (q/background 51)
  (q/lights)
- (q/translate (/ w 2) (/ h 2))
+ (q/translate (/ (q/width) 2) (/ (q/height) 2))
  (q/rotate-x (:angle sketch))
  (q/rotate-y (* 0.4 (:angle sketch)))
  (q/rotate-z (* 0.1 (:angle sketch)))

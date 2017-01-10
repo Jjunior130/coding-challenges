@@ -10,7 +10,7 @@
 (def h 600)
 
 (defn setup []
-  {:stars (repeatedly 800 #(star/make w h))})
+  {:stars (repeatedly 800 star/make)})
 
 (defn update* [sketch]
  (->> sketch
@@ -18,13 +18,13 @@
        :speed (/ (q/mouse-x) 12))
       (transform
        [(collect-one :speed) :stars ALL]
-       (partial star/update* w h))))
+       star/update*)))
 
 (defn draw [state]
  (q/background 0)
- (q/translate (/ w 2) (/ h 2))
+ (q/translate (/ (q/width) 2) (/ (q/height) 2))
  (doseq [star (:stars state)]
-  (star/draw w h star)))
+  (star/draw star)))
 
 (q/defsketch starfield-sketch
   :setup  setup

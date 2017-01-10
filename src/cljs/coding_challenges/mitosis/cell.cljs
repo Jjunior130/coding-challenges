@@ -3,9 +3,9 @@
            [com.rpl.specter :as sp :refer [view ALL transform setval collect-one putval]]))
 
 (defn make
- ([w h]
-  (make {:x (q/random w)
-         :y (q/random h)}
+ ([]
+  (make {:x (q/random (q/width))
+         :y (q/random (q/height))}
         60
         (q/color (q/random 100 255)
                  0

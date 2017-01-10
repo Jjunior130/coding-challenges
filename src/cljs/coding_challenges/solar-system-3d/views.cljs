@@ -1,9 +1,9 @@
-(ns coding-challenges.solar-system.views
+(ns coding-challenges.solar-system-3d.views
  (:require [quil.core :as q :include-macros true]
            [quil.middleware :as m]
            [reagent.core :as reagent]
            [re-com.core :as rc]
-           [coding-challenges.solar-system.planet :as planet]
+           [coding-challenges.solar-system-3d.planet :as planet]
            [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
 
 (def w 600)
@@ -18,17 +18,19 @@
 
 (defn draw [sun]
  (q/background 0)
+ (q/lights)
  (q/translate (/ (q/width) 2)
               (/ (q/height) 2))
  (planet/draw sun))
 
-(q/defsketch solar-system-sketch
+(q/defsketch solar-system-3d-sketch
              :setup  setup
              :update update*
              :draw   draw
-             :host "solar-system"
+             :renderer :p3d
+             :host "solar-system-3d"
              :no-start true
-             :middleware [m/fun-mode]
+             :middleware [m/fun-mode m/navigation-3d]
              :size [w h])
 
 (defn view []
@@ -37,10 +39,10 @@
    (fn []
     [:div
      [rc/title
-      :label "Solar system demo"
+      :label "Solar system 3D demo"
       :level :level1] [:br]
-     [:canvas#solar-system {:width w :height h}]])
-   :component-did-mount solar-system-sketch}))
+     [:canvas#solar-system-3d {:width w :height h}]])
+   :component-did-mount solar-system-3d-sketch}))
 
 
 

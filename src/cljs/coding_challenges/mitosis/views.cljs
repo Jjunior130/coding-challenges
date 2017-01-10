@@ -10,7 +10,7 @@
 (def h 700)
 
 (defn setup []
- {:cells (repeatedly 2 (partial cell/make w h))})
+ {:cells (repeatedly 2 cell/make)})
 
 (defn update* [sketch]
  (->> sketch
