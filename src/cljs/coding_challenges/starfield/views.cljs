@@ -20,10 +20,10 @@
        [(collect-one :speed) :stars ALL]
        star/update*)))
 
-(defn draw [state]
+(defn draw [sketch]
  (q/background 0)
  (q/translate (/ (q/width) 2) (/ (q/height) 2))
- (doseq [star (:stars state)]
+ (doseq [star (:stars sketch)]
   (star/draw star)))
 
 (q/defsketch starfield-sketch
