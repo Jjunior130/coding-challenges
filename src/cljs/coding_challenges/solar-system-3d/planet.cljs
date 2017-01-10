@@ -2,6 +2,21 @@
  (:require [quil.core :as q :include-macros true]
            [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
 
+(defn random-coordinate [distance]
+ (let [theta (Math/acos (q/random -1 1))
+        phi (Math/atan (q/random -1 1))
+        x (* distance
+             (Math/sin theta)
+             (Math/cos phi))
+        y (* distance
+             (Math/sin theta)
+             (Math/sin phi))
+        z (* distance
+             (Math/cos phi))]
+      {:x x
+       :y y
+       :z z}))
+
 (defn make [r d o]
  (->> {:type 'Planet
        :radius r
@@ -9,20 +24,7 @@
        :angle (rand q/TWO-PI)
        :orbit-speed o}
       (transform [(collect-one :distance) :v]
-                 (fn [d _]
-                  (let [theta (Math/acos (q/random -1 1))
-                        phi (Math/atan (q/random -1 1))
-                        x (* d
-                             (Math/sin theta)
-                             (Math/cos phi))
-                        y (* d
-                             (Math/sin theta)
-                             (Math/sin phi))
-                        z (* d
-                             (Math/cos phi))]
-                   {:x x
-                    :y y
-                    :z z})))))
+                 random-coordinate)))
 
 (defn spawn-moons [total level planet]
  (->> planet
