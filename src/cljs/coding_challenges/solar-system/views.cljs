@@ -18,8 +18,8 @@
 
 (defn draw [sun]
  (q/background 0)
- (q/translate (/ w 2)
-              (/ h 2))
+ (q/translate (/ (q/width) 2)
+              (/ (q/height) 2))
  (planet/draw sun))
 
 (q/defsketch solar-system-sketch

@@ -2,8 +2,8 @@
  (:require [quil.core :as q :include-macros true]
            [com.rpl.specter :as sp :refer [view ALL transform setval collect-one putval]]))
 
-(defn make [w]
- (->> {:x (q/random w)
+(defn make []
+ (->> {:x (q/random (q/width))
        :y (q/random -200 -100)
        :z (q/random 20)}
       (transform [(collect-one :z)
@@ -28,8 +28,8 @@
                   :yspeed]
                  #(q/map-range %1 0 20 4 10))))
 
-(defn update* [h d]
- (if (> (:y d) h)
+(defn update* [d]
+ (if (> (:y d) (q/height))
   (loop-edge d)
   (fall d)))
 

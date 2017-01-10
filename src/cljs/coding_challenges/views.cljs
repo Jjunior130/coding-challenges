@@ -11,6 +11,7 @@
               [coding-challenges.mitosis.views :as mitosis]
               [coding-challenges.solar-system.views :as solar-system]
               [coding-challenges.solar-system-3d.views :as solar-system-3d]
+              [coding-challenges.solar-system-3d-texture.views :as solar-system-3d-texture]
               [com.rpl.specter :as sp :refer [ALL]]))
 
 ;; (defonce p
@@ -76,6 +77,11 @@
   :label "Solar system 3D demo"
   :href "#/solar-system-3d"])
 
+(defn link-to-solar-system-3d-texture []
+ [rc/hyperlink-href
+  :label "Solar system 3D texture demo"
+  :href "#/solar-system-3d-texture"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
@@ -88,6 +94,7 @@
               [link-to-mitosis]
               [link-to-solar-system]
               [link-to-solar-system-3d]
+              [link-to-solar-system-3d-texture]
               [link-to-about-page]]])
 
 ;; about
@@ -155,6 +162,12 @@
   [:br]
   [solar-system-3d/view]])
 
+(defn solar-system-3d-texture-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [solar-system-3d-texture/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -169,6 +182,7 @@
   :mitosis-panel [mitosis-panel]
   :solar-system-panel [solar-system-panel]
   :solar-system-3d-panel [solar-system-3d-panel]
+  :solar-system-3d-texture-panel [solar-system-3d-texture-panel]
   [:div]))
 
 (defn show-panel [panel-name]

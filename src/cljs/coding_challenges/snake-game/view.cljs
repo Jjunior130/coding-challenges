@@ -9,9 +9,9 @@
 (def w 600)
 (def h 600)
 
-(defn pick-location [w h scl]
- (let [cols (q/floor (/ w scl))
-       rows (q/floor (/ h scl))]
+(defn pick-location [scl]
+ (let [cols (q/floor (/ (q/width) scl))
+       rows (q/floor (/ (q/height) scl))]
   {:type 'Food
    :x (* scl (rand-int cols))
    :y (* scl (rand-int rows))}))
@@ -22,20 +22,20 @@
        :scale 20}
       (transform [(collect-one :scale)
                   :food]
-                 (partial pick-location w h))))
+                 pick-location)))
 
 (defn update* [sketch]
  (->> sketch
       (transform [(collect-one :scale)
                   (collect-one :food)
                   :snake]
-                 (partial snake/update* w h))
+                 snake/update*)
       (transform [(collect-one :scale)
                   (collect-one :snake)
                   :food]
                  (fn [scl snake food]
                   (if (eat? food snake)
-                   (pick-location w h scl)
+                   (pick-location scl)
                    food)))))
 
 (defn draw [{food :food
@@ -53,7 +53,7 @@
 
 (defn turn
  "Change direction only if next position doesn't result in death."
- [nxd nyd scl w h snake]
+ [nxd nyd scl snake]
  (let [nsd (snake/dir nxd nyd snake)
        nsxp (+ (:x nsd) (* scl (:xspeed nsd)))
        nsyp (+ (:y nsd) (* scl (:yspeed nsd)))
@@ -62,8 +62,8 @@
             (:tail nsd)
             nsxp
             nsyp)
-           (not (<= 0 nsxp (- w scl)))
-           (not (<= 0 nsyp (- h scl))))]
+           (not (<= 0 nsxp (- (q/width) scl)))
+           (not (<= 0 nsyp (- (q/height) scl))))]
   (if-not death?
    nsd
    snake)))
@@ -77,29 +77,21 @@
    (any-of :up :w)
    (->> sketch
         (transform [(collect-one :scale)
-                    (putval w)
-                    (putval h)
                     :snake]
                    (partial turn 0 -1)))
    (any-of :down :s)
    (->> sketch
         (transform [(collect-one :scale)
-                    (putval w)
-                    (putval h)
                     :snake]
                    (partial turn 0 1)))
    (any-of :left :a)
    (->> sketch
         (transform [(collect-one :scale)
-                    (putval w)
-                    (putval h)
                     :snake]
                    (partial turn -1 0)))
    (any-of :right :d)
    (->> sketch
         (transform [(collect-one :scale)
-                    (putval w)
-                    (putval h)
                     :snake]
                    (partial turn 1 0)))
    :else sketch)))
