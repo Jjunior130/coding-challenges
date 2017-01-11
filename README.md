@@ -2,6 +2,8 @@
 
 Coding challenge demos written by me inspired by Daniel Shiffman's [coding challenge videos](https://youtu.be/17WoOqgXsRM?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH)
 
+Github page: https://jjunior130.github.io/coding-challenges/
+
 ## Development Mode
 
 ### Run application:
