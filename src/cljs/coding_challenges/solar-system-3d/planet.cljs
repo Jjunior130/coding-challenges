@@ -1,6 +1,8 @@
 (ns coding-challenges.solar-system-3d.planet
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
+           [com.rpl.specter :as sp
+            :refer [ALL transform setval
+                    collect-one putval]]))
 
 (defn random-coordinate [distance]
  (let [theta (Math/acos (q/random -1 1))
@@ -30,17 +32,18 @@
  (->> planet
       (setval :planets
               (repeatedly total
-                          (fn []
-                           (cond->>
+                          #(cond->>
                             (let [r (/ (:radius planet)
-                                       (* level 2))]
-                              (make
-                               r
-                               (q/random (+ (:radius planet) r)
-                                         (* 2 (+ (:radius planet) r)))
-                               (q/random -0.1 0.1)))
+                                       (* level 2))
+                                  x (+ (:radius planet) r)]
+                             (make
+                              r
+                              (q/random x
+                                        (* 2 x))
+                              (q/random -0.1 0.1)))
                             (< level 3)
-                            (spawn-moons (rand-int 4) (inc level))))))))
+                            (spawn-moons (rand-int 4)
+                                         (inc level)))))))
 
 (defn orbit [planet]
  (->> planet
