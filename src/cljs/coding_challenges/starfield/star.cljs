@@ -17,7 +17,12 @@
 (defn update* [speed star]
  (as-> (move-forward speed star) $
        (if (< (:z $) 1)
-        (make)
+        (->> $
+             (setval :z (q/width))
+             (setval :x (q/random (- (q/width)) (q/width)))
+             (setval :y (q/random (- (q/height)) (q/height)))
+             (transform [(collect-one :z) :pz]
+                        identity))
         $)))
 
 (defn draw [star]
