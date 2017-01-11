@@ -4,7 +4,9 @@
            [reagent.core :as reagent]
            [re-com.core :as rc]
            [coding-challenges.solar-system-3d.planet :as planet]
-           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp
+            :refer [putval ALL transform
+                    setval collect-one]]))
 
 (def w 600)
 (def h 600)
