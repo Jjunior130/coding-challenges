@@ -45,9 +45,6 @@
  (defroute "/solar-system-3d" []
   (rf/dispatch [:set-active-panel :solar-system-3d-panel]))
 
- (defroute "/solar-system-3d-texture" []
-  (rf/dispatch [:set-active-panel :solar-system-3d-texture-panel]))
-
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 

@@ -1,7 +1,6 @@
 // Compiled by ClojureScript 1.9.229 {}
 goog.provide('coding_challenges.views');
 goog.require('cljs.core');
-goog.require('com.rpl.specter');
 goog.require('reagent.core');
 goog.require('coding_challenges.socket');
 goog.require('re_com.core');
@@ -14,7 +13,6 @@ goog.require('coding_challenges.menger_sponge_fractal.views');
 goog.require('re_frame.core');
 goog.require('coding_challenges.space_invaders.views');
 goog.require('coding_challenges.purple_rain.views');
-goog.require('coding_challenges.solar_system_3d_texture.views');
 coding_challenges.views.home_title = (function coding_challenges$views$home_title(){
 return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.title,new cljs.core.Keyword(null,"label","label",1718410804),"Coding challenges",new cljs.core.Keyword(null,"level","level",1290497552),new cljs.core.Keyword(null,"level1","level1",813811133)], null);
 });
@@ -45,11 +43,8 @@ return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMP
 coding_challenges.views.link_to_solar_system_3d = (function coding_challenges$views$link_to_solar_system_3d(){
 return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.hyperlink_href,new cljs.core.Keyword(null,"label","label",1718410804),"Solar system 3D demo",new cljs.core.Keyword(null,"href","href",-793805698),"#/solar-system-3d"], null);
 });
-coding_challenges.views.link_to_solar_system_3d_texture = (function coding_challenges$views$link_to_solar_system_3d_texture(){
-return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.hyperlink_href,new cljs.core.Keyword(null,"label","label",1718410804),"Solar system 3D texture demo",new cljs.core.Keyword(null,"href","href",-793805698),"#/solar-system-3d-texture"], null);
-});
 coding_challenges.views.home_panel = (function coding_challenges$views$home_panel(){
-return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.v_box,new cljs.core.Keyword(null,"gap","gap",80255254),"1em",new cljs.core.Keyword(null,"children","children",-940561982),new cljs.core.PersistentVector(null, 11, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.home_title], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_starfield], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_menger_sponge_fractal], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_snake_game], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_purple_rain], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_space_invaders], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_mitosis], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_solar_system], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_solar_system_3d], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_solar_system_3d_texture], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_about_page], null)], null)], null);
+return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.v_box,new cljs.core.Keyword(null,"gap","gap",80255254),"1em",new cljs.core.Keyword(null,"children","children",-940561982),new cljs.core.PersistentVector(null, 10, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.home_title], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_starfield], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_menger_sponge_fractal], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_snake_game], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_purple_rain], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_space_invaders], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_mitosis], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_solar_system], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_solar_system_3d], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_about_page], null)], null)], null);
 });
 coding_challenges.views.about_title = (function coding_challenges$views$about_title(){
 return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.title,new cljs.core.Keyword(null,"label","label",1718410804),"This is the About Page.",new cljs.core.Keyword(null,"level","level",1290497552),new cljs.core.Keyword(null,"level1","level1",813811133)], null);
@@ -84,16 +79,9 @@ return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMP
 coding_challenges.views.solar_system_3d_panel = (function coding_challenges$views$solar_system_3d_panel(){
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_home_page], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"br","br",934104792)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system_3d.views.view], null)], null);
 });
-coding_challenges.views.solar_system_3d_texture_panel = (function coding_challenges$views$solar_system_3d_texture_panel(){
-return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_home_page], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"br","br",934104792)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system_3d_texture.views.view], null)], null);
-});
 coding_challenges.views.panels = (function coding_challenges$views$panels(panel_name){
-var G__33806 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
-switch (G__33806) {
-case "solar-system-3d-texture-panel":
-return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.solar_system_3d_texture_panel], null);
-
-break;
+var G__35474 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
+switch (G__35474) {
 case "space-invaders-panel":
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.space_invaders_panel], null);
 
@@ -151,4 +139,4 @@ return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMP
 ], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484109706657
+//# sourceMappingURL=views.js.map?rel=1484115256984
