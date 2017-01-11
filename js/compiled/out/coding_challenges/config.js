@@ -3,4 +3,4 @@ goog.provide('coding_challenges.config');
 goog.require('cljs.core');
 coding_challenges.config.debug_QMARK_ = goog.DEBUG;
 
-//# sourceMappingURL=config.js.map?rel=1484115257193
+//# sourceMappingURL=config.js.map?rel=1484163018292

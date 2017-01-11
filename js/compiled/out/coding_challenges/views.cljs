@@ -1,16 +1,16 @@
 (ns coding-challenges.views
-    (:require [re-frame.core :as rf]
-              [re-com.core :as rc]
-              [reagent.core :as reagent]
-              [coding-challenges.socket :as socket]
-              [coding-challenges.starfield.views :as starfield]
-              [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
-              [coding-challenges.purple-rain.views :as purple-rain]
-              [coding-challenges.snake-game.views :as snake-game]
-              [coding-challenges.space-invaders.views :as space-invaders]
-              [coding-challenges.mitosis.views :as mitosis]
-              [coding-challenges.solar-system.views :as solar-system]
-              [coding-challenges.solar-system-3d.views :as solar-system-3d]))
+ (:require [re-frame.core :as rf]
+           [re-com.core :as rc]
+           [reagent.core :as reagent]
+           [coding-challenges.socket :as socket]
+           [coding-challenges.starfield.views :as starfield]
+           [coding-challenges.menger-sponge-fractal.views :as menger-sponge-fractal]
+           [coding-challenges.purple-rain.views :as purple-rain]
+           [coding-challenges.snake-game.views :as snake-game]
+           [coding-challenges.space-invaders.views :as space-invaders]
+           [coding-challenges.mitosis.views :as mitosis]
+           [coding-challenges.solar-system.views :as solar-system]
+           [coding-challenges.solar-system-3d.views :as solar-system-3d]))
 
 ;; (defonce p
 ;;  (js/setInterval #(rf/dispatch [:server/ping]) 3500))
@@ -179,6 +179,4 @@
     {:component-will-mount socket/event-loop
      :reagent-render
      (fn []
-        [rc/v-box
-         :height "100%"
-         :children [[panels @active-panel]]])})))
+      [panels @active-panel])})))

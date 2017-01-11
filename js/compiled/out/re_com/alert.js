@@ -208,4 +208,4 @@ return re_com.alert.alert_list.cljs$core$IFn$_invoke$arity$variadic(cljs.core.se
 });
 
 
-//# sourceMappingURL=alert.js.map?rel=1484115252452
+//# sourceMappingURL=alert.js.map?rel=1484163013312

@@ -80,8 +80,8 @@ coding_challenges.views.solar_system_3d_panel = (function coding_challenges$view
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_home_page], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"br","br",934104792)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system_3d.views.view], null)], null);
 });
 coding_challenges.views.panels = (function coding_challenges$views$panels(panel_name){
-var G__35474 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
-switch (G__35474) {
+var G__49655 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
+switch (G__49655) {
 case "space-invaders-panel":
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.space_invaders_panel], null);
 
@@ -134,9 +134,9 @@ coding_challenges.views.main_panel = (function coding_challenges$views$main_pane
 var active_panel = re_frame.core.subscribe.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"active-panel","active-panel",-1802545994)], null));
 return reagent.core.create_class.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"component-will-mount","component-will-mount",209708855),coding_challenges.socket.event_loop,new cljs.core.Keyword(null,"reagent-render","reagent-render",-985383853),((function (active_panel){
 return (function (){
-return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.v_box,new cljs.core.Keyword(null,"height","height",1025178622),"100%",new cljs.core.Keyword(null,"children","children",-940561982),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.panels,cljs.core.deref.call(null,active_panel)], null)], null)], null);
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.panels,cljs.core.deref.call(null,active_panel)], null);
 });})(active_panel))
 ], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484115256984
+//# sourceMappingURL=views.js.map?rel=1484164493129

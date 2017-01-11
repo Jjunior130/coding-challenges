@@ -50,4 +50,4 @@ quil.core.rect_mode.call(null,new cljs.core.Keyword(null,"center","center",-7489
 return quil.core.rect.call(null,new cljs.core.Keyword(null,"x","x",2099068185).cljs$core$IFn$_invoke$arity$1(ship),(quil.core.height.call(null) - (20)),(20),(60));
 });
 
-//# sourceMappingURL=ship.js.map?rel=1484115256145
+//# sourceMappingURL=ship.js.map?rel=1484163017173

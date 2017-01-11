@@ -148,4 +148,4 @@ return re_frame.loggers.console.call(null,new cljs.core.Keyword(null,"warn","war
 re_frame.registrar.clear_handlers.cljs$lang$maxFixedArity = 2;
 
 
-//# sourceMappingURL=registrar.js.map?rel=1484115231150
+//# sourceMappingURL=registrar.js.map?rel=1484162988977

@@ -144,4 +144,4 @@ return null;
 ,new cljs.core.Keyword(null,"class","class",-2030961996),"btn-default"], null)], null);
 });
 
-//# sourceMappingURL=tour.js.map?rel=1484115254295
+//# sourceMappingURL=tour.js.map?rel=1484163015226

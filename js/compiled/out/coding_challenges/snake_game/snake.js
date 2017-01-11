@@ -221,4 +221,4 @@ return precompiled35398;
 })(),x,snake));
 });
 
-//# sourceMappingURL=snake.js.map?rel=1484115256730
+//# sourceMappingURL=snake.js.map?rel=1484163017789
