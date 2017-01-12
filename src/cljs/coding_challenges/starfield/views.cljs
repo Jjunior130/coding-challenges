@@ -4,7 +4,8 @@
            [reagent.core :as reagent]
            [re-com.core :as rc]
            [coding-challenges.starfield.star :as star]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp
+            :refer [ALL transform setval collect-one]]))
 
 (def w 600)
 (def h 600)
@@ -12,17 +13,26 @@
 (defn setup []
   {:stars (repeatedly 800 star/make)})
 
-(defn update* [sketch]
+(defn get-speed-from-mouse [sketch]
  (->> sketch
       (setval
-       :speed (/ (q/mouse-x) 12))
+       :speed (/ (q/mouse-x) 12))))
+
+(defn update-stars [sketch]
+ (->> sketch
       (transform
        [(collect-one :speed) :stars ALL]
        star/update*)))
 
+(defn update* [sketch]
+ (->> sketch
+      get-speed-from-mouse
+      update-stars))
+
 (defn draw [sketch]
  (q/background 0)
- (q/translate (/ (q/width) 2) (/ (q/height) 2))
+ (q/translate (/ (q/width) 2)
+              (/ (q/height) 2))
  (doseq [star (:stars sketch)]
   (star/draw star)))
 

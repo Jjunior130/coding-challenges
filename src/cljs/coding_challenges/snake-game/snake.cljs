@@ -1,6 +1,8 @@
 (ns coding-challenges.snake-game.snake
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
+           [com.rpl.specter :as sp
+            :refer [ALL transform setval
+                    collect-one putval]]))
 
 (defn make
  ([]
@@ -13,9 +15,14 @@
    :yspeed yv
    :tail []}))
 
-(defn eat? [food snake]
- (< (q/dist (:x snake) (:y snake)
-            (:x food) (:y food))
+(defn eat? [{fx :x
+             fy :y
+             :as food}
+            {sx :x
+             sy :y
+             :as snake}]
+ (< (q/dist sx sy
+            fx fy)
     1))
 
 (defn death? [tail x y]
@@ -56,9 +63,11 @@
       (update-tail scl food)
       (move-forward scl)))
 
-(defn draw [scl snake]
+(defn draw [scl {sx :x
+                 sy :y
+                 :as snake}]
  (q/fill 255)
- (q/rect (:x snake) (:y snake) scl scl)
+ (q/rect sx sy scl scl)
  (doseq [{y :y x :x} (:tail snake)]
   (q/fill 155) ; distinguish head from tail
   (q/rect x y scl scl)))

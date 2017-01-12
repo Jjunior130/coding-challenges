@@ -3,8 +3,11 @@
            [quil.middleware :as m]
            [reagent.core :as reagent]
            [re-com.core :as rc]
-           [coding-challenges.snake-game.snake :as snake :refer [eat?]]
-           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
+           [coding-challenges.snake-game.snake
+            :as snake :refer [eat?]]
+           [com.rpl.specter :as sp
+            :refer [putval ALL transform
+                    setval collect-one]]))
 
 (def w 600)
 (def h 600)
@@ -24,12 +27,15 @@
                   :food]
                  pick-location)))
 
-(defn update* [sketch]
+(defn update-snake [sketch]
  (->> sketch
       (transform [(collect-one :scale)
                   (collect-one :food)
                   :snake]
-                 snake/update*)
+                 snake/update*)))
+
+(defn update-food [sketch]
+ (->> sketch
       (transform [(collect-one :scale)
                   (collect-one :snake)
                   :food]
@@ -37,6 +43,11 @@
                   (if (eat? food snake)
                    (pick-location scl)
                    food)))))
+
+(defn update* [sketch]
+ (->> sketch
+      update-snake
+      update-food))
 
 (defn draw [{food :food
              snake :snake
@@ -51,22 +62,30 @@
          scl
          scl))
 
-(defn turn
+(defn turn-snake?
  "Change direction only if next position doesn't result in death."
- [nxd nyd scl snake]
- (let [nsd (snake/dir nxd nyd snake)
-       nsxp (+ (:x nsd) (* scl (:xspeed nsd)))
-       nsyp (+ (:y nsd) (* scl (:yspeed nsd)))
-       death?
-       (or (snake/death?
-            (:tail nsd)
-            nsxp
-            nsyp)
-           (not (<= 0 nsxp (- (q/width) scl)))
-           (not (<= 0 nsyp (- (q/height) scl))))]
-  (if-not death?
-   nsd
-   snake)))
+ [nxd nyd sketch]
+ (->> sketch
+      (transform [(collect-one :scale)
+                  :snake]
+                 (fn [scl snake]
+                  (let [{x :x
+                         y :y
+                         xv :xspeed
+                         yv :yspeed
+                         :as nsd} (snake/dir nxd nyd snake)
+                        nsxp (+ x (* scl xv))
+                        nsyp (+ y (* scl yv))
+                        death?
+                        (or (snake/death?
+                             (:tail nsd)
+                             nsxp
+                             nsyp)
+                            (not (<= 0 nsxp (- (q/width) scl)))
+                            (not (<= 0 nsyp (- (q/height) scl))))]
+                   (if-not death?
+                    nsd
+                    snake))))))
 
 (defn key-pressed [sketch event]
  (letfn [(any-of
@@ -76,27 +95,19 @@
   (cond
    (any-of :up :w)
    (->> sketch
-        (transform [(collect-one :scale)
-                    :snake]
-                   (partial turn 0 -1)))
+        (turn-snake? 0 -1))
    (any-of :down :s)
    (->> sketch
-        (transform [(collect-one :scale)
-                    :snake]
-                   (partial turn 0 1)))
+        (turn-snake? 0 1))
    (any-of :left :a)
    (->> sketch
-        (transform [(collect-one :scale)
-                    :snake]
-                   (partial turn -1 0)))
+        (turn-snake? -1 0))
    (any-of :right :d)
    (->> sketch
-        (transform [(collect-one :scale)
-                    :snake]
-                   (partial turn 1 0)))
+        (turn-snake? 1 0))
    :else sketch)))
 
-(defn mouse-clicked [sketch event]
+(defn increase-snake-tail [sketch]
  (->> sketch
       (transform [(collect-one :scale)
                   :snake
@@ -108,6 +119,10 @@
                  (fn [scl sx sy sxv syv tail]
                   (conj tail {:x (- sx (* scl sxv))
                               :y (- sy (* scl syv))})))))
+
+(defn mouse-clicked [sketch event]
+ (->> sketch
+      increase-snake-tail))
 
 (q/defsketch snake-game-sketch
              :setup  setup
