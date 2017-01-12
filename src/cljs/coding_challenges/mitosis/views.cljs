@@ -4,30 +4,31 @@
            [reagent.core :as reagent]
            [re-com.core :as rc]
            [coding-challenges.mitosis.cell :as cell]
-           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one collect]]))
+           [com.rpl.specter :as sp
+            :refer [putval ALL transform
+                    setval collect-one collect]]))
 
 (def w 700)
 (def h 700)
 
 (defn setup []
- {:cells (repeatedly 2 cell/make)})
+ (repeatedly 2 cell/make))
 
-(defn update* [sketch]
- (->> sketch
-      (transform [:cells ALL]
+(defn update* [cells]
+ (->> cells
+      (transform ALL
                  cell/update*)))
 
-(defn draw [{cells :cells
-             :as sketch}]
+(defn draw [cells]
  (q/background 200)
  (doseq [cell cells]
   (cell/draw cell)))
 
-(defn mouse-pressed [sketch event]
- (->> sketch
-      (transform [:cells ALL (partial cell/clicked? event)]
+(defn mouse-pressed [cells event]
+ (->> cells
+      (transform [ALL (partial cell/clicked? event)]
                  cell/mitosis)
-      (transform [:cells] flatten)))
+      flatten))
 
 (q/defsketch mitosis-sketch
              :setup  setup
