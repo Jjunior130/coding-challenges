@@ -14,24 +14,23 @@
       (transform [(collect-one :z) :pz] identity)
       (transform :z #(- % speed))))
 
-(defn reset [star]
- (->> star
-      (setval :z (q/width))
-      (setval :x (q/random (- (q/width)) (q/width)))
-      (setval :y (q/random (- (q/height)) (q/height)))
-      (transform [(collect-one :z) :pz]
-                 identity)))
-
-(defn z<1? [{z :z
-             :as star}]
- (cond->>
+(defn reset? [{z :z
+               :as star}]
+ (cond->
   star
-  (< z 1) reset))
+  (< z 1)
+  (->> (setval :z (q/width))
+       (setval :x (q/random (- (q/width))
+                            (q/width)))
+       (setval :y (q/random (- (q/height))
+                            (q/height)))
+       (transform [(collect-one :z) :pz]
+                  identity))))
 
 (defn update* [speed star]
  (->> star
       (move-forward speed)
-      z<1?))
+      reset?))
 
 (defn draw [{x :x
              y :y
