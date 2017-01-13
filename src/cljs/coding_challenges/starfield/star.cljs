@@ -1,7 +1,7 @@
 (ns coding-challenges.starfield.star
  (:require [quil.core :as q :include-macros true]
-           [quil.middleware :as m]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp
+            :refer [ALL transform setval collect-one]]))
 
 (defn make []
  {:type 'Star
