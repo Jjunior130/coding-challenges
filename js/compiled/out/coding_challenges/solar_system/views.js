@@ -24,71 +24,71 @@ return coding_challenges.solar_system.planet.draw.call(null,sun);
 });
 coding_challenges.solar_system.views.solar_system_sketch = (function coding_challenges$solar_system$views$solar_system_sketch(){
 return quil.sketch.sketch.call(null,new cljs.core.Keyword(null,"host","host",-1558485167),"solar-system",new cljs.core.Keyword(null,"update","update",1045576396),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system.views.update_STAR_))?(function() { 
-var G__35248__delegate = function (args){
+var G__62121__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system.views.update_STAR_,args);
 };
-var G__35248 = function (var_args){
+var G__62121 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__35249__i = 0, G__35249__a = new Array(arguments.length -  0);
-while (G__35249__i < G__35249__a.length) {G__35249__a[G__35249__i] = arguments[G__35249__i + 0]; ++G__35249__i;}
-  args = new cljs.core.IndexedSeq(G__35249__a,0);
+var G__62122__i = 0, G__62122__a = new Array(arguments.length -  0);
+while (G__62122__i < G__62122__a.length) {G__62122__a[G__62122__i] = arguments[G__62122__i + 0]; ++G__62122__i;}
+  args = new cljs.core.IndexedSeq(G__62122__a,0);
 } 
-return G__35248__delegate.call(this,args);};
-G__35248.cljs$lang$maxFixedArity = 0;
-G__35248.cljs$lang$applyTo = (function (arglist__35250){
-var args = cljs.core.seq(arglist__35250);
-return G__35248__delegate(args);
+return G__62121__delegate.call(this,args);};
+G__62121.cljs$lang$maxFixedArity = 0;
+G__62121.cljs$lang$applyTo = (function (arglist__62123){
+var args = cljs.core.seq(arglist__62123);
+return G__62121__delegate(args);
 });
-G__35248.cljs$core$IFn$_invoke$arity$variadic = G__35248__delegate;
-return G__35248;
+G__62121.cljs$core$IFn$_invoke$arity$variadic = G__62121__delegate;
+return G__62121;
 })()
 :coding_challenges.solar_system.views.update_STAR_),new cljs.core.Keyword(null,"size","size",1098693007),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system.views.w,coding_challenges.solar_system.views.h], null),new cljs.core.Keyword(null,"setup","setup",1987730512),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system.views.setup))?(function() { 
-var G__35251__delegate = function (args){
+var G__62124__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system.views.setup,args);
 };
-var G__35251 = function (var_args){
+var G__62124 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__35252__i = 0, G__35252__a = new Array(arguments.length -  0);
-while (G__35252__i < G__35252__a.length) {G__35252__a[G__35252__i] = arguments[G__35252__i + 0]; ++G__35252__i;}
-  args = new cljs.core.IndexedSeq(G__35252__a,0);
+var G__62125__i = 0, G__62125__a = new Array(arguments.length -  0);
+while (G__62125__i < G__62125__a.length) {G__62125__a[G__62125__i] = arguments[G__62125__i + 0]; ++G__62125__i;}
+  args = new cljs.core.IndexedSeq(G__62125__a,0);
 } 
-return G__35251__delegate.call(this,args);};
-G__35251.cljs$lang$maxFixedArity = 0;
-G__35251.cljs$lang$applyTo = (function (arglist__35253){
-var args = cljs.core.seq(arglist__35253);
-return G__35251__delegate(args);
+return G__62124__delegate.call(this,args);};
+G__62124.cljs$lang$maxFixedArity = 0;
+G__62124.cljs$lang$applyTo = (function (arglist__62126){
+var args = cljs.core.seq(arglist__62126);
+return G__62124__delegate(args);
 });
-G__35251.cljs$core$IFn$_invoke$arity$variadic = G__35251__delegate;
-return G__35251;
+G__62124.cljs$core$IFn$_invoke$arity$variadic = G__62124__delegate;
+return G__62124;
 })()
 :coding_challenges.solar_system.views.setup),new cljs.core.Keyword(null,"middleware","middleware",1462115504),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [quil.middleware.fun_mode], null),new cljs.core.Keyword(null,"no-start","no-start",1381488856),true,new cljs.core.Keyword(null,"draw","draw",1358331674),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system.views.draw))?(function() { 
-var G__35254__delegate = function (args){
+var G__62127__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system.views.draw,args);
 };
-var G__35254 = function (var_args){
+var G__62127 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__35255__i = 0, G__35255__a = new Array(arguments.length -  0);
-while (G__35255__i < G__35255__a.length) {G__35255__a[G__35255__i] = arguments[G__35255__i + 0]; ++G__35255__i;}
-  args = new cljs.core.IndexedSeq(G__35255__a,0);
+var G__62128__i = 0, G__62128__a = new Array(arguments.length -  0);
+while (G__62128__i < G__62128__a.length) {G__62128__a[G__62128__i] = arguments[G__62128__i + 0]; ++G__62128__i;}
+  args = new cljs.core.IndexedSeq(G__62128__a,0);
 } 
-return G__35254__delegate.call(this,args);};
-G__35254.cljs$lang$maxFixedArity = 0;
-G__35254.cljs$lang$applyTo = (function (arglist__35256){
-var args = cljs.core.seq(arglist__35256);
-return G__35254__delegate(args);
+return G__62127__delegate.call(this,args);};
+G__62127.cljs$lang$maxFixedArity = 0;
+G__62127.cljs$lang$applyTo = (function (arglist__62129){
+var args = cljs.core.seq(arglist__62129);
+return G__62127__delegate(args);
 });
-G__35254.cljs$core$IFn$_invoke$arity$variadic = G__35254__delegate;
-return G__35254;
+G__62127.cljs$core$IFn$_invoke$arity$variadic = G__62127__delegate;
+return G__62127;
 })()
 :coding_challenges.solar_system.views.draw));
 });
 goog.exportSymbol('coding_challenges.solar_system.views.solar_system_sketch', coding_challenges.solar_system.views.solar_system_sketch);
 
-if(cljs.core.truth_(cljs.core.some.call(null,(function (p1__14841__14842__auto__){
-return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"no-start","no-start",1381488856),p1__14841__14842__auto__);
+if(cljs.core.truth_(cljs.core.some.call(null,(function (p1__42451__42452__auto__){
+return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"no-start","no-start",1381488856),p1__42451__42452__auto__);
 }),null))){
 } else {
 quil.sketch.add_sketch_to_init_list.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"fn","fn",-1175266204),coding_challenges.solar_system.views.solar_system_sketch,new cljs.core.Keyword(null,"host-id","host-id",742376279),"solar-system"], null));
@@ -99,4 +99,4 @@ return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMP
 }),new cljs.core.Keyword(null,"component-did-mount","component-did-mount",-1126910518),coding_challenges.solar_system.views.solar_system_sketch], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484163017497
+//# sourceMappingURL=views.js.map?rel=1484333403056

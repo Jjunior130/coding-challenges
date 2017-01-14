@@ -1,6 +1,8 @@
 (ns coding-challenges.space-invaders.drop
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [view ALL transform setval collect-one putval]]))
+           [com.rpl.specter :as sp
+            :refer [view ALL transform setval
+                    collect-one putval]]))
 
 (defn make [x y]
  {:type 'Drop
@@ -8,19 +10,29 @@
   :y y
   :r 16})
 
-(defn move [d]
+(defn move-up [d]
  (->> d
       (transform :y #(- % 5))))
 
-(defn hits? [d flower]
- (< (q/dist (:x d) (:y d)
-            (:x flower) (:y flower))
-    (+ (:r d) (:r flower))))
+(defn hits? [{dx :x
+              dy :y
+              dr :r
+              :as d}
+             {fx :x
+              fy :y
+              fr :r
+              :as flower}]
+ (< (q/dist dx dy
+            fx fy)
+    (+ dr fr)))
 
 (defn update* [d]
- (move d))
+ (move-up d))
 
-(defn draw [d]
+(defn draw [{dx :x
+             dy :y
+             dr :r
+             :as d}]
  (q/fill 150 0 255)
- (q/ellipse (:x d) (:y d)
-            (:r d) (:r d)))
+ (q/ellipse dx dy
+            dr dr))

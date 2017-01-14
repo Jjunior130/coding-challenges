@@ -28,10 +28,12 @@
                   :yspeed]
                  #(q/map-range %1 0 20 4 10))))
 
-(defn update* [d]
- (if (> (:y d) (q/height))
-  (loop-edge d)
-  (fall d)))
+(defn update* [{y :y
+                :as d}]
+ (cond->>
+  d
+  (> y (q/height)) loop-edge
+  :always fall))
 
 (defn draw [d]
  (let [thick (q/map-range (:z d) 0 20 1 3)]

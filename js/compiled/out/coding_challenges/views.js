@@ -80,8 +80,8 @@ coding_challenges.views.solar_system_3d_panel = (function coding_challenges$view
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_home_page], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"br","br",934104792)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system_3d.views.view], null)], null);
 });
 coding_challenges.views.panels = (function coding_challenges$views$panels(panel_name){
-var G__49655 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
-switch (G__49655) {
+var G__47258 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
+switch (G__47258) {
 case "space-invaders-panel":
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.space_invaders_panel], null);
 
@@ -139,4 +139,4 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 ], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484164493129
+//# sourceMappingURL=views.js.map?rel=1484351296109

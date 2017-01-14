@@ -1,6 +1,8 @@
 (ns coding-challenges.mitosis.cell
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [view ALL transform setval collect-one putval]]))
+           [com.rpl.specter :as sp
+            :refer [view ALL transform setval
+                    collect-one putval]]))
 
 (defn make
  ([]
@@ -22,9 +24,10 @@
                  :as click-pos}
                 {{cx :x
                   cy :y} :pos
+                 cr :r
                  :as cell}]
  (< (q/dist cx cy mx my)
-    (:r cell)))
+    cr))
 
 (defn mitosis [{pos :pos
                 r :r
@@ -37,16 +40,18 @@
  (let [vel {:x (q/random (- n) n)
             :y (q/random (- n) n)}]
   (->> cell
-       (transform :pos (partial merge-with + vel)))))
+       (transform :pos
+                  (partial merge-with + vel)))))
 
 (defn update* [cell]
  (move 5 cell))
 
-(defn draw [cell]
+(defn draw [{{x :x
+              y :y} :pos
+             color :c
+             r :r
+             :as cell}]
  (q/no-stroke)
- (q/fill (:c cell))
- (q/ellipse (-> cell :pos :x)
-            (-> cell :pos :y)
-            (:r cell)
-            (:r cell)))
-
+ (q/fill color)
+ (q/ellipse x y
+            r r))

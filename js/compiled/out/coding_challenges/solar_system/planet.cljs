@@ -1,6 +1,8 @@
 (ns coding-challenges.solar-system.planet
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [ALL transform setval collect-one putval]]))
+           [com.rpl.specter :as sp
+            :refer [ALL transform setval
+                    collect-one putval]]))
 
 (defn make [r d o]
  {:type 'Planet
@@ -9,19 +11,21 @@
   :angle (rand q/TWO-PI)
   :orbit-speed o})
 
-(defn spawn-moons [total level planet]
+(defn spawn-moons [total level {radius :radius
+                                :as planet}]
  (->> planet
       (setval :planets
               (repeatedly total
                           (fn []
                            (cond->>
                              (make
-                              (/ (:radius planet)
+                              (/ radius
                                  (* level 2))
                               (/ (q/random 50 150) level)
                               (q/random -0.1 0.1))
                              (< level 3)
-                             (spawn-moons (rand-int 4) (inc level))))))))
+                             (spawn-moons (rand-int 4)
+                                          (inc level))))))))
 
 (defn orbit [planet]
  (->> planet

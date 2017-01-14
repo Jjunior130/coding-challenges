@@ -5,8 +5,11 @@
            [re-com.core :as rc]
            [coding-challenges.space-invaders.flower :as flower]
            [coding-challenges.space-invaders.ship :as ship]
-           [coding-challenges.space-invaders.drop :as d :refer [hits?]]
-           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one collect]]))
+           [coding-challenges.space-invaders.drop :as d
+            :refer [hits?]]
+           [com.rpl.specter :as sp
+            :refer [putval ALL transform setval
+                    collect-one collect]]))
 
 (def w 600)
 (def h 400)
@@ -17,33 +20,49 @@
             (flower/make (+ (* i 80) 80)
                          60))})
 
-(defn update* [sketch]
+(defn update-drops [sketch]
  (->> sketch
       (transform [(collect-one :flowers)
                   :drops]
                  (fn [flowers drops]
-                  (->> (remove #(some (partial hits? %) flowers) drops)
-                       (transform ALL d/update*))))
+                  (->> (remove #(some (partial hits? %) flowers)
+                               drops)
+                       (transform ALL d/update*))))))
+
+(defn update-flowers [sketch]
+ (->> sketch
       (transform [(collect-one :drops)
                   :flowers]
                  (fn [drops flowers]
                   (if (some (comp
                              (some-fn (partial > 0)
-                                     (partial < (q/width)))
+                                      (partial < (q/width)))
                              :x)
                             flowers)
                    (transform ALL (partial flower/update* true drops)
                               flowers)
                    (transform ALL (partial flower/update* false drops)
-                              flowers))))
+                              flowers))))))
+
+(defn update-ship [sketch]
+ (->> sketch
       (transform :ship ship/update*)))
 
-(defn draw [sketch]
+(defn update* [sketch]
+ (->> sketch
+      update-drops
+      update-flowers
+      update-ship))
+
+(defn draw [{ship :ship
+             drops :drops
+             flowers :flowers
+             :as sketch}]
  (q/background 51)
- (ship/draw (:ship sketch))
- (doseq [d (:drops sketch)]
+ (ship/draw ship)
+ (doseq [d drops]
   (d/draw d))
- (doseq [flower (:flowers sketch)]
+ (doseq [flower flowers]
   (flower/draw flower)))
 
 (defn key-pressed [sketch event]
@@ -56,8 +75,10 @@
    (->> sketch
         (transform [(collect-one :ship)
                     :drops]
-                   (fn [ship drops]
-                    (conj drops (d/make (:x ship) (q/height))))))
+                   (fn [{x :x
+                         :as ship} drops]
+                    (conj drops
+                          (d/make x (q/height))))))
    (any-of :left :a)
    (->> sketch
         (setval [:ship :xdir] -1))

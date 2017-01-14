@@ -4,7 +4,9 @@
            [reagent.core :as reagent]
            [re-com.core :as rc]
            [coding-challenges.purple-rain.drop :as d]
-           [com.rpl.specter :as sp :refer [putval ALL transform setval collect-one]]))
+           [com.rpl.specter :as sp
+            :refer [putval ALL transform
+                    setval collect-one]]))
 
 (def w 640)
 (def h 360)

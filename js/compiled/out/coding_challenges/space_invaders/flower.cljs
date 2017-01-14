@@ -32,8 +32,11 @@
           edge? shift-down
           :always move))
 
-(defn draw [flower]
+(defn draw [{x :x
+             y :y
+             r :r
+             :as flower}]
  (q/fill 255 0 200)
- (q/ellipse (:x flower) (:y flower)
-            (* 2 (:r flower)) (* 2 (:r flower))))
+ (q/ellipse x y
+            (* 2 r) (* 2 r)))
 
