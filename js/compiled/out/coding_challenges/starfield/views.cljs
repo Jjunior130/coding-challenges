@@ -49,7 +49,7 @@
 (defn view []
   (reagent/create-class
    {:reagent-render
-    (let [current-tab
+    (let [code
           (rf/subscribe
            [:select-one [:starfield :tab]])]
      (fn []
@@ -60,17 +60,17 @@
        [:canvas#starfield {:width w :height h}] [:br]
        [rc/v-box
         :children
-        (let [current-tab (or @current-tab :sketch)]
+        (let [code (or @code :sketch)]
          [[rc/horizontal-tabs
            :tabs [{:id :sketch
                    :label "Sketch"}
                   {:id :star
                    :label "Star"}]
-           :model current-tab
+           :model code
            :on-change
            #(rf/dispatch
              [:setval [[:starfield :tab] %]])]
-          (case current-tab
+          (case code
            :sketch
            [rc/h-box
             :children
