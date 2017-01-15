@@ -111,34 +111,34 @@
    (let [code (rf/subscribe
                [:select-one [:space-invaders :code]])]
     (fn []
-     [:div
-      [rc/title
-       :label "Space invaders demo"
-       :level :level1] [:br]
-      [:canvas#space-invaders {:width w :height h}] [:br]
-      [rc/v-box
-       :children
-       (let [code (or @code :sketch)]
-        [[rc/horizontal-tabs
-          :tabs [{:id :sketch
-                  :label "Sketch"}
-                 {:id :drop
-                  :label "Drop"}
-                 {:id :flower
-                  :label "Flower"}
-                 {:id :ship
-                  :label "Ship"}]
-          :model code
-          :on-change
-          #(rf/dispatch
-            [:setval [[:space-invaders :code] %]])]
-         (case code
-          :sketch
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(def w 600)
+     [rc/v-box
+      :align :center
+      :children
+      (let [code (or @code :sketch)]
+       [[rc/title
+         :label "Space invaders demo"
+         :level :level1]
+        [:canvas#space-invaders {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :drop
+                 :label "Drop"}
+                {:id :flower
+                 :label "Flower"}
+                {:id :ship
+                 :label "Ship"}]
+         :model code
+         :on-change
+         #(rf/dispatch
+           [:setval [[:space-invaders :code] %]])]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 600)
 (def h 400)
 
 (defn setup []
@@ -219,9 +219,9 @@
 (defn key-released [sketch]
  (->> sketch
       (setval [:ship :xdir] 0)))"]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/biN3v3ef-Y0
@@ -300,12 +300,12 @@ function keyPressed() {
   }
 }
 "]]]]
-          :drop
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make [x y]
+         :drop
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make [x y]
  {:type 'Drop
   :x x
   :y y
@@ -338,9 +338,9 @@ function keyPressed() {
  (q/ellipse dx dy
             dr dr))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/biN3v3ef-Y0
@@ -376,12 +376,12 @@ function Drop(x, y) {
 
 }
 "]]]]
-          :flower
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make [x y]
+         :flower
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make [x y]
  {:type 'Flower
   :x x
   :y y
@@ -418,9 +418,9 @@ function Drop(x, y) {
  (q/ellipse x y
             (* 2 r) (* 2 r)))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/biN3v3ef-Y0
@@ -453,12 +453,12 @@ function Flower(x, y) {
 
 }
 "]]]]
-          :ship
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make []
+         :ship
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make []
  {:type 'Ship
   :x (/ (q/width) 2)
   :xdir 0})
@@ -479,9 +479,9 @@ function Flower(x, y) {
  (q/rect-mode :center)
  (q/rect x (- (q/height) 20) 20 60))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/biN3v3ef-Y0
@@ -505,5 +505,5 @@ function Ship() {
   }
 
 }
-"]]]])])]]))
+"]]]])])]))
    :component-did-mount space-invaders-sketch}))

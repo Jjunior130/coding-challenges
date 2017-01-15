@@ -258,4 +258,4 @@ return rotate_on_fn.call(null,quil.middlewares.navigation_3d.rotate.call(null,st
 );
 });
 
-//# sourceMappingURL=navigation_3d.js.map?rel=1484366730603
+//# sourceMappingURL=navigation_3d.js.map?rel=1484441673791

@@ -41,30 +41,30 @@
    (let [code (rf/subscribe
                [:select-one [:purple-rain :code]])]
     (fn []
-     [:div
-      [rc/title
-       :label "Purple rain demo"
-       :level :level1] [:br]
-      [:canvas#purple-rain {:width w :height h}] [:br]
-      [rc/v-box
-       :children
-       (let [code (or @code :sketch)]
-        [[rc/horizontal-tabs
-          :tabs [{:id :sketch
-                  :label "Sketch"}
-                 {:id :drop
-                  :label "Drop"}]
-          :model code
-          :on-change
-          #(rf/dispatch
-            [:setval [[:purple-rain :code] %]])]
-         (case code
-          :sketch
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(def w 640)
+     [rc/v-box
+      :align :center
+      :children
+      (let [code (or @code :sketch)]
+       [[rc/title
+         :label "Purple rain demo"
+         :level :level1]
+        [:canvas#purple-rain {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :drop
+                 :label "Drop"}]
+         :model code
+         :on-change
+         #(rf/dispatch
+           [:setval [[:purple-rain :code] %]])]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 640)
 (def h 360)
 
 (defn setup []
@@ -81,9 +81,9 @@
  (doseq [d (:drops sketch)]
   (d/draw d)))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/KkyIDI6rQJI
@@ -108,12 +108,12 @@ function draw() {
     drops[i].show();
   }
 }"]]]]
-          :drop
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make []
+         :drop
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make []
  (->> {:x (q/random (q/width))
        :y (q/random -200 -100)
        :z (q/random 20)}
@@ -153,9 +153,9 @@ function draw() {
  (q/line (:x d) (:y d)
          (:x d) (+ (:len d) (:y d))))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/KkyIDI6rQJI
@@ -186,5 +186,5 @@ function Drop() {
     line(this.x, this.y, this.x, this.y+this.len);
   }
 }
-"]]]])])]]))
+"]]]])])]))
    :component-did-mount purple-rain-sketch}))

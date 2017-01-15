@@ -49,4 +49,4 @@ return new cljs.core.Keyword(null,"id","id",-1388402092).cljs$core$IFn$_invoke$a
 })(),new cljs.core.Keyword(null,"start","start",-355208981),re_frame.interop.now.call(null)], null);
 });
 
-//# sourceMappingURL=trace.js.map?rel=1484366698972
+//# sourceMappingURL=trace.js.map?rel=1484441649875

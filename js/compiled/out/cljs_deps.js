@@ -160,4 +160,4 @@ goog.addDependency("../re_frisk/devtool.js", ['re_frisk.devtool'], ['re_frisk.ui
 goog.addDependency("../re_frisk/core.js", ['re_frisk.core'], ['re_frisk.devtool', 're_frisk.ui', 'reagent.ratom', 'reagent.core', 're_frame.registrar', 'cljs.core', 're_frisk.data', 're_frisk.help', 're_frame.core']);
 goog.addDependency("../coding_challenges/config.js", ['coding_challenges.config'], ['cljs.core']);
 goog.addDependency("../coding_challenges/core.js", ['coding_challenges.core'], ['coding_challenges.subs', 'coding_challenges.views', 'reagent.core', 'cljs.core', 'coding_challenges.events', 're_frisk.core', 'coding_challenges.config', 'coding_challenges.routes', 're_frame.core']);
-goog.addDependency("../AED9A0C.js", ['figwheel.connect.dev'], ['cljs.core', 'coding_challenges.core', 'figwheel.client', 'figwheel.client.utils']);
+goog.addDependency("../1288387.js", ['figwheel.connect.dev'], ['cljs.core', 'coding_challenges.core', 'figwheel.client', 'figwheel.client.utils']);

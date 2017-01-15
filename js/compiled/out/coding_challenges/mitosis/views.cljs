@@ -47,30 +47,30 @@
    (let [code (rf/subscribe
                [:select-one [:mitosis :code]])]
     (fn []
-     [:div
-      [rc/title
-       :label "Mitosis demo"
-       :level :level1] [:br]
-      [:canvas#mitosis {:width w :height h}] [:br]
-      [rc/v-box
-       :children
-       (let [code (or @code :sketch)]
-        [[rc/horizontal-tabs
-          :tabs [{:id :sketch
-                  :label "Sketch"}
-                 {:id :cell
-                  :label "Cell"}]
-          :model code
-          :on-change
-          #(rf/dispatch
-            [:setval [[:mitosis :code] %]])]
-         (case code
-          :sketch
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(def w 700)
+     [rc/v-box
+      :align :center
+      :children
+      (let [code (or @code :sketch)]
+       [[rc/title
+         :label "Mitosis demo"
+         :level :level1]
+        [:canvas#mitosis {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :cell
+                 :label "Cell"}]
+         :model code
+         :on-change
+         #(rf/dispatch
+           [:setval [[:mitosis :code] %]])]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 700)
 (def h 700)
 
 (defn setup []
@@ -91,9 +91,9 @@
       (transform [ALL (partial cell/clicked? event)]
                  cell/mitosis)
       flatten))"]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/jxGS3fKPKJAvar cells = [];
@@ -124,12 +124,12 @@ function mousePressed() {
   }
 }
 "]]]]
-          :cell
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make
+         :cell
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make
  ([]
   (make {:x (q/random (q/width))
          :y (q/random (q/height))}
@@ -181,9 +181,9 @@ function mousePressed() {
  (q/ellipse x y
             r r))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/jxGS3fKPKJA
@@ -226,7 +226,7 @@ function Cell(pos, r, c) {
   }
 
 }
-"]]]])])]]))
+"]]]])])]))
    :component-did-mount mitosis-sketch}))
 
 

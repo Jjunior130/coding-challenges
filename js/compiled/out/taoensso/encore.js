@@ -8309,32 +8309,4 @@ return taoensso.encore.replace_in.cljs$core$IFn$_invoke$arity$variadic(G__30096,
 });
 
 
-//# sourceMappingURL=encore.js.map?rel=1484366721699re$IFn$_invoke$arity$variadic = (function (m,ops){
-return cljs.core.reduce.call(null,(function (m__$1,_QMARK_op){
-if(cljs.core.truth_(_QMARK_op)){
-var vec__37318 = _QMARK_op;
-var type = cljs.core.nth.call(null,vec__37318,(0),null);
-var ks = cljs.core.nth.call(null,vec__37318,(1),null);
-var valf = cljs.core.nth.call(null,vec__37318,(2),null);
-var f = (cljs.core.truth_(taoensso.encore.kw_identical_QMARK_.call(null,type,new cljs.core.Keyword(null,"reset","reset",-800929946)))?((function (vec__37318,type,ks,valf){
-return (function (_){
-return valf;
-});})(vec__37318,type,ks,valf))
-:valf);
-return taoensso.encore.update_in.call(null,m__$1,ks,null,f);
-} else {
-return m__$1;
-}
-}),m,ops);
-});
-
-taoensso.encore.replace_in.cljs$lang$maxFixedArity = (1);
-
-taoensso.encore.replace_in.cljs$lang$applyTo = (function (seq37316){
-var G__37317 = cljs.core.first.call(null,seq37316);
-var seq37316__$1 = cljs.core.next.call(null,seq37316);
-return taoensso.encore.replace_in.cljs$core$IFn$_invoke$arity$variadic(G__37317,seq37316__$1);
-});
-
-
-//# sourceMappingURL=encore.js.map?rel=1484366718239
+//# sourceMappingURL=encore.js.map?rel=1484441666237

@@ -142,30 +142,30 @@
    (let [code (rf/subscribe
                [:select-one [:snake-game :code]])]
     (fn []
-     [:div
-      [rc/title
-       :label "Snake game demo"
-       :level :level1] [:br]
-      [:canvas#snake-game {:width w :height h}] [:br]
-      [rc/v-box
-       :children
-       (let [code (or @code :sketch)]
-        [[rc/horizontal-tabs
-          :tabs [{:id :sketch
-                  :label "Sketch"}
-                 {:id :snake
-                  :label "Snake"}]
-          :model code
-          :on-change
-          #(rf/dispatch
-            [:setval [[:snake-game :code] %]])]
-         (case code
-          :sketch
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(def w 600)
+     [rc/v-box
+      :align :center
+      :children
+      (let [code (or @code :sketch)]
+       [[rc/title
+         :label "Snake game demo"
+         :level :level1]
+        [:canvas#snake-game {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :snake
+                 :label "Snake"}]
+         :model code
+         :on-change
+         #(rf/dispatch
+           [:setval [[:snake-game :code] %]])]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 600)
 (def h 600)
 
 (defn pick-location [scl]
@@ -279,9 +279,9 @@
 (defn mouse-clicked [sketch event]
  (->> sketch
       increase-snake-tail))"]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/AaGK-fj-BAM
@@ -340,12 +340,12 @@ function keyPressed() {
     s.dir(-1, 0);
   }
 }"]]]]
-          :snake
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make
+         :snake
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make
  ([]
   (make 0 0 1 0))
  ([x y xv yv]
@@ -418,9 +418,9 @@ function keyPressed() {
       (setval :xspeed x)
       (setval :yspeed y)))
 "]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/AaGK-fj-BAM
@@ -483,6 +483,6 @@ function Snake() {
     rect(this.x, this.y, scl, scl);
 
   }
-}"]]]])])]]))
+}"]]]])])]))
    :component-did-mount snake-game-sketch}))
 

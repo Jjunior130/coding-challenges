@@ -52,30 +52,30 @@
    (let [code (rf/subscribe
                [:select-one [:menger-sponge-fractal :code]])]
     (fn []
-     [:div
-      [rc/title
-       :label "Menger sponge fractal demo"
-       :level :level1] [:br]
-      [:canvas#menger-sponge-fractal {:width w :height h}] [:br]
-      [rc/v-box
-       :children
-       (let [code (or @code :sketch)]
-        [[rc/horizontal-tabs
-          :tabs [{:id :sketch
-                  :label "Sketch"}
-                 {:id :box
-                  :label "Box"}]
-          :model code
-          :on-change
-          #(rf/dispatch
-            [:setval [[:menger-sponge-fractal :code] %]])]
-         (case code
-          :sketch
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(def w 400)
+     [rc/v-box
+      :align :center
+      :children
+      (let [code (or @code :sketch)]
+       [[rc/title
+         :label "Menger sponge fractal demo"
+         :level :level1]
+        [:canvas#menger-sponge-fractal {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :box
+                 :label "Box"}]
+         :model code
+         :on-change
+         #(rf/dispatch
+           [:setval [[:menger-sponge-fractal :code] %]])]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 400)
 (def h 400)
 
 (defn setup []
@@ -101,9 +101,9 @@
 (defn mouse-clicked [sketch event]
  (->> sketch
       (transform :sponge (partial mapcat box/generate))))"]]
-            [:pre
-             [:code.javascript
-              "
+           [:pre
+            [:code.javascript
+             "
 // Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
@@ -147,12 +147,12 @@ void draw() {
   }
   a += 0.01;
 }"]]]]
-          :box
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn make [x y z r]
+         :box
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make [x y z r]
  {:type 'Box
   :pos {:x x :y y
         :z z}
@@ -179,9 +179,9 @@ void draw() {
  (q/no-stroke)
  (q/box (:r box))
  (q/pop-matrix))"]]
-            [:pre
-             [:code.javascript
-              "// Daniel Shiffman
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for this video: https://youtu.be/LG8ZK-rRkXo
@@ -220,6 +220,6 @@ class Box {
     box(r);
     popMatrix();
   }
-}"]]]])])]]))
+}"]]]])])]))
    :component-did-mount menger-sponge-fractal-sketch}))
 
