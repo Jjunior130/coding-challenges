@@ -56,8 +56,11 @@
                  :label "Drop"}]
          :model code
          :on-change
-         #(rf/dispatch
-           [:setval [[:purple-rain :code] %]])]
+         #(do
+           (rf/dispatch
+              [:setval [[:purple-rain :code] %]])
+           (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
         (case code
          :sketch
          [rc/h-box

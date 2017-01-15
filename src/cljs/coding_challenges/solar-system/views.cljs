@@ -55,8 +55,11 @@
                  :label "Planet"}]
          :model code
          :on-change
-         #(rf/dispatch
-           [:setval [[:solar-system :code] %]])]
+         #(do
+           (rf/dispatch
+            [:setval [[:solar-system :code] %]])
+           (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
         (case code
          :sketch
          [rc/h-box

@@ -8,6 +8,9 @@
               [coding-challenges.views :as views]
               [coding-challenges.config :as config]))
 
+(extend-type js/NodeList
+  ISeqable
+  (-seq [array] (array-seq array 0)))
 
 (defn dev-setup []
   (when config/debug?

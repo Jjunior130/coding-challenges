@@ -73,22 +73,18 @@
           [& ks]
           (some (partial = (:key event))
                 ks))]
-  (cond
+  (cond->> sketch
    (any-of (keyword " "))
-   (->> sketch
-        (transform [(collect-one :ship)
-                    :drops]
-                   (fn [{x :x
-                         :as ship} drops]
-                    (conj drops
-                          (d/make x (q/height))))))
+   (transform [(collect-one :ship)
+               :drops]
+              (fn [{x :x
+                    :as ship} drops]
+               (conj drops
+                     (d/make x (q/height)))))
    (any-of :left :a)
-   (->> sketch
-        (setval [:ship :xdir] -1))
+   (setval [:ship :xdir] -1)
    (any-of :right :d)
-   (->> sketch
-        (setval [:ship :xdir] 1))
-   :else sketch)))
+   (setval [:ship :xdir] 1))))
 
 (defn key-released [sketch]
  (->> sketch
@@ -130,8 +126,11 @@
                  :label "Ship"}]
          :model code
          :on-change
-         #(rf/dispatch
-           [:setval [[:space-invaders :code] %]])]
+         #(do
+           (rf/dispatch
+            [:setval [[:space-invaders :code] %]])
+           (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
         (case code
          :sketch
          [rc/h-box
