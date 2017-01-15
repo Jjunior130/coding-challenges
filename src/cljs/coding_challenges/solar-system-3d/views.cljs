@@ -42,30 +42,30 @@
    (let [code (rf/subscribe
                [:select-one [:solar-system :code]])]
     (fn []
-     [:div
-      [rc/title
-       :label "Solar system 3D demo"
-       :level :level1] [:br]
-      [:canvas#solar-system-3d {:width w :height h}] [:br]
-      [rc/v-box
-       :children
-       (let [code (or @code :sketch)]
-        [[rc/horizontal-tabs
-          :tabs [{:id :sketch
-                  :label "Sketch"}
-                 {:id :planet
-                  :label "Planet"}]
-          :model code
-          :on-change
-          #(rf/dispatch
-            [:setval [[:solar-system :code] %]])]
-         (case code
-          :sketch
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(def w 600)
+     [rc/v-box
+      :align :center
+      :children
+      (let [code (or @code :sketch)]
+       [[rc/title
+         :label "Solar system 3D demo"
+         :level :level1]
+        [:canvas#solar-system-3d {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :planet
+                 :label "Planet"}]
+         :model code
+         :on-change
+         #(rf/dispatch
+           [:setval [[:solar-system :code] %]])]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 600)
 (def h 600)
 
 (defn setup []
@@ -81,9 +81,9 @@
  (q/translate (/ (q/width) 2)
               (/ (q/height) 2))
  (planet/draw sun))"]]
-            [:pre
-             [:code.java
-              "// Daniel Shiffman
+           [:pre
+            [:code.java
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/dncudkelNxw
@@ -107,12 +107,12 @@ void draw() {
   sun.orbit();
 }
 "]]]]
-          :planet
-          [rc/h-box
-           :children
-           [[:pre
-             [:code.clojure
-              "(defn random-coordinate [distance]
+         :planet
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn random-coordinate [distance]
  (let [theta (Math/acos (q/random -1 1))
        phi (Math/atan (q/random -1 1))
        x (* distance
@@ -194,9 +194,9 @@ void draw() {
  (doseq [p planets]
   (draw p))
  (q/pop-matrix))"]]
-            [:pre
-             [:code.java
-              "// Daniel Shiffman
+           [:pre
+            [:code.java
+             "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/dncudkelNxw
@@ -268,7 +268,7 @@ class Planet {
     popMatrix();
   }
 }
-"]]]])])]]))
+"]]]])])]))
    :component-did-mount solar-system-3d-sketch}))
 
 

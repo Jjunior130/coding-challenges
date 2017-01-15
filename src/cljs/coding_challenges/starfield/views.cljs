@@ -53,30 +53,30 @@
           (rf/subscribe
            [:select-one [:starfield :tab]])]
      (fn []
-      [:div
-       [rc/title
-        :label "Starfield"
-        :level :level1] [:br]
-       [:canvas#starfield {:width w :height h}] [:br]
-       [rc/v-box
-        :children
-        (let [code (or @code :sketch)]
-         [[rc/horizontal-tabs
-           :tabs [{:id :sketch
-                   :label "Sketch"}
-                  {:id :star
-                   :label "Star"}]
-           :model code
-           :on-change
-           #(rf/dispatch
-             [:setval [[:starfield :tab] %]])]
-          (case code
-           :sketch
-           [rc/h-box
-            :children
-            [[:pre
-              [:code.clojure
-               "(def w 600)
+      [rc/v-box
+       :align :center
+       :children
+       (let [code (or @code :sketch)]
+        [[rc/title
+          :label "Starfield"
+          :level :level1]
+         [:canvas#starfield {:width w :height h}]
+         [rc/horizontal-tabs
+          :tabs [{:id :sketch
+                  :label "Sketch"}
+                 {:id :star
+                  :label "Star"}]
+          :model code
+          :on-change
+          #(rf/dispatch
+            [:setval [[:starfield :tab] %]])]
+         (case code
+          :sketch
+          [rc/h-box
+           :children
+           [[:pre
+             [:code.clojure
+              "(def w 600)
 (def h 600)
 
 (defn setup []
@@ -104,9 +104,9 @@
               (/ (q/height) 2))
  (doseq [star (:stars sketch)]
   (star/draw star)))"]]
-             [:pre
-              [:code.javascript
-               "// Daniel Shiffman
+            [:pre
+             [:code.javascript
+              "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
 // Code for: https://youtu.be/17WoOqgXsRM
@@ -132,12 +132,12 @@ function draw() {
   }
 }
 "]]]]
-           :star
-           [rc/h-box
-            :children
-            [[:pre
-              [:code.clj
-               "(defn make []
+          :star
+          [rc/h-box
+           :children
+           [[:pre
+             [:code.clj
+              "(defn make []
  {:type 'Star
   :x (q/random (- (q/width)) (q/width))
   :y (q/random (- (q/height)) (q/height))
@@ -181,9 +181,9 @@ function draw() {
   (q/ellipse sx sy r r)
   (q/stroke 255)
   (q/line px py sx sy)))"]]
-             [:pre
-              [:code.javascript
-               "// Daniel Shiffman
+            [:pre
+             [:code.javascript
+              "// Daniel Shiffman
 // Code for: https://youtu.be/17WoOqgXsRM
 
 function Star() {
@@ -221,6 +221,6 @@ function Star() {
     line(px, py, sx, sy);
 
   }
-}"]]]])])]]))
+}"]]]])])]))
 
     :component-did-mount starfield-sketch}))
