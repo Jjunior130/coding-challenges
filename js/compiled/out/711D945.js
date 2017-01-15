@@ -4,27 +4,27 @@ goog.require('coding_challenges.core');
 goog.require('figwheel.client');
 goog.require('figwheel.client.utils');
 figwheel.client.start.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"on-jsload","on-jsload",-395756602),(function() { 
-var G__39701__delegate = function (x){
+var G__40219__delegate = function (x){
 if(cljs.core.truth_(coding_challenges.core.mount_root)){
 return cljs.core.apply.call(null,coding_challenges.core.mount_root,x);
 } else {
 return figwheel.client.utils.log.call(null,new cljs.core.Keyword(null,"debug","debug",-1608172596),"Figwheel: :on-jsload hook 'coding-challenges.core/mount-root' is missing");
 }
 };
-var G__39701 = function (var_args){
+var G__40219 = function (var_args){
 var x = null;
 if (arguments.length > 0) {
-var G__39702__i = 0, G__39702__a = new Array(arguments.length -  0);
-while (G__39702__i < G__39702__a.length) {G__39702__a[G__39702__i] = arguments[G__39702__i + 0]; ++G__39702__i;}
-  x = new cljs.core.IndexedSeq(G__39702__a,0);
+var G__40220__i = 0, G__40220__a = new Array(arguments.length -  0);
+while (G__40220__i < G__40220__a.length) {G__40220__a[G__40220__i] = arguments[G__40220__i + 0]; ++G__40220__i;}
+  x = new cljs.core.IndexedSeq(G__40220__a,0);
 } 
-return G__39701__delegate.call(this,x);};
-G__39701.cljs$lang$maxFixedArity = 0;
-G__39701.cljs$lang$applyTo = (function (arglist__39703){
-var x = cljs.core.seq(arglist__39703);
-return G__39701__delegate(x);
+return G__40219__delegate.call(this,x);};
+G__40219.cljs$lang$maxFixedArity = 0;
+G__40219.cljs$lang$applyTo = (function (arglist__40221){
+var x = cljs.core.seq(arglist__40221);
+return G__40219__delegate(x);
 });
-G__39701.cljs$core$IFn$_invoke$arity$variadic = G__39701__delegate;
-return G__39701;
+G__40219.cljs$core$IFn$_invoke$arity$variadic = G__40219__delegate;
+return G__40219;
 })()
 ,new cljs.core.Keyword(null,"build-id","build-id",1642831089),"dev",new cljs.core.Keyword(null,"websocket-url","websocket-url",-490444938),"ws://localhost:3449/figwheel-ws"], null));

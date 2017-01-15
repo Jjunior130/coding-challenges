@@ -62,8 +62,11 @@
                  :label "Cell"}]
          :model code
          :on-change
-         #(rf/dispatch
-           [:setval [[:mitosis :code] %]])]
+         #(do
+           (rf/dispatch
+              [:setval [[:mitosis :code] %]])
+           (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
         (case code
          :sketch
          [rc/h-box

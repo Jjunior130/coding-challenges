@@ -9,6 +9,12 @@ goog.require('coding_challenges.events');
 goog.require('coding_challenges.config');
 goog.require('re_frisk.core');
 goog.require('re_frame.core');
+NodeList.prototype.cljs$core$ISeqable$ = true;
+
+NodeList.prototype.cljs$core$ISeqable$_seq$arity$1 = (function (array){
+var array__$1 = this;
+return cljs.core.array_seq.call(null,array__$1,(0));
+});
 coding_challenges.core.dev_setup = (function coding_challenges$core$dev_setup(){
 if(cljs.core.truth_(coding_challenges.config.debug_QMARK_)){
 cljs.core.enable_console_print_BANG_.call(null);
@@ -36,4 +42,4 @@ return coding_challenges.core.mount_root.call(null);
 });
 goog.exportSymbol('coding_challenges.core.init', coding_challenges.core.init);
 
-//# sourceMappingURL=core.js.map?rel=1484448821991
+//# sourceMappingURL=core.js.map?rel=1484466607402

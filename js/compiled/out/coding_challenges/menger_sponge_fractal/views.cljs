@@ -67,8 +67,11 @@
                  :label "Box"}]
          :model code
          :on-change
-         #(rf/dispatch
-           [:setval [[:menger-sponge-fractal :code] %]])]
+         #(do
+           (rf/dispatch
+              [:setval [[:menger-sponge-fractal :code] %]])
+           (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
         (case code
          :sketch
          [rc/h-box

@@ -25,71 +25,71 @@ return coding_challenges.solar_system.planet.draw.call(null,sun);
 });
 coding_challenges.solar_system.views.solar_system_sketch = (function coding_challenges$solar_system$views$solar_system_sketch(){
 return quil.sketch.sketch.call(null,new cljs.core.Keyword(null,"host","host",-1558485167),"solar-system",new cljs.core.Keyword(null,"update","update",1045576396),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system.views.update_STAR_))?(function() { 
-var G__39342__delegate = function (args){
+var G__41060__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system.views.update_STAR_,args);
 };
-var G__39342 = function (var_args){
+var G__41060 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__39343__i = 0, G__39343__a = new Array(arguments.length -  0);
-while (G__39343__i < G__39343__a.length) {G__39343__a[G__39343__i] = arguments[G__39343__i + 0]; ++G__39343__i;}
-  args = new cljs.core.IndexedSeq(G__39343__a,0);
+var G__41061__i = 0, G__41061__a = new Array(arguments.length -  0);
+while (G__41061__i < G__41061__a.length) {G__41061__a[G__41061__i] = arguments[G__41061__i + 0]; ++G__41061__i;}
+  args = new cljs.core.IndexedSeq(G__41061__a,0);
 } 
-return G__39342__delegate.call(this,args);};
-G__39342.cljs$lang$maxFixedArity = 0;
-G__39342.cljs$lang$applyTo = (function (arglist__39344){
-var args = cljs.core.seq(arglist__39344);
-return G__39342__delegate(args);
+return G__41060__delegate.call(this,args);};
+G__41060.cljs$lang$maxFixedArity = 0;
+G__41060.cljs$lang$applyTo = (function (arglist__41062){
+var args = cljs.core.seq(arglist__41062);
+return G__41060__delegate(args);
 });
-G__39342.cljs$core$IFn$_invoke$arity$variadic = G__39342__delegate;
-return G__39342;
+G__41060.cljs$core$IFn$_invoke$arity$variadic = G__41060__delegate;
+return G__41060;
 })()
 :coding_challenges.solar_system.views.update_STAR_),new cljs.core.Keyword(null,"size","size",1098693007),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system.views.w,coding_challenges.solar_system.views.h], null),new cljs.core.Keyword(null,"setup","setup",1987730512),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system.views.setup))?(function() { 
-var G__39345__delegate = function (args){
+var G__41063__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system.views.setup,args);
 };
-var G__39345 = function (var_args){
+var G__41063 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__39346__i = 0, G__39346__a = new Array(arguments.length -  0);
-while (G__39346__i < G__39346__a.length) {G__39346__a[G__39346__i] = arguments[G__39346__i + 0]; ++G__39346__i;}
-  args = new cljs.core.IndexedSeq(G__39346__a,0);
+var G__41064__i = 0, G__41064__a = new Array(arguments.length -  0);
+while (G__41064__i < G__41064__a.length) {G__41064__a[G__41064__i] = arguments[G__41064__i + 0]; ++G__41064__i;}
+  args = new cljs.core.IndexedSeq(G__41064__a,0);
 } 
-return G__39345__delegate.call(this,args);};
-G__39345.cljs$lang$maxFixedArity = 0;
-G__39345.cljs$lang$applyTo = (function (arglist__39347){
-var args = cljs.core.seq(arglist__39347);
-return G__39345__delegate(args);
+return G__41063__delegate.call(this,args);};
+G__41063.cljs$lang$maxFixedArity = 0;
+G__41063.cljs$lang$applyTo = (function (arglist__41065){
+var args = cljs.core.seq(arglist__41065);
+return G__41063__delegate(args);
 });
-G__39345.cljs$core$IFn$_invoke$arity$variadic = G__39345__delegate;
-return G__39345;
+G__41063.cljs$core$IFn$_invoke$arity$variadic = G__41063__delegate;
+return G__41063;
 })()
 :coding_challenges.solar_system.views.setup),new cljs.core.Keyword(null,"middleware","middleware",1462115504),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [quil.middleware.fun_mode], null),new cljs.core.Keyword(null,"no-start","no-start",1381488856),true,new cljs.core.Keyword(null,"draw","draw",1358331674),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system.views.draw))?(function() { 
-var G__39348__delegate = function (args){
+var G__41066__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system.views.draw,args);
 };
-var G__39348 = function (var_args){
+var G__41066 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__39349__i = 0, G__39349__a = new Array(arguments.length -  0);
-while (G__39349__i < G__39349__a.length) {G__39349__a[G__39349__i] = arguments[G__39349__i + 0]; ++G__39349__i;}
-  args = new cljs.core.IndexedSeq(G__39349__a,0);
+var G__41067__i = 0, G__41067__a = new Array(arguments.length -  0);
+while (G__41067__i < G__41067__a.length) {G__41067__a[G__41067__i] = arguments[G__41067__i + 0]; ++G__41067__i;}
+  args = new cljs.core.IndexedSeq(G__41067__a,0);
 } 
-return G__39348__delegate.call(this,args);};
-G__39348.cljs$lang$maxFixedArity = 0;
-G__39348.cljs$lang$applyTo = (function (arglist__39350){
-var args = cljs.core.seq(arglist__39350);
-return G__39348__delegate(args);
+return G__41066__delegate.call(this,args);};
+G__41066.cljs$lang$maxFixedArity = 0;
+G__41066.cljs$lang$applyTo = (function (arglist__41068){
+var args = cljs.core.seq(arglist__41068);
+return G__41066__delegate(args);
 });
-G__39348.cljs$core$IFn$_invoke$arity$variadic = G__39348__delegate;
-return G__39348;
+G__41066.cljs$core$IFn$_invoke$arity$variadic = G__41066__delegate;
+return G__41066;
 })()
 :coding_challenges.solar_system.views.draw));
 });
 goog.exportSymbol('coding_challenges.solar_system.views.solar_system_sketch', coding_challenges.solar_system.views.solar_system_sketch);
 
-if(cljs.core.truth_(cljs.core.some.call(null,(function (p1__33343__33344__auto__){
-return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"no-start","no-start",1381488856),p1__33343__33344__auto__);
+if(cljs.core.truth_(cljs.core.some.call(null,(function (p1__34782__34783__auto__){
+return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"no-start","no-start",1381488856),p1__34782__34783__auto__);
 }),null))){
 } else {
 quil.sketch.add_sketch_to_init_list.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"fn","fn",-1175266204),coding_challenges.solar_system.views.solar_system_sketch,new cljs.core.Keyword(null,"host-id","host-id",742376279),"solar-system"], null));
@@ -106,11 +106,65 @@ return new cljs.core.Keyword(null,"sketch","sketch",465948709);
 }
 })();
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.title,new cljs.core.Keyword(null,"label","label",1718410804),"Solar system demo",new cljs.core.Keyword(null,"level","level",1290497552),new cljs.core.Keyword(null,"level1","level1",813811133)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"canvas#solar-system","canvas#solar-system",-1480263093),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"width","width",-384071477),coding_challenges.solar_system.views.w,new cljs.core.Keyword(null,"height","height",1025178622),coding_challenges.solar_system.views.h], null)], null),new cljs.core.PersistentVector(null, 7, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.horizontal_tabs,new cljs.core.Keyword(null,"tabs","tabs",-779855354),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"id","id",-1388402092),new cljs.core.Keyword(null,"sketch","sketch",465948709),new cljs.core.Keyword(null,"label","label",1718410804),"Sketch"], null),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"id","id",-1388402092),new cljs.core.Keyword(null,"planet","planet",276671984),new cljs.core.Keyword(null,"label","label",1718410804),"Planet"], null)], null),new cljs.core.Keyword(null,"model","model",331153215),code__$1,new cljs.core.Keyword(null,"on-change","on-change",-732046149),((function (code__$1,code){
-return (function (p1__39351_SHARP_){
-return re_frame.core.dispatch.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"setval","setval",-2073686367),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"solar-system","solar-system",477042371),new cljs.core.Keyword(null,"code","code",1586293142)], null),p1__39351_SHARP_], null)], null));
+return (function (p1__41069_SHARP_){
+re_frame.core.dispatch.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"setval","setval",-2073686367),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"solar-system","solar-system",477042371),new cljs.core.Keyword(null,"code","code",1586293142)], null),p1__41069_SHARP_], null)], null));
+
+var seq__41075 = cljs.core.seq.call(null,document.querySelectorAll("code"));
+var chunk__41076 = null;
+var count__41077 = (0);
+var i__41078 = (0);
+while(true){
+if((i__41078 < count__41077)){
+var x = cljs.core._nth.call(null,chunk__41076,i__41078);
+hljs.highlightBlock(x);
+
+var G__41080 = seq__41075;
+var G__41081 = chunk__41076;
+var G__41082 = count__41077;
+var G__41083 = (i__41078 + (1));
+seq__41075 = G__41080;
+chunk__41076 = G__41081;
+count__41077 = G__41082;
+i__41078 = G__41083;
+continue;
+} else {
+var temp__4657__auto__ = cljs.core.seq.call(null,seq__41075);
+if(temp__4657__auto__){
+var seq__41075__$1 = temp__4657__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__41075__$1)){
+var c__25857__auto__ = cljs.core.chunk_first.call(null,seq__41075__$1);
+var G__41084 = cljs.core.chunk_rest.call(null,seq__41075__$1);
+var G__41085 = c__25857__auto__;
+var G__41086 = cljs.core.count.call(null,c__25857__auto__);
+var G__41087 = (0);
+seq__41075 = G__41084;
+chunk__41076 = G__41085;
+count__41077 = G__41086;
+i__41078 = G__41087;
+continue;
+} else {
+var x = cljs.core.first.call(null,seq__41075__$1);
+hljs.highlightBlock(x);
+
+var G__41088 = cljs.core.next.call(null,seq__41075__$1);
+var G__41089 = null;
+var G__41090 = (0);
+var G__41091 = (0);
+seq__41075 = G__41088;
+chunk__41076 = G__41089;
+count__41077 = G__41090;
+i__41078 = G__41091;
+continue;
+}
+} else {
+return null;
+}
+}
+break;
+}
 });})(code__$1,code))
-], null),(function (){var G__39353 = (((code__$1 instanceof cljs.core.Keyword))?code__$1.fqn:null);
-switch (G__39353) {
+], null),(function (){var G__41079 = (((code__$1 instanceof cljs.core.Keyword))?code__$1.fqn:null);
+switch (G__41079) {
 case "sketch":
 return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.h_box,new cljs.core.Keyword(null,"children","children",-940561982),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"pre","pre",2118456869),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"code.clojure","code.clojure",-450576994),"(def w 600)\n(def h 600)\n\n(defn setup []\n (->> (planet/make 50 0 0)\n      (planet/spawn-moons 5 1)))\n\n(defn update* [sun]\n (planet/update* sun))\n\n(defn draw [sun]\n (q/background 0)\n (q/translate (/ (q/width) 2)\n              (/ (q/height) 2))\n (planet/draw sun))"], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"pre","pre",2118456869),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"code.java","code.java",890802862),"// Daniel Shiffman\n// http://codingrainbow.com\n// http://patreon.com/codingrainbow\n// Code for: https://youtu.be/l8SiJ-RmeHU\n\nPlanet sun;\n\nvoid setup() {\n  size(600, 600);\n  sun = new Planet(50, 0, 0);\n  sun.spawnMoons(5, 1);\n}\n\nvoid draw() {\n  background(0);\n  translate(width/2, height/2);\n  sun.show();\n  sun.orbit();\n}\n"], null)], null)], null)], null);
 
@@ -130,4 +184,4 @@ throw (new Error([cljs.core.str("No matching clause: "),cljs.core.str(code__$1)]
 })(),new cljs.core.Keyword(null,"component-did-mount","component-did-mount",-1126910518),coding_challenges.solar_system.views.solar_system_sketch], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484447022672
+//# sourceMappingURL=views.js.map?rel=1484466483138

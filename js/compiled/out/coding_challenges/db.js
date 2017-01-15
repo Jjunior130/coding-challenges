@@ -3,4 +3,4 @@ goog.provide('coding_challenges.db');
 goog.require('cljs.core');
 coding_challenges.db.default_db = cljs.core.PersistentArrayMap.EMPTY;
 
-//# sourceMappingURL=db.js.map?rel=1484441675390
+//# sourceMappingURL=db.js.map?rel=1484456853454

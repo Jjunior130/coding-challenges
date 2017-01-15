@@ -49,9 +49,10 @@
 (defn view []
   (reagent/create-class
    {:reagent-render
-    (let [code
+    (let [code-nav [:starfield :code]
+          code
           (rf/subscribe
-           [:select-one [:starfield :tab]])]
+           [:select-one code-nav])]
      (fn []
       [rc/v-box
        :align :center
@@ -68,14 +69,17 @@
                   :label "Star"}]
           :model code
           :on-change
-          #(rf/dispatch
-            [:setval [[:starfield :tab] %]])]
+          #(do
+            (rf/dispatch
+             [:setval [code-nav %]])
+            (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
          (case code
           :sketch
           [rc/h-box
            :children
            [[:pre
-             [:code.clojure
+             [:code.clojure.hljs
               "(def w 600)
 (def h 600)
 
@@ -105,7 +109,7 @@
  (doseq [star (:stars sketch)]
   (star/draw star)))"]]
             [:pre
-             [:code.javascript
+             [:code.javascript.hljs
               "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
