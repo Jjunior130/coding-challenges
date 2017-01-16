@@ -10,7 +10,8 @@
            [coding-challenges.space-invaders.views :as space-invaders]
            [coding-challenges.mitosis.views :as mitosis]
            [coding-challenges.solar-system.views :as solar-system]
-           [coding-challenges.solar-system-3d.views :as solar-system-3d]))
+           [coding-challenges.solar-system-3d.views :as solar-system-3d]
+           [coding-challenges.maze-generator.views :as maze-generator]))
 
 ;; (defonce p
 ;;  (js/setInterval #(rf/dispatch [:server/ping]) 3500))
@@ -75,6 +76,11 @@
   :label "Solar system 3D demo"
   :href "#/solar-system-3d"])
 
+(defn link-to-maze-generator []
+ [rc/hyperlink-href
+  :label "Maze generator demo"
+  :href "#/maze-generator"])
+
 (defn home-panel []
   [rc/v-box
    :gap "1em"
@@ -87,6 +93,7 @@
               [link-to-mitosis]
               [link-to-solar-system]
               [link-to-solar-system-3d]
+              [link-to-maze-generator]
               [link-to-about-page]]])
 
 ;; about
@@ -154,6 +161,12 @@
   [:br]
   [solar-system-3d/view]])
 
+(defn maze-generator-panel []
+ [:div
+  [link-to-home-page]
+  [:br]
+  [maze-generator/view]])
+
 ;; main
 
 (defn- panels [panel-name]
@@ -168,6 +181,7 @@
   :mitosis-panel [mitosis-panel]
   :solar-system-panel [solar-system-panel]
   :solar-system-3d-panel [solar-system-3d-panel]
+  :maze-generator-panel [maze-generator-panel]
   [:div]))
 
 (defn show-panel [panel-name]

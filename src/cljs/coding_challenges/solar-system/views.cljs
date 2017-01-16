@@ -82,7 +82,7 @@
               (/ (q/height) 2))
  (planet/draw sun))"]]
            [:pre
-            [:code.java
+            [:code.processing
              "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
@@ -153,7 +153,7 @@ void draw() {
   (draw p))
  (q/pop-matrix))"]]
            [:pre
-            [:code.java
+            [:code.processing
              "// Daniel Shiffman
 // http://codingrainbow.com
 // http://patreon.com/codingrainbow
