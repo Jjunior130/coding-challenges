@@ -22,11 +22,11 @@
                   (collect-one :rows)
                   :grid]
                  (fn [cols rows grid]
-                  (for [i (range cols)
-                        j (range rows)]
-                   (cell/make i j))))
-      (transform [(collect-one :grid FIRST
-                               (sp/transformed :visited (constantly true)))
+                  (->> (for [i (range cols)
+                             j (range rows)]
+                        (cell/make i j))
+                       (setval [FIRST :visited] true))))
+      (transform [(collect-one :grid FIRST)
                   :current]
                  identity)))
 
