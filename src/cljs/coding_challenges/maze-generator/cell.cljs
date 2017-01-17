@@ -1,14 +1,13 @@
 (ns coding-challenges.maze-generator.cell
  (:require [quil.core :as q :include-macros true]
            [com.rpl.specter :as sp
-            :refer [ALL transform setval
-                    collect-one putval]]))
+            :refer [ALL transform setval select-one
+                    collect-one putval keypath]]))
 
 (defn make [i j]
  {:type 'Cell
   :i i
   :j j
-  :visited false
   :walls #{:top :right :bottom :left}})
 
 (defn check-neighbors [cols
@@ -16,17 +15,18 @@
                        {i :i
                         j :j
                         :as cell}]
- (let [index
-       (fn [i j]
-        (+ (* cols j) i))
-       {top-visited? :visited
-        :as top} (grid (index i (- j 1)) nil)
+ (let [{top-visited? :visited
+        :as top} (select-one [(keypath i)
+                              (keypath (dec j))] grid)
        {right-visited? :visited
-        :as right} (grid (index (+ i 1) j) nil)
+        :as right} (select-one [(keypath (inc i))
+                                (keypath j)] grid)
        {bottom-visited? :visited
-        :as bottom} (grid (index i (+ j 1)) nil)
+        :as bottom} (select-one [(keypath i)
+                                 (keypath (inc j))] grid)
        {left-visited? :visited
-        :as left} (grid (index (- i 1) j) nil)
+        :as left} (select-one [(keypath (dec i))
+                               (keypath j)] grid)
        neighbors (cond->
                   []
                   (and top (not top-visited?))
@@ -37,8 +37,11 @@
                   (conj bottom)
                   (and left (not left-visited?))
                   (conj left))]
-  (when (pos? (count neighbors))
+  (when (seq neighbors)
    (rand-nth neighbors))))
+
+(defn remove-wall [wall cell]
+ (transform :walls #(disj % wall) cell))
 
 (defn update* [cell])
 
