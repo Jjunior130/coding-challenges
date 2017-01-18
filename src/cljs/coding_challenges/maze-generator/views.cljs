@@ -15,18 +15,18 @@
 (defn update-val [p f]
  [p (sp/terminal f)])
 
-(defn multi-update-val [& pairs]
- (apply sp/multi-path
-        (map (partial apply update-val)
-             (partition 2 pairs))))
+(defn multi [f]
+ (fn [& pairs]
+  (apply sp/multi-path
+        (map (partial apply f)
+             (partition 2 pairs)))))
+
+(def multi-update-val (multi update-val))
 
 (defn assoc-val [p v]
  [p (sp/terminal-val v)])
 
-(defn multi-assoc-val [& pairs]
- (apply sp/multi-path
-        (map (partial apply assoc-val)
-             (partition 2 pairs))))
+(def multi-assoc-val (multi assoc-val))
 
 (defn setup []
  (->> {:w 40}
