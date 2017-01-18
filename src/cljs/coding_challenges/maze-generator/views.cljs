@@ -186,4 +186,3 @@
          :level :level1]
         [:canvas#maze-generator {:width w :height h}]])]))
    :component-did-mount maze-generator-sketch}))
-

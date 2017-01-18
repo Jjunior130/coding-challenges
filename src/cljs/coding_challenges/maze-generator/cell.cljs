@@ -85,5 +85,3 @@
    (q/no-stroke)
    (q/fill 255 0 255 100)
    (q/rect x y w w))))
-
-
