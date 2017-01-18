@@ -10,35 +10,41 @@
   :j j
   :walls #{:top :right :bottom :left}})
 
-(defn check-neighbors [cols
-                       grid
+(defn path [i j]
+ [(keypath i)
+  (keypath j)])
+
+(defn check-neighbors [grid
                        {i :i
                         j :j
                         :as cell}]
- (let [{top-visited? :visited
-        :as top} (select-one [(keypath i)
-                              (keypath (dec j))] grid)
-       {right-visited? :visited
-        :as right} (select-one [(keypath (inc i))
-                                (keypath j)] grid)
-       {bottom-visited? :visited
-        :as bottom} (select-one [(keypath i)
-                                 (keypath (inc j))] grid)
-       {left-visited? :visited
-        :as left} (select-one [(keypath (dec i))
-                               (keypath j)] grid)
-       neighbors (cond->
-                  []
-                  (and top (not top-visited?))
-                  (conj top)
-                  (and right (not right-visited?))
-                  (conj right)
-                  (and bottom (not bottom-visited?))
-                  (conj bottom)
-                  (and left (not left-visited?))
-                  (conj left))]
-  (when (seq neighbors)
-   (rand-nth neighbors))))
+ (->> grid
+      (transform
+       [(collect-one (path i (dec j)))
+        (collect-one (path (inc i) j))
+        (collect-one (path i (inc j)))
+        (collect-one (path (dec i) j))]
+       (fn [{top-visited? :visited
+             :as top}
+            {right-visited? :visited
+             :as right}
+            {bottom-visited? :visited
+             :as bottom}
+            {left-visited? :visited
+             :as left}]
+        (let [neighbors
+              (cond->
+               []
+               (and top (not top-visited?))
+               (conj top)
+               (and right (not right-visited?))
+               (conj right)
+               (and bottom (not bottom-visited?))
+               (conj bottom)
+               (and left (not left-visited?))
+               (conj left))]
+         (when (seq neighbors)
+          (rand-nth neighbors)))))))
 
 (defn remove-wall [wall cell]
  (transform :walls #(disj % wall) cell))
@@ -64,13 +70,17 @@
  (let [x (* i w)
        y (* j w)]
   (when (walls :top)
-   (q/line x y (+ x w) y))
+   (q/line x y
+           (+ x w) y))
   (when (walls :right)
-   (q/line (+ x w) y (+ x w) (+ y w)))
+   (q/line (+ x w) y
+           (+ x w) (+ y w)))
   (when (walls :bottom)
-   (q/line (+ x w) (+ y w) x (+ y w)))
+   (q/line (+ x w) (+ y w)
+           x (+ y w)))
   (when (walls :left)
-   (q/line x (+ y w) x y))
+   (q/line x (+ y w)
+           x y))
   (when visited?
    (q/no-stroke)
    (q/fill 255 0 255 100)
