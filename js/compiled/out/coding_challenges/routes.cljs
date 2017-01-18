@@ -45,6 +45,9 @@
  (defroute "/solar-system-3d" []
   (rf/dispatch [:set-active-panel :solar-system-3d-panel]))
 
+ (defroute "/maze-generator" []
+  (rf/dispatch [:set-active-panel :maze-generator-panel]))
+
  (defroute "/about" []
   (rf/dispatch [:set-active-panel :about-panel]))
 

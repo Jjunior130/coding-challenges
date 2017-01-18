@@ -40,12 +40,12 @@ com.rpl.specter.navs.key_transform = (function com$rpl$specter$navs$key_transfor
 return cljs.core.assoc.call(null,structure,akey,next_fn.call(null,cljs.core.get.call(null,structure,akey)));
 });
 com.rpl.specter.navs.all_select = (function com$rpl$specter$navs$all_select(structure,next_fn){
-return cljs.core.reduce.call(null,(function (curr__9850__auto__,e){
-var ret__9851__auto__ = next_fn.call(null,e);
-if((ret__9851__auto__ === com.rpl.specter.impl.NONE)){
-return curr__9850__auto__;
+return cljs.core.reduce.call(null,(function (curr__9128__auto__,e){
+var ret__9129__auto__ = next_fn.call(null,e);
+if((ret__9129__auto__ === com.rpl.specter.impl.NONE)){
+return curr__9128__auto__;
 } else {
-return ret__9851__auto__;
+return ret__9129__auto__;
 }
 }),com.rpl.specter.impl.NONE,structure);
 });
@@ -62,14 +62,14 @@ com.rpl.specter.navs.all_transform = (function com$rpl$specter$navs$all_transfor
 if((!((structure == null))) && (!((structure.com$rpl$specter$navs$AllTransformProtocol$all_transform$arity$2 == null)))){
 return structure.com$rpl$specter$navs$AllTransformProtocol$all_transform$arity$2(structure,next_fn);
 } else {
-var x__7082__auto__ = (((structure == null))?null:structure);
-var m__7083__auto__ = (com.rpl.specter.navs.all_transform[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,structure,next_fn);
+var x__7072__auto__ = (((structure == null))?null:structure);
+var m__7073__auto__ = (com.rpl.specter.navs.all_transform[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,structure,next_fn);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.all_transform["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,structure,next_fn);
+var m__7073__auto____$1 = (com.rpl.specter.navs.all_transform["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,structure,next_fn);
 } else {
 throw cljs.core.missing_protocol.call(null,"AllTransformProtocol.all-transform",structure);
 }
@@ -79,9 +79,9 @@ throw cljs.core.missing_protocol.call(null,"AllTransformProtocol.all-transform",
 
 com.rpl.specter.navs.non_transient_map_all_transform = (function com$rpl$specter$navs$non_transient_map_all_transform(structure,next_fn,empty_map){
 return cljs.core.reduce_kv.call(null,(function (m,k,v){
-var vec__12805 = next_fn.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,v], null));
-var newk = cljs.core.nth.call(null,vec__12805,(0),null);
-var newv = cljs.core.nth.call(null,vec__12805,(1),null);
+var vec__12083 = next_fn.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,v], null));
+var newk = cljs.core.nth.call(null,vec__12083,(0),null);
+var newv = cljs.core.nth.call(null,vec__12083,(1),null);
 return cljs.core.assoc.call(null,m,newk,newv);
 }),empty_map,structure);
 });
@@ -118,9 +118,9 @@ cljs.core.PersistentHashMap.prototype.com$rpl$specter$navs$AllTransformProtocol$
 var structure__$1 = this;
 return cljs.core.persistent_BANG_.call(null,cljs.core.reduce_kv.call(null,((function (structure__$1){
 return (function (m,k,v){
-var vec__12809 = next_fn.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,v], null));
-var newk = cljs.core.nth.call(null,vec__12809,(0),null);
-var newv = cljs.core.nth.call(null,vec__12809,(1),null);
+var vec__12087 = next_fn.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,v], null));
+var newk = cljs.core.nth.call(null,vec__12087,(0),null);
+var newv = cljs.core.nth.call(null,vec__12087,(1),null);
 return cljs.core.assoc_BANG_.call(null,m,newk,newv);
 });})(structure__$1))
 ,cljs.core.transient$.call(null,cljs.core.PersistentHashMap.EMPTY),structure__$1));
@@ -134,8 +134,8 @@ if((cljs.core.list_QMARK_.call(null,empty_structure)) && (cljs.core.not.call(nul
 return cljs.core.doall.call(null,cljs.core.map.call(null,next_fn,structure));
 } else {
 return cljs.core.into.call(null,empty_structure,cljs.core.map.call(null,((function (empty_structure){
-return (function (p1__12808_SHARP_){
-return next_fn.call(null,p1__12808_SHARP_);
+return (function (p1__12086_SHARP_){
+return next_fn.call(null,p1__12086_SHARP_);
 });})(empty_structure))
 ),structure);
 }
@@ -150,14 +150,14 @@ com.rpl.specter.navs.map_vals_transform = (function com$rpl$specter$navs$map_val
 if((!((structure == null))) && (!((structure.com$rpl$specter$navs$MapValsTransformProtocol$map_vals_transform$arity$2 == null)))){
 return structure.com$rpl$specter$navs$MapValsTransformProtocol$map_vals_transform$arity$2(structure,next_fn);
 } else {
-var x__7082__auto__ = (((structure == null))?null:structure);
-var m__7083__auto__ = (com.rpl.specter.navs.map_vals_transform[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,structure,next_fn);
+var x__7072__auto__ = (((structure == null))?null:structure);
+var m__7073__auto__ = (com.rpl.specter.navs.map_vals_transform[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,structure,next_fn);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.map_vals_transform["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,structure,next_fn);
+var m__7073__auto____$1 = (com.rpl.specter.navs.map_vals_transform["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,structure,next_fn);
 } else {
 throw cljs.core.missing_protocol.call(null,"MapValsTransformProtocol.map-vals-transform",structure);
 }
@@ -219,11 +219,11 @@ return path;
 if((cljs.core.coll_QMARK_.call(null,path)) && (cljs.core.every_QMARK_.call(null,cljs.core.fn_QMARK_,path))){
 return cljs.core.reduce.call(null,(function (combined,afn){
 return (function (structure){
-var and__6407__auto__ = combined.call(null,structure);
-if(cljs.core.truth_(and__6407__auto__)){
+var and__6397__auto__ = combined.call(null,structure);
+if(cljs.core.truth_(and__6397__auto__)){
 return afn.call(null,structure);
 } else {
-return and__6407__auto__;
+return and__6397__auto__;
 }
 });
 }),path);
@@ -248,14 +248,14 @@ com.rpl.specter.navs.append_all = (function com$rpl$specter$navs$append_all(stru
 if((!((structure == null))) && (!((structure.com$rpl$specter$navs$AddExtremes$append_all$arity$2 == null)))){
 return structure.com$rpl$specter$navs$AddExtremes$append_all$arity$2(structure,elements);
 } else {
-var x__7082__auto__ = (((structure == null))?null:structure);
-var m__7083__auto__ = (com.rpl.specter.navs.append_all[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,structure,elements);
+var x__7072__auto__ = (((structure == null))?null:structure);
+var m__7073__auto__ = (com.rpl.specter.navs.append_all[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,structure,elements);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.append_all["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,structure,elements);
+var m__7073__auto____$1 = (com.rpl.specter.navs.append_all["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,structure,elements);
 } else {
 throw cljs.core.missing_protocol.call(null,"AddExtremes.append-all",structure);
 }
@@ -267,14 +267,14 @@ com.rpl.specter.navs.prepend_all = (function com$rpl$specter$navs$prepend_all(st
 if((!((structure == null))) && (!((structure.com$rpl$specter$navs$AddExtremes$prepend_all$arity$2 == null)))){
 return structure.com$rpl$specter$navs$AddExtremes$prepend_all$arity$2(structure,elements);
 } else {
-var x__7082__auto__ = (((structure == null))?null:structure);
-var m__7083__auto__ = (com.rpl.specter.navs.prepend_all[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,structure,elements);
+var x__7072__auto__ = (((structure == null))?null:structure);
+var m__7073__auto__ = (com.rpl.specter.navs.prepend_all[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,structure,elements);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.prepend_all["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,structure,elements);
+var m__7073__auto____$1 = (com.rpl.specter.navs.prepend_all["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,structure,elements);
 } else {
 throw cljs.core.missing_protocol.call(null,"AddExtremes.prepend-all",structure);
 }
@@ -327,14 +327,14 @@ com.rpl.specter.navs.update_first = (function com$rpl$specter$navs$update_first(
 if((!((s == null))) && (!((s.com$rpl$specter$navs$UpdateExtremes$update_first$arity$2 == null)))){
 return s.com$rpl$specter$navs$UpdateExtremes$update_first$arity$2(s,afn);
 } else {
-var x__7082__auto__ = (((s == null))?null:s);
-var m__7083__auto__ = (com.rpl.specter.navs.update_first[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,s,afn);
+var x__7072__auto__ = (((s == null))?null:s);
+var m__7073__auto__ = (com.rpl.specter.navs.update_first[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,s,afn);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.update_first["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,s,afn);
+var m__7073__auto____$1 = (com.rpl.specter.navs.update_first["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,s,afn);
 } else {
 throw cljs.core.missing_protocol.call(null,"UpdateExtremes.update-first",s);
 }
@@ -346,14 +346,14 @@ com.rpl.specter.navs.update_last = (function com$rpl$specter$navs$update_last(s,
 if((!((s == null))) && (!((s.com$rpl$specter$navs$UpdateExtremes$update_last$arity$2 == null)))){
 return s.com$rpl$specter$navs$UpdateExtremes$update_last$arity$2(s,afn);
 } else {
-var x__7082__auto__ = (((s == null))?null:s);
-var m__7083__auto__ = (com.rpl.specter.navs.update_last[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,s,afn);
+var x__7072__auto__ = (((s == null))?null:s);
+var m__7073__auto__ = (com.rpl.specter.navs.update_last[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,s,afn);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.update_last["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,s,afn);
+var m__7073__auto____$1 = (com.rpl.specter.navs.update_last["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,s,afn);
 } else {
 throw cljs.core.missing_protocol.call(null,"UpdateExtremes.update-last",s);
 }
@@ -371,14 +371,14 @@ com.rpl.specter.navs.get_first = (function com$rpl$specter$navs$get_first(s){
 if((!((s == null))) && (!((s.com$rpl$specter$navs$GetExtremes$get_first$arity$1 == null)))){
 return s.com$rpl$specter$navs$GetExtremes$get_first$arity$1(s);
 } else {
-var x__7082__auto__ = (((s == null))?null:s);
-var m__7083__auto__ = (com.rpl.specter.navs.get_first[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,s);
+var x__7072__auto__ = (((s == null))?null:s);
+var m__7073__auto__ = (com.rpl.specter.navs.get_first[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,s);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.get_first["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,s);
+var m__7073__auto____$1 = (com.rpl.specter.navs.get_first["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,s);
 } else {
 throw cljs.core.missing_protocol.call(null,"GetExtremes.get-first",s);
 }
@@ -390,14 +390,14 @@ com.rpl.specter.navs.get_last = (function com$rpl$specter$navs$get_last(s){
 if((!((s == null))) && (!((s.com$rpl$specter$navs$GetExtremes$get_last$arity$1 == null)))){
 return s.com$rpl$specter$navs$GetExtremes$get_last$arity$1(s);
 } else {
-var x__7082__auto__ = (((s == null))?null:s);
-var m__7083__auto__ = (com.rpl.specter.navs.get_last[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,s);
+var x__7072__auto__ = (((s == null))?null:s);
+var m__7073__auto__ = (com.rpl.specter.navs.get_last[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,s);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.get_last["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,s);
+var m__7073__auto____$1 = (com.rpl.specter.navs.get_last["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,s);
 } else {
 throw cljs.core.missing_protocol.call(null,"GetExtremes.get-last",s);
 }
@@ -415,14 +415,14 @@ com.rpl.specter.navs.fast_empty_QMARK_ = (function com$rpl$specter$navs$fast_emp
 if((!((s == null))) && (!((s.com$rpl$specter$navs$FastEmpty$fast_empty_QMARK_$arity$1 == null)))){
 return s.com$rpl$specter$navs$FastEmpty$fast_empty_QMARK_$arity$1(s);
 } else {
-var x__7082__auto__ = (((s == null))?null:s);
-var m__7083__auto__ = (com.rpl.specter.navs.fast_empty_QMARK_[goog.typeOf(x__7082__auto__)]);
-if(!((m__7083__auto__ == null))){
-return m__7083__auto__.call(null,s);
+var x__7072__auto__ = (((s == null))?null:s);
+var m__7073__auto__ = (com.rpl.specter.navs.fast_empty_QMARK_[goog.typeOf(x__7072__auto__)]);
+if(!((m__7073__auto__ == null))){
+return m__7073__auto__.call(null,s);
 } else {
-var m__7083__auto____$1 = (com.rpl.specter.navs.fast_empty_QMARK_["_"]);
-if(!((m__7083__auto____$1 == null))){
-return m__7083__auto____$1.call(null,s);
+var m__7073__auto____$1 = (com.rpl.specter.navs.fast_empty_QMARK_["_"]);
+if(!((m__7073__auto____$1 == null))){
+return m__7073__auto____$1.call(null,s);
 } else {
 throw cljs.core.missing_protocol.call(null,"FastEmpty.fast-empty?",s);
 }
@@ -449,7 +449,7 @@ return updater.call(null,structure,next_fn);
 });
 
 com.rpl.specter.navs.PosNavigator = com.rpl.specter.impl.direct_nav_obj.call(null,(function (getter,updater){
-if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12816 !== 'undefined'){
+if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12094 !== 'undefined'){
 } else {
 
 /**
@@ -458,34 +458,34 @@ if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12816 !== 'undefined'){
  * @implements {com.rpl.specter.protocols.RichNavigator}
  * @implements {cljs.core.IWithMeta}
 */
-com.rpl.specter.navs.t_com$rpl$specter$navs12816 = (function (getter,updater,meta12817){
+com.rpl.specter.navs.t_com$rpl$specter$navs12094 = (function (getter,updater,meta12095){
 this.getter = getter;
 this.updater = updater;
-this.meta12817 = meta12817;
+this.meta12095 = meta12095;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 })
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12818,meta12817__$1){
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12096,meta12095__$1){
 var self__ = this;
-var _12818__$1 = this;
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12816(self__.getter,self__.updater,meta12817__$1));
+var _12096__$1 = this;
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12094(self__.getter,self__.updater,meta12095__$1));
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12818){
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12096){
 var self__ = this;
-var _12818__$1 = this;
-return self__.meta12817;
+var _12096__$1 = this;
+return self__.meta12095;
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.prototype.com$rpl$specter$protocols$RichNavigator$ = true;
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.prototype.com$rpl$specter$protocols$RichNavigator$ = true;
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.prototype.com$rpl$specter$protocols$RichNavigator$select_STAR_$arity$4 = (function (this__11598__auto__,vals__11599__auto__,structure,next_fn__11600__auto__){
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.prototype.com$rpl$specter$protocols$RichNavigator$select_STAR_$arity$4 = (function (this__10876__auto__,vals__10877__auto__,structure,next_fn__10878__auto__){
 var self__ = this;
-var this__11598__auto____$1 = this;
-var next_fn = ((function (this__11598__auto____$1){
-return (function (s__11601__auto__){
-return next_fn__11600__auto__.call(null,vals__11599__auto__,s__11601__auto__);
-});})(this__11598__auto____$1))
+var this__10876__auto____$1 = this;
+var next_fn = ((function (this__10876__auto____$1){
+return (function (s__10879__auto__){
+return next_fn__10878__auto__.call(null,vals__10877__auto__,s__10879__auto__);
+});})(this__10876__auto____$1))
 ;
 if(cljs.core.not.call(null,com.rpl.specter.navs.fast_empty_QMARK_.call(null,structure))){
 return next_fn.call(null,self__.getter.call(null,structure));
@@ -494,13 +494,13 @@ return com.rpl.specter.impl.NONE;
 }
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.prototype.com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4 = (function (this__11598__auto__,vals__11599__auto__,structure,next_fn__11600__auto__){
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.prototype.com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4 = (function (this__10876__auto__,vals__10877__auto__,structure,next_fn__10878__auto__){
 var self__ = this;
-var this__11598__auto____$1 = this;
-var next_fn = ((function (this__11598__auto____$1){
-return (function (s__11601__auto__){
-return next_fn__11600__auto__.call(null,vals__11599__auto__,s__11601__auto__);
-});})(this__11598__auto____$1))
+var this__10876__auto____$1 = this;
+var next_fn = ((function (this__10876__auto____$1){
+return (function (s__10879__auto__){
+return next_fn__10878__auto__.call(null,vals__10877__auto__,s__10879__auto__);
+});})(this__10876__auto____$1))
 ;
 if(cljs.core.truth_(com.rpl.specter.navs.fast_empty_QMARK_.call(null,structure))){
 return structure;
@@ -509,25 +509,25 @@ return self__.updater.call(null,structure,next_fn);
 }
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.getBasis = (function (){
-return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"getter","getter",1725376382,null),new cljs.core.Symbol(null,"updater","updater",2107748764,null),new cljs.core.Symbol(null,"meta12817","meta12817",1253344164,null)], null);
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.getBasis = (function (){
+return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"getter","getter",1725376382,null),new cljs.core.Symbol(null,"updater","updater",2107748764,null),new cljs.core.Symbol(null,"meta12095","meta12095",-672879995,null)], null);
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.cljs$lang$type = true;
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.cljs$lang$type = true;
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.cljs$lang$ctorStr = "com.rpl.specter.navs/t_com$rpl$specter$navs12816";
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.cljs$lang$ctorStr = "com.rpl.specter.navs/t_com$rpl$specter$navs12094";
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12816.cljs$lang$ctorPrWriter = (function (this__7025__auto__,writer__7026__auto__,opt__7027__auto__){
-return cljs.core._write.call(null,writer__7026__auto__,"com.rpl.specter.navs/t_com$rpl$specter$navs12816");
+com.rpl.specter.navs.t_com$rpl$specter$navs12094.cljs$lang$ctorPrWriter = (function (this__7015__auto__,writer__7016__auto__,opt__7017__auto__){
+return cljs.core._write.call(null,writer__7016__auto__,"com.rpl.specter.navs/t_com$rpl$specter$navs12094");
 });
 
-com.rpl.specter.navs.__GT_t_com$rpl$specter$navs12816 = (function com$rpl$specter$navs$__GT_t_com$rpl$specter$navs12816(getter__$1,updater__$1,meta12817){
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12816(getter__$1,updater__$1,meta12817));
+com.rpl.specter.navs.__GT_t_com$rpl$specter$navs12094 = (function com$rpl$specter$navs$__GT_t_com$rpl$specter$navs12094(getter__$1,updater__$1,meta12095){
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12094(getter__$1,updater__$1,meta12095));
 });
 
 }
 
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12816(getter,updater,null));
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12094(getter,updater,null));
 }));
 com.rpl.specter.navs.update_first_list = (function com$rpl$specter$navs$update_first_list(l,afn){
 return cljs.core.cons.call(null,afn.call(null,cljs.core.first.call(null,l)),cljs.core.rest.call(null,l));
@@ -552,18 +552,18 @@ return cljs.core.assoc.call(null,v__$1,(0),afn.call(null,val));
 cljs.core.PersistentVector.prototype.com$rpl$specter$navs$UpdateExtremes$update_last$arity$2 = (function (v,afn){
 var v__$1 = this;
 var c = (com.rpl.specter.navs.vec_count.call(null,v__$1) | (0));
-var G__12819 = c;
-switch (G__12819) {
+var G__12097 = c;
+switch (G__12097) {
 case (1):
-var vec__12820 = v__$1;
-var e = cljs.core.nth.call(null,vec__12820,(0),null);
+var vec__12098 = v__$1;
+var e = cljs.core.nth.call(null,vec__12098,(0),null);
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [afn.call(null,e)], null);
 
 break;
 case (2):
-var vec__12823 = v__$1;
-var e1 = cljs.core.nth.call(null,vec__12823,(0),null);
-var e2 = cljs.core.nth.call(null,vec__12823,(1),null);
+var vec__12101 = v__$1;
+var e1 = cljs.core.nth.call(null,vec__12101,(0),null);
+var e2 = cljs.core.nth.call(null,vec__12101,(1),null);
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [e1,afn.call(null,e2)], null);
 
 break;
@@ -640,7 +640,7 @@ return clojure.walk.walk.call(null,cljs.core.partial.call(null,com$rpl$specter$n
  * Navigates to the specified key, navigating to nil if it does not exist.
  */
 com.rpl.specter.navs.keypath_STAR_ = com.rpl.specter.impl.direct_nav_obj.call(null,(function (key){
-if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12827 !== 'undefined'){
+if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12105 !== 'undefined'){
 } else {
 
 /**
@@ -649,63 +649,63 @@ if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12827 !== 'undefined'){
  * @implements {com.rpl.specter.protocols.RichNavigator}
  * @implements {cljs.core.IWithMeta}
 */
-com.rpl.specter.navs.t_com$rpl$specter$navs12827 = (function (key,meta12828){
+com.rpl.specter.navs.t_com$rpl$specter$navs12105 = (function (key,meta12106){
 this.key = key;
-this.meta12828 = meta12828;
+this.meta12106 = meta12106;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 })
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12829,meta12828__$1){
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12107,meta12106__$1){
 var self__ = this;
-var _12829__$1 = this;
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12827(self__.key,meta12828__$1));
+var _12107__$1 = this;
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12105(self__.key,meta12106__$1));
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12829){
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12107){
 var self__ = this;
-var _12829__$1 = this;
-return self__.meta12828;
+var _12107__$1 = this;
+return self__.meta12106;
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.prototype.com$rpl$specter$protocols$RichNavigator$ = true;
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.prototype.com$rpl$specter$protocols$RichNavigator$ = true;
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.prototype.com$rpl$specter$protocols$RichNavigator$select_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.prototype.com$rpl$specter$protocols$RichNavigator$select_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
 var self__ = this;
 var this$__$1 = this;
 return next_fn.call(null,vals,cljs.core.get.call(null,structure,self__.key));
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.prototype.com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.prototype.com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
 var self__ = this;
 var this$__$1 = this;
 return cljs.core.assoc.call(null,structure,self__.key,next_fn.call(null,vals,cljs.core.get.call(null,structure,self__.key)));
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.getBasis = (function (){
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"key","key",124488940,null),new cljs.core.Symbol(null,"meta12828","meta12828",479991305,null)], null);
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.getBasis = (function (){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"key","key",124488940,null),new cljs.core.Symbol(null,"meta12106","meta12106",1743677963,null)], null);
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.cljs$lang$type = true;
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.cljs$lang$type = true;
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.cljs$lang$ctorStr = "com.rpl.specter.navs/t_com$rpl$specter$navs12827";
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.cljs$lang$ctorStr = "com.rpl.specter.navs/t_com$rpl$specter$navs12105";
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12827.cljs$lang$ctorPrWriter = (function (this__7025__auto__,writer__7026__auto__,opt__7027__auto__){
-return cljs.core._write.call(null,writer__7026__auto__,"com.rpl.specter.navs/t_com$rpl$specter$navs12827");
+com.rpl.specter.navs.t_com$rpl$specter$navs12105.cljs$lang$ctorPrWriter = (function (this__7015__auto__,writer__7016__auto__,opt__7017__auto__){
+return cljs.core._write.call(null,writer__7016__auto__,"com.rpl.specter.navs/t_com$rpl$specter$navs12105");
 });
 
-com.rpl.specter.navs.__GT_t_com$rpl$specter$navs12827 = (function com$rpl$specter$navs$__GT_t_com$rpl$specter$navs12827(key__$1,meta12828){
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12827(key__$1,meta12828));
+com.rpl.specter.navs.__GT_t_com$rpl$specter$navs12105 = (function com$rpl$specter$navs$__GT_t_com$rpl$specter$navs12105(key__$1,meta12106){
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12105(key__$1,meta12106));
 });
 
 }
 
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12827(key,null));
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12105(key,null));
 }));
 /**
  * Navigates to the key only if it exists in the map.
  */
 com.rpl.specter.navs.must_STAR_ = com.rpl.specter.impl.direct_nav_obj.call(null,(function (k){
-if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12830 !== 'undefined'){
+if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12108 !== 'undefined'){
 } else {
 
 /**
@@ -714,27 +714,27 @@ if(typeof com.rpl.specter.navs.t_com$rpl$specter$navs12830 !== 'undefined'){
  * @implements {com.rpl.specter.protocols.RichNavigator}
  * @implements {cljs.core.IWithMeta}
 */
-com.rpl.specter.navs.t_com$rpl$specter$navs12830 = (function (k,meta12831){
+com.rpl.specter.navs.t_com$rpl$specter$navs12108 = (function (k,meta12109){
 this.k = k;
-this.meta12831 = meta12831;
+this.meta12109 = meta12109;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 })
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12832,meta12831__$1){
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_12110,meta12109__$1){
 var self__ = this;
-var _12832__$1 = this;
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12830(self__.k,meta12831__$1));
+var _12110__$1 = this;
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12108(self__.k,meta12109__$1));
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12832){
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_12110){
 var self__ = this;
-var _12832__$1 = this;
-return self__.meta12831;
+var _12110__$1 = this;
+return self__.meta12109;
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.prototype.com$rpl$specter$protocols$RichNavigator$ = true;
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.prototype.com$rpl$specter$protocols$RichNavigator$ = true;
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.prototype.com$rpl$specter$protocols$RichNavigator$select_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.prototype.com$rpl$specter$protocols$RichNavigator$select_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
 var self__ = this;
 var this$__$1 = this;
 if(cljs.core.contains_QMARK_.call(null,structure,self__.k)){
@@ -744,7 +744,7 @@ return com.rpl.specter.impl.NONE;
 }
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.prototype.com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.prototype.com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4 = (function (this$,vals,structure,next_fn){
 var self__ = this;
 var this$__$1 = this;
 if(cljs.core.contains_QMARK_.call(null,structure,self__.k)){
@@ -754,25 +754,25 @@ return structure;
 }
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.getBasis = (function (){
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"k","k",-505765866,null),new cljs.core.Symbol(null,"meta12831","meta12831",-1553062955,null)], null);
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.getBasis = (function (){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"k","k",-505765866,null),new cljs.core.Symbol(null,"meta12109","meta12109",1250939892,null)], null);
 });
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.cljs$lang$type = true;
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.cljs$lang$type = true;
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.cljs$lang$ctorStr = "com.rpl.specter.navs/t_com$rpl$specter$navs12830";
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.cljs$lang$ctorStr = "com.rpl.specter.navs/t_com$rpl$specter$navs12108";
 
-com.rpl.specter.navs.t_com$rpl$specter$navs12830.cljs$lang$ctorPrWriter = (function (this__7025__auto__,writer__7026__auto__,opt__7027__auto__){
-return cljs.core._write.call(null,writer__7026__auto__,"com.rpl.specter.navs/t_com$rpl$specter$navs12830");
+com.rpl.specter.navs.t_com$rpl$specter$navs12108.cljs$lang$ctorPrWriter = (function (this__7015__auto__,writer__7016__auto__,opt__7017__auto__){
+return cljs.core._write.call(null,writer__7016__auto__,"com.rpl.specter.navs/t_com$rpl$specter$navs12108");
 });
 
-com.rpl.specter.navs.__GT_t_com$rpl$specter$navs12830 = (function com$rpl$specter$navs$__GT_t_com$rpl$specter$navs12830(k__$1,meta12831){
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12830(k__$1,meta12831));
+com.rpl.specter.navs.__GT_t_com$rpl$specter$navs12108 = (function com$rpl$specter$navs$__GT_t_com$rpl$specter$navs12108(k__$1,meta12109){
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12108(k__$1,meta12109));
 });
 
 }
 
-return (new com.rpl.specter.navs.t_com$rpl$specter$navs12830(k,null));
+return (new com.rpl.specter.navs.t_com$rpl$specter$navs12108(k,null));
 }));
 
-//# sourceMappingURL=navs.js.map?rel=1484456788738
+//# sourceMappingURL=navs.js.map?rel=1484702549332
