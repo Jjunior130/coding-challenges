@@ -28,19 +28,33 @@
 
 (def multi-assoc-val (multi assoc-val))
 
+(defn t [path data]
+ (if (fn? data)
+  (update-val path data)
+  (assoc-val path data)))
+
+(defn mt [& args]
+ (if (even? (count args))
+  (let [pairs (partition 2 args)]
+   (apply sp/multi-path
+          (map (partial apply t)
+               pairs)))
+  (let [structure (first args)
+        pairs (rest args)]
+   (sp/multi-transform* (mt pairs) structure)))))
+
 (defn setup []
- (->> {:w 40}
-      (sp/multi-transform*
-       (multi-update-val
-        [(collect-one :w) :cols] (comp
-                                  q/floor
-                                  (partial / (q/width))
-                                  identity)
-        [(collect-one :w) :rows] (comp
-                                  q/floor
-                                  (partial / (q/height))
-                                  identity)
-        [(collect-one :cols)
+ (-> {:w 40}
+     (mt 
+      [(collect-one :w) :cols] (comp
+                                q/floor
+                                (partial / (q/width))
+                                identity)
+      [(collect-one :w) :rows] (comp
+                                q/floor
+                                (partial / (q/height))
+                                identity)
+      [(collect-one :cols)
          (collect-one :rows) :grid]
         (comp
          (fn [grid-of-cells]
@@ -67,18 +81,17 @@
             (for [i (range cols)
                   j (range rows)]
              #(setval (cell/path i j)
-                      (cell/make i j) %))))))))))
+                      (cell/make i j) %)))))))))
 
 (defn remove-wall [current-path current-wall
                    next-path next-wall
                    grid]
- (->> grid
-      (sp/multi-transform*
-       (multi-update-val
-        current-path (partial
+ (-> grid
+     (mt 
+      current-path (partial
                        cell/remove-wall current-wall)
-        next-path (partial
-                    cell/remove-wall next-wall)))))
+      next-path (partial
+                  cell/remove-wall next-wall))))
 
 (defn remove-walls [{ci :i
                      cj :j}
@@ -126,30 +139,26 @@
           (sp/multi-transform*
            (sp/multi-path
             [:grid
-             (sp/multi-path
-              (assoc-val
-               [current-cell-path :current] false)
-              [next-current-path
-               (multi-assoc-val
-                :current true
-                :visited true)]
+             (mt 
+              [current-cell-path :current] false
+              next-current-path #(assoc % 
+                                  :current true
+                                  :visited true)
               [(collect-one
                 previous-current-path)
                (collect-one
-                next-current-path)
-               (sp/terminal
-                remove-walls)])]
-            (update-val
+                next-current-path)] remove-walls)
+            (mt
              :stack #(conj % previous-current-path)))))
      (seq stack)
      (->> sketch
           (sp/multi-transform*
            (sp/multi-path
             [:grid
-             (multi-assoc-val
+             (mt
               [current-cell-path :current] false
               [(peek stack) :current] true)]
-            (update-val
+            (mt
              :stack pop))))
      :else sketch)))
 
