@@ -1,8 +1,9 @@
 (ns coding-challenges.maze-generator.cell
  (:require [quil.core :as q :include-macros true]
+           [coding-challenges.util :refer [u a]]
            [com.rpl.specter :as sp
-            :refer [ALL transform setval select-one
-                    collect-one putval keypath]]))
+            :refer [ALL select-one
+                    collect-one keypath]]))
 
 (defn make [i j]
  {:type 'Cell
@@ -18,36 +19,36 @@
                        {i :i
                         j :j
                         :as cell}]
- (->> grid
-      (transform
-       [(collect-one (path i (dec j)))
-        (collect-one (path (inc i) j))
-        (collect-one (path i (inc j)))
-        (collect-one (path (dec i) j))]
-       (fn [{top-visited? :visited
-             :as top}
-            {right-visited? :visited
-             :as right}
-            {bottom-visited? :visited
-             :as bottom}
-            {left-visited? :visited
-             :as left}]
-        (let [neighbors
-              (cond->
-               []
-               (and top (not top-visited?))
-               (conj top)
-               (and right (not right-visited?))
-               (conj right)
-               (and bottom (not bottom-visited?))
-               (conj bottom)
-               (and left (not left-visited?))
-               (conj left))]
-         (when (seq neighbors)
-          (rand-nth neighbors)))))))
+ (u grid
+    [(collect-one (path i (dec j)))
+     (collect-one (path (inc i) j))
+     (collect-one (path i (inc j)))
+     (collect-one (path (dec i) j))]
+    (fn [{top-visited? :visited
+          :as top}
+         {right-visited? :visited
+          :as right}
+         {bottom-visited? :visited
+          :as bottom}
+         {left-visited? :visited
+          :as left}]
+     (let [neighbors
+           (cond->
+            []
+            (and top (not top-visited?))
+            (conj top)
+            (and right (not right-visited?))
+            (conj right)
+            (and bottom (not bottom-visited?))
+            (conj bottom)
+            (and left (not left-visited?))
+            (conj left))]
+      (when (seq neighbors)
+       (rand-nth neighbors))))))
 
 (defn remove-wall [wall cell]
- (transform :walls #(disj % wall) cell))
+ (u cell
+    :walls #(disj % wall)))
 
 (defn update* [cell])
 
