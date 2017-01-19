@@ -87,8 +87,8 @@ coding_challenges.views.maze_generator_panel = (function coding_challenges$views
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.link_to_home_page], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"br","br",934104792)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.maze_generator.views.view], null)], null);
 });
 coding_challenges.views.panels = (function coding_challenges$views$panels(panel_name){
-var G__69774 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
-switch (G__69774) {
+var G__63704 = (((panel_name instanceof cljs.core.Keyword))?panel_name.fqn:null);
+switch (G__63704) {
 case "space-invaders-panel":
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.views.space_invaders_panel], null);
 
@@ -150,4 +150,4 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 ], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484736598628
+//# sourceMappingURL=views.js.map?rel=1484810683626

@@ -152,8 +152,9 @@ goog.addDependency("../coding_challenges/mitosis/views.js", ['coding_challenges.
 goog.addDependency("../coding_challenges/starfield/star.js", ['coding_challenges.starfield.star'], ['com.rpl.specter', 'cljs.core', 'quil.core']);
 goog.addDependency("../coding_challenges/starfield/views.js", ['coding_challenges.starfield.views'], ['com.rpl.specter', 're_com.core', 'coding_challenges.starfield.star', 'reagent.core', 'cljs.core', 'quil.core', 'quil.middleware', 're_frame.core']);
 goog.addDependency("../coding_challenges/purple_rain/views.js", ['coding_challenges.purple_rain.views'], ['com.rpl.specter', 'coding_challenges.purple_rain.drop', 're_com.core', 'reagent.core', 'cljs.core', 'quil.core', 'quil.middleware', 're_frame.core']);
-goog.addDependency("../coding_challenges/maze_generator/cell.js", ['coding_challenges.maze_generator.cell'], ['com.rpl.specter', 'cljs.core', 'quil.core']);
-goog.addDependency("../coding_challenges/maze_generator/views.js", ['coding_challenges.maze_generator.views'], ['com.rpl.specter', 're_com.core', 'reagent.core', 'cljs.core', 'coding_challenges.maze_generator.cell', 'quil.core', 'quil.middleware', 're_frame.core']);
+goog.addDependency("../coding_challenges/util.js", ['coding_challenges.util'], ['com.rpl.specter', 'cljs.core']);
+goog.addDependency("../coding_challenges/maze_generator/cell.js", ['coding_challenges.maze_generator.cell'], ['com.rpl.specter', 'cljs.core', 'quil.core', 'coding_challenges.util']);
+goog.addDependency("../coding_challenges/maze_generator/views.js", ['coding_challenges.maze_generator.views'], ['com.rpl.specter', 're_com.core', 'reagent.core', 'cljs.core', 'coding_challenges.maze_generator.cell', 'quil.core', 'quil.middleware', 'coding_challenges.util', 're_frame.core']);
 goog.addDependency("../coding_challenges/space_invaders/ship.js", ['coding_challenges.space_invaders.ship'], ['com.rpl.specter', 'cljs.core', 'quil.core']);
 goog.addDependency("../coding_challenges/space_invaders/views.js", ['coding_challenges.space_invaders.views'], ['com.rpl.specter', 're_com.core', 'reagent.core', 'cljs.core', 'coding_challenges.space_invaders.flower', 'quil.core', 'quil.middleware', 'coding_challenges.space_invaders.drop', 'coding_challenges.space_invaders.ship', 're_frame.core']);
 goog.addDependency("../coding_challenges/menger_sponge_fractal/views.js", ['coding_challenges.menger_sponge_fractal.views'], ['com.rpl.specter', 're_com.core', 'reagent.core', 'cljs.core', 'quil.core', 'quil.middleware', 'coding_challenges.menger_sponge_fractal.box', 're_frame.core']);
@@ -162,4 +163,4 @@ goog.addDependency("../re_frisk/devtool.js", ['re_frisk.devtool'], ['re_frisk.ui
 goog.addDependency("../re_frisk/core.js", ['re_frisk.core'], ['re_frisk.devtool', 're_frisk.ui', 'reagent.ratom', 'reagent.core', 're_frame.registrar', 'cljs.core', 're_frisk.data', 're_frisk.help', 're_frame.core']);
 goog.addDependency("../coding_challenges/config.js", ['coding_challenges.config'], ['cljs.core']);
 goog.addDependency("../coding_challenges/core.js", ['coding_challenges.core'], ['coding_challenges.subs', 'coding_challenges.views', 'reagent.core', 'cljs.core', 'coding_challenges.events', 're_frisk.core', 'coding_challenges.config', 'coding_challenges.routes', 're_frame.core']);
-goog.addDependency("../21B0390.js", ['figwheel.connect.dev'], ['cljs.core', 'coding_challenges.core', 'figwheel.client', 'figwheel.client.utils']);
+goog.addDependency("../89E00A5.js", ['figwheel.connect.dev'], ['cljs.core', 'coding_challenges.core', 'figwheel.client', 'figwheel.client.utils']);

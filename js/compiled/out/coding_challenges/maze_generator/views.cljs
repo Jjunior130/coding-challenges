@@ -6,79 +6,48 @@
            [re-com.core :as rc]
            [coding-challenges.maze-generator.cell :as cell]
            [com.rpl.specter :as sp
-            :refer [putval ALL transform FIRST select-one select
-                    setval collect-one pred keypath]]))
+            :refer [ALL FIRST select-one collect-one pred multi-path]]
+           [coding-challenges.util :refer [mt u a cond->mt cond-mt
+                                           PASS]]))
 
 (def w 600)
 (def h 600)
 
-(defn update-val [p f]
- [p (sp/terminal f)])
-
-(defn multi-update-val [& pairs]
- (apply sp/multi-path
-        (map (partial apply update-val)
-             (partition 2 pairs))))
-
-(defn assoc-val [p v]
- [p (sp/terminal-val v)])
-
-(defn multi-assoc-val [& pairs]
- (apply sp/multi-path
-        (map (partial apply assoc-val)
-             (partition 2 pairs))))
-
 (defn setup []
- (->> {:w 40}
-      (sp/multi-transform*
-       (multi-update-val
-        [(collect-one :w) :cols] (comp
-                                  q/floor
-                                  (partial / (q/width))
-                                  identity)
-        [(collect-one :w) :rows] (comp
-                                  q/floor
-                                  (partial / (q/height))
-                                  identity)
-        [(collect-one :cols)
-         (collect-one :rows) :grid]
-        (comp
-         (fn [grid-of-cells]
-          (transform
-           [FIRST FIRST]
-           (fn [first-cell]
-            (assoc
-             first-cell
-             :current true
-             :visited true))
-           grid-of-cells))
-         (fn [cols rows]
-          (let [empty-grid
-                (vec
-                 (repeatedly
-                  cols
-                  (partial
-                   vec
-                   (repeat
-                    rows nil))))]
-           (reduce
-            #(%2 %1)
-            empty-grid
-            (for [i (range cols)
-                  j (range rows)]
-             #(setval (cell/path i j)
-                      (cell/make i j) %))))))))))
+ (u {:w 40}
+    [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
+    [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
+    [(collect-one :cols)
+     (collect-one :rows) :grid]
+    (comp
+     (fn [grid-of-cells]
+      (mt grid-of-cells
+          [FIRST FIRST
+           (a
+            :current true
+            :visited true)]))
+     (fn [cols rows]
+      (let [empty-grid
+            (vec
+             (repeatedly
+              cols
+              (partial
+               vec
+               (repeat
+                rows nil))))]
+       (reduce
+        #(%2 %1)
+        empty-grid
+        (for [i (range cols)
+              j (range rows)]
+         #(a %
+             (cell/path i j) (cell/make i j)))))))))
 
-(defn remove-wall [current-path current-wall
-                   next-path next-wall
-                   grid]
- (->> grid
-      (sp/multi-transform*
-       (multi-update-val
-        current-path (partial
-                       cell/remove-wall current-wall)
-        next-path (partial
-                    cell/remove-wall next-wall)))))
+(defn remove-wall [previous-current-path previous-wall
+                   next-current-path next-wall]
+ (u
+  [previous-current-path :walls] #(disj % previous-wall)
+  [next-current-path :walls] #(disj % next-wall)))
 
 (defn remove-walls [{ci :i
                      cj :j}
@@ -87,24 +56,24 @@
                     grid]
  (let [x (- ci ni)
        y (- cj nj)
-       current-path (cell/path ci cj)
-       next-path (cell/path ni nj)]
-  (cond->>
+       previous-current-path (cell/path ci cj)
+       next-current-path (cell/path ni nj)]
+  (cond->mt
    grid
    (= x 1)
-   (remove-wall current-path :left
-                next-path :right)
+   (remove-wall previous-current-path :left
+                next-current-path :right)
    (= x -1)
-   (remove-wall current-path :right
-                next-path :left)
+   (remove-wall previous-current-path :right
+                next-current-path :left)
    (= y 1)
-   (remove-wall current-path :top
-                next-path :bottom)
+   (remove-wall previous-current-path :top
+                next-current-path :bottom)
    (= y -1)
-   (remove-wall current-path :bottom
-                next-path :top))))
+   (remove-wall previous-current-path :bottom
+                next-current-path :top))))
 
-(def current-cell-path
+(def current-path
  (sp/comp-paths ALL ALL (pred :current)))
 
 (defn update* [{grid :grid
@@ -113,45 +82,41 @@
  (let [{ci :i
         cj :j
         :as current}
-       (sp/compiled-select-one current-cell-path grid)
+       (sp/compiled-select-one current-path grid)
        previous-current-path (cell/path ci cj)
        {ni :i
         nj :j
         :as nxt}
        (cell/check-neighbors grid current)
        next-current-path (cell/path ni nj)]
-    (cond
-     nxt
-     (->> sketch
-          (sp/multi-transform*
-           (sp/multi-path
-            [:grid
-             (sp/multi-path
-              (assoc-val
-               [current-cell-path :current] false)
-              [next-current-path
-               (multi-assoc-val
-                :current true
-                :visited true)]
-              [(collect-one
-                previous-current-path)
-               (collect-one
-                next-current-path)
-               (sp/terminal
-                remove-walls)])]
-            (update-val
-             :stack #(conj % previous-current-path)))))
-     (seq stack)
-     (->> sketch
-          (sp/multi-transform*
-           (sp/multi-path
-            [:grid
-             (multi-assoc-val
-              [current-cell-path :current] false
-              [(peek stack) :current] true)]
-            (update-val
-             :stack pop))))
-     :else sketch)))
+  (cond-mt
+   sketch
+   nxt
+   (multi-path
+    [:grid
+     (multi-path
+      (a
+       [current-path :current] false)
+      [next-current-path
+       (a
+        :current true
+        :visited true)]
+      (u
+       [(collect-one
+         previous-current-path)
+        (collect-one
+         next-current-path)] remove-walls))]
+    (u
+     :stack #(conj % previous-current-path)))
+   (seq stack)
+   (multi-path
+    [:grid
+     (a
+      [current-path :current] false
+      [(peek stack) :current] true)]
+    (u
+     :stack pop))
+   :else PASS)))
 
 (defn draw [{grid :grid
              w :w
@@ -160,7 +125,7 @@
  (doseq [cell (flatten grid)]
   (cell/draw w cell))
  (cell/highlight w (sp/compiled-select-one
-                    current-cell-path grid)))
+                    current-path grid)))
 
 (q/defsketch maze-generator-sketch
              :setup  setup
@@ -184,6 +149,401 @@
        [[rc/title
          :label "Maze generator demo"
          :level :level1]
-        [:canvas#maze-generator {:width w :height h}]])]))
-   :component-did-mount maze-generator-sketch}))
+        [:canvas#maze-generator {:width w :height h}]
+        [rc/horizontal-tabs
+         :tabs [{:id :sketch
+                 :label "Sketch"}
+                {:id :cell
+                 :label "Cell"}]
+         :model code
+         :on-change
+         #(do
+           (rf/dispatch
+            [:setval [[:maze-generator :code] %]])
+           (doseq [x (-> js/document (.querySelectorAll "code"))]
+             (js/hljs.highlightBlock x)))]
+        (case code
+         :sketch
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(def w 600)
+(def h 600)
 
+(defn setup []
+ (u {:w 40}
+    [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
+    [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
+    [(collect-one :cols)
+     (collect-one :rows) :grid]
+    (comp
+     (fn [grid-of-cells]
+      (mt grid-of-cells
+          [FIRST FIRST
+           (a
+            :current true
+            :visited true)]))
+     (fn [cols rows]
+      (let [empty-grid
+            (vec
+             (repeatedly
+              cols
+              (partial
+               vec
+               (repeat
+                rows nil))))]
+       (reduce
+        #(%2 %1)
+        empty-grid
+        (for [i (range cols)
+              j (range rows)]
+         #(a %
+             (cell/path i j) (cell/make i j)))))))))
+
+(defn remove-wall [previous-current-path previous-wall
+                   next-current-path next-wall]
+ (u
+  [previous-current-path :walls] #(disj % previous-wall)
+  [next-current-path :walls] #(disj % next-wall)))
+
+(defn remove-walls [{ci :i
+                     cj :j}
+                    {ni :i
+                     nj :j}
+                    grid]
+ (let [x (- ci ni)
+       y (- cj nj)
+       previous-current-path (cell/path ci cj)
+       next-current-path (cell/path ni nj)]
+  (cond->mt
+   grid
+   (= x 1)
+   (remove-wall previous-current-path :left
+                next-current-path :right)
+   (= x -1)
+   (remove-wall previous-current-path :right
+                next-current-path :left)
+   (= y 1)
+   (remove-wall previous-current-path :top
+                next-current-path :bottom)
+   (= y -1)
+   (remove-wall previous-current-path :bottom
+                next-current-path :top))))
+
+(def current-path
+ (sp/comp-paths ALL ALL (pred :current)))
+
+(defn update* [{grid :grid
+                stack :stack
+                :as sketch}]
+ (let [{ci :i
+        cj :j
+        :as current}
+       (sp/compiled-select-one current-path grid)
+       previous-current-path (cell/path ci cj)
+       {ni :i
+        nj :j
+        :as nxt}
+       (cell/check-neighbors grid current)
+       next-current-path (cell/path ni nj)]
+  (cond-mt
+   sketch
+   nxt
+   (multi-path
+    [:grid
+     (multi-path
+      (a
+       [current-path :current] false)
+      [next-current-path
+       (a
+        :current true
+        :visited true)]
+      (u
+       [(collect-one
+         previous-current-path)
+        (collect-one
+         next-current-path)] remove-walls))]
+    (u
+     :stack #(conj % previous-current-path)))
+   (seq stack)
+   (multi-path
+    [:grid
+     (a
+      [current-path :current] false
+      [(peek stack) :current] true)]
+    (u
+     :stack pop))
+   :else PASS)))
+
+(defn draw [{grid :grid
+             w :w
+             :as sketch}]
+ (q/background 51)
+ (doseq [cell (flatten grid)]
+  (cell/draw w cell))
+ (cell/highlight w (sp/compiled-select-one
+                    current-path grid)))"]]
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
+// http://codingtra.in
+// http://patreon.com/codingtrain
+
+// Videos
+// https://youtu.be/HyK_Q5rrcr4
+// https://youtu.be/D8UgRyRnvXU
+// https://youtu.be/8Ju_uxJ9v44
+// https://youtu.be/_p5IH0L63wo
+
+// Depth-first search
+// Recursive backtracker
+// https://en.wikipedia.org/wiki/Maze_generation_algorithm
+
+var cols, rows;
+var w = 20;
+var grid = [];
+
+var current;
+
+var stack = [];
+
+function setup() {
+  createCanvas(600, 600);
+  cols = floor(width/w);
+  rows = floor(height/w);
+  //frameRate(5);
+
+  for (var   j = 0; j < rows; j++) {
+    for (var i = 0; i < cols; i++) {
+      var cell = new Cell(i, j);
+      grid.push(cell);
+    }
+  }
+
+  current = grid[0];
+
+
+}
+
+function draw() {
+  background(51);
+  for (var i = 0; i < grid.length; i++) {
+    grid[i].show();
+  }
+
+  current.visited = true;
+  current.highlight();
+  // STEP 1
+  var next = current.checkNeighbors();
+  if (next) {
+    next.visited = true;
+
+    // STEP 2
+    stack.push(current);
+
+    // STEP 3
+    removeWalls(current, next);
+
+    // STEP 4
+    current = next;
+  } else if (stack.length > 0) {
+    current = stack.pop();
+  }
+
+}
+
+function index(i, j) {
+  if (i < 0 || j < 0 || i > cols-1 || j > rows-1) {
+    return -1;
+  }
+  return i + j * cols;
+}
+
+
+function removeWalls(a, b) {
+  var x = a.i - b.i;
+  if (x === 1) {
+    a.walls[3] = false;
+    b.walls[1] = false;
+  } else if (x === -1) {
+    a.walls[1] = false;
+    b.walls[3] = false;
+  }
+  var y = a.j - b.j;
+  if (y === 1) {
+    a.walls[0] = false;
+    b.walls[2] = false;
+  } else if (y === -1) {
+    a.walls[2] = false;
+    b.walls[0] = false;
+  }
+}"]]]]
+         :cell
+         [rc/h-box
+          :children
+          [[:pre
+            [:code.clojure
+             "(defn make [i j]
+ {:type 'Cell
+  :i i
+  :j j
+  :walls #{:top :right :bottom :left}})
+
+(defn path [i j]
+ [(keypath i)
+  (keypath j)])
+
+(defn check-neighbors [grid
+                       {i :i
+                        j :j
+                        :as cell}]
+ (u grid
+    [(collect-one (path      i (dec j)))
+     (collect-one (path (inc i)     j))
+     (collect-one (path      i (inc j)))
+     (collect-one (path (dec i)     j))]
+    (fn [{top-visited? :visited
+          :as top}
+         {right-visited? :visited
+          :as right}
+         {bottom-visited? :visited
+          :as bottom}
+         {left-visited? :visited
+          :as left}]
+     (let [neighbors
+           (cond->mt
+            []
+            (and top (not top-visited?))
+            (u STAY #(conj % top))
+            (and right (not right-visited?))
+            (u STAY #(conj % right))
+            (and bottom (not bottom-visited?))
+            (u STAY #(conj % bottom))
+            (and left (not left-visited?))
+            (u STAY #(conj % left)))]
+      (when (seq neighbors)
+       (rand-nth neighbors))))))
+
+(defn update* [cell])
+
+(defn highlight [w {i :i
+                    j :j
+                    :as cell}]
+ (q/no-stroke)
+ (q/fill 0 0 255 100)
+ (let [x (* i w)
+       y (* j w)]
+  (q/rect x y w w)))
+
+(defn draw [w
+            {i :i
+             j :j
+             walls :walls
+             visited? :visited
+             :as cell}]
+ (q/stroke 255)
+ (let [x (* i w)
+       y (* j w)]
+  (when (walls :top)
+   (q/line x y
+           (+ x w) y))
+  (when (walls :right)
+   (q/line (+ x w) y
+           (+ x w) (+ y w)))
+  (when (walls :bottom)
+   (q/line (+ x w) (+ y w)
+           x (+ y w)))
+  (when (walls :left)
+   (q/line x (+ y w)
+           x y))
+  (when visited?
+   (q/no-stroke)
+   (q/fill 255 0 255 100)
+   (q/rect x y w w))))"]]
+           [:pre
+            [:code.javascript
+             "// Daniel Shiffman
+// http://codingtra.in
+// http://patreon.com/codingtrain
+
+// Videos
+// https://youtu.be/HyK_Q5rrcr4
+// https://youtu.be/D8UgRyRnvXU
+// https://youtu.be/8Ju_uxJ9v44
+// https://youtu.be/_p5IH0L63wo
+
+// Depth-first search
+// Recursive backtracker
+// https://en.wikipedia.org/wiki/Maze_generation_algorithm
+
+function Cell(i, j) {
+  this.i = i;
+  this.j = j;
+  this.walls = [true, true, true, true];
+  this.visited = false;
+
+  this.checkNeighbors = function() {
+    var neighbors = [];
+
+    var top    = grid[index(i, j -1)];
+    var right  = grid[index(i+1, j)];
+    var bottom = grid[index(i, j+1)];
+    var left   = grid[index(i-1, j)];
+
+    if (top && !top.visited) {
+      neighbors.push(top);
+    }
+    if (right && !right.visited) {
+      neighbors.push(right);
+    }
+    if (bottom && !bottom.visited) {
+      neighbors.push(bottom);
+    }
+    if (left && !left.visited) {
+      neighbors.push(left);
+    }
+
+    if (neighbors.length > 0) {
+      var r = floor(random(0, neighbors.length));
+      return neighbors[r];
+    } else {
+      return undefined;
+    }
+
+
+  }
+  this.highlight = function() {
+    var x = this.i*w;
+    var y = this.j*w;
+    noStroke();
+    fill(0, 0, 255, 100);
+    rect(x, y, w, w);
+
+  }
+
+  this.show = function() {
+    var x = this.i*w;
+    var y = this.j*w;
+    stroke(255);
+    if (this.walls[0]) {
+      line(x    , y    , x + w, y);
+    }
+    if (this.walls[1]) {
+      line(x + w, y    , x + w, y + w);
+    }
+    if (this.walls[2]) {
+      line(x + w, y + w, x    , y + w);
+    }
+    if (this.walls[3]) {
+      line(x    , y + w, x    , y);
+    }
+
+    if (this.visited) {
+      noStroke();
+      fill(255, 0, 255, 100);
+      rect(x, y, w, w);
+    }
+  }
+}"]]]])])]))
+   :component-did-mount maze-generator-sketch}))

@@ -1,8 +1,9 @@
 (ns coding-challenges.maze-generator.cell
  (:require [quil.core :as q :include-macros true]
+           [coding-challenges.util :refer [u a cond->mt]]
            [com.rpl.specter :as sp
-            :refer [ALL transform setval select-one
-                    collect-one putval keypath]]))
+            :refer [ALL select-one STAY
+                    collect-one keypath]]))
 
 (defn make [i j]
  {:type 'Cell
@@ -18,36 +19,32 @@
                        {i :i
                         j :j
                         :as cell}]
- (->> grid
-      (transform
-       [(collect-one (path i (dec j)))
-        (collect-one (path (inc i) j))
-        (collect-one (path i (inc j)))
-        (collect-one (path (dec i) j))]
-       (fn [{top-visited? :visited
-             :as top}
-            {right-visited? :visited
-             :as right}
-            {bottom-visited? :visited
-             :as bottom}
-            {left-visited? :visited
-             :as left}]
-        (let [neighbors
-              (cond->
-               []
-               (and top (not top-visited?))
-               (conj top)
-               (and right (not right-visited?))
-               (conj right)
-               (and bottom (not bottom-visited?))
-               (conj bottom)
-               (and left (not left-visited?))
-               (conj left))]
-         (when (seq neighbors)
-          (rand-nth neighbors)))))))
-
-(defn remove-wall [wall cell]
- (transform :walls #(disj % wall) cell))
+ (u grid
+    [(collect-one (path      i (dec j)))
+     (collect-one (path (inc i)     j))
+     (collect-one (path      i (inc j)))
+     (collect-one (path (dec i)     j))]
+    (fn [{top-visited? :visited
+          :as top}
+         {right-visited? :visited
+          :as right}
+         {bottom-visited? :visited
+          :as bottom}
+         {left-visited? :visited
+          :as left}]
+     (let [neighbors
+           (cond->mt
+            []
+            (and top (not top-visited?))
+            (u STAY #(conj % top))
+            (and right (not right-visited?))
+            (u STAY #(conj % right))
+            (and bottom (not bottom-visited?))
+            (u STAY #(conj % bottom))
+            (and left (not left-visited?))
+            (u STAY #(conj % left)))]
+      (when (seq neighbors)
+       (rand-nth neighbors))))))
 
 (defn update* [cell])
 
@@ -85,5 +82,3 @@
    (q/no-stroke)
    (q/fill 255 0 255 100)
    (q/rect x y w w))))
-
-

@@ -27,71 +27,71 @@ return coding_challenges.solar_system_3d.planet.draw.call(null,sun);
 });
 coding_challenges.solar_system_3d.views.solar_system_3d_sketch = (function coding_challenges$solar_system_3d$views$solar_system_3d_sketch(){
 return quil.sketch.sketch.call(null,new cljs.core.Keyword(null,"host","host",-1558485167),"solar-system-3d",new cljs.core.Keyword(null,"update","update",1045576396),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system_3d.views.update_STAR_))?(function() { 
-var G__32384__delegate = function (args){
+var G__34959__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system_3d.views.update_STAR_,args);
 };
-var G__32384 = function (var_args){
+var G__34959 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__32385__i = 0, G__32385__a = new Array(arguments.length -  0);
-while (G__32385__i < G__32385__a.length) {G__32385__a[G__32385__i] = arguments[G__32385__i + 0]; ++G__32385__i;}
-  args = new cljs.core.IndexedSeq(G__32385__a,0);
+var G__34960__i = 0, G__34960__a = new Array(arguments.length -  0);
+while (G__34960__i < G__34960__a.length) {G__34960__a[G__34960__i] = arguments[G__34960__i + 0]; ++G__34960__i;}
+  args = new cljs.core.IndexedSeq(G__34960__a,0);
 } 
-return G__32384__delegate.call(this,args);};
-G__32384.cljs$lang$maxFixedArity = 0;
-G__32384.cljs$lang$applyTo = (function (arglist__32386){
-var args = cljs.core.seq(arglist__32386);
-return G__32384__delegate(args);
+return G__34959__delegate.call(this,args);};
+G__34959.cljs$lang$maxFixedArity = 0;
+G__34959.cljs$lang$applyTo = (function (arglist__34961){
+var args = cljs.core.seq(arglist__34961);
+return G__34959__delegate(args);
 });
-G__32384.cljs$core$IFn$_invoke$arity$variadic = G__32384__delegate;
-return G__32384;
+G__34959.cljs$core$IFn$_invoke$arity$variadic = G__34959__delegate;
+return G__34959;
 })()
 :coding_challenges.solar_system_3d.views.update_STAR_),new cljs.core.Keyword(null,"renderer","renderer",336841071),new cljs.core.Keyword(null,"p3d","p3d",-850380194),new cljs.core.Keyword(null,"size","size",1098693007),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [coding_challenges.solar_system_3d.views.w,coding_challenges.solar_system_3d.views.h], null),new cljs.core.Keyword(null,"setup","setup",1987730512),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system_3d.views.setup))?(function() { 
-var G__32387__delegate = function (args){
+var G__34962__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system_3d.views.setup,args);
 };
-var G__32387 = function (var_args){
+var G__34962 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__32388__i = 0, G__32388__a = new Array(arguments.length -  0);
-while (G__32388__i < G__32388__a.length) {G__32388__a[G__32388__i] = arguments[G__32388__i + 0]; ++G__32388__i;}
-  args = new cljs.core.IndexedSeq(G__32388__a,0);
+var G__34963__i = 0, G__34963__a = new Array(arguments.length -  0);
+while (G__34963__i < G__34963__a.length) {G__34963__a[G__34963__i] = arguments[G__34963__i + 0]; ++G__34963__i;}
+  args = new cljs.core.IndexedSeq(G__34963__a,0);
 } 
-return G__32387__delegate.call(this,args);};
-G__32387.cljs$lang$maxFixedArity = 0;
-G__32387.cljs$lang$applyTo = (function (arglist__32389){
-var args = cljs.core.seq(arglist__32389);
-return G__32387__delegate(args);
+return G__34962__delegate.call(this,args);};
+G__34962.cljs$lang$maxFixedArity = 0;
+G__34962.cljs$lang$applyTo = (function (arglist__34964){
+var args = cljs.core.seq(arglist__34964);
+return G__34962__delegate(args);
 });
-G__32387.cljs$core$IFn$_invoke$arity$variadic = G__32387__delegate;
-return G__32387;
+G__34962.cljs$core$IFn$_invoke$arity$variadic = G__34962__delegate;
+return G__34962;
 })()
 :coding_challenges.solar_system_3d.views.setup),new cljs.core.Keyword(null,"middleware","middleware",1462115504),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [quil.middleware.fun_mode,quil.middleware.navigation_3d], null),new cljs.core.Keyword(null,"no-start","no-start",1381488856),true,new cljs.core.Keyword(null,"draw","draw",1358331674),((cljs.core.fn_QMARK_.call(null,coding_challenges.solar_system_3d.views.draw))?(function() { 
-var G__32390__delegate = function (args){
+var G__34965__delegate = function (args){
 return cljs.core.apply.call(null,coding_challenges.solar_system_3d.views.draw,args);
 };
-var G__32390 = function (var_args){
+var G__34965 = function (var_args){
 var args = null;
 if (arguments.length > 0) {
-var G__32391__i = 0, G__32391__a = new Array(arguments.length -  0);
-while (G__32391__i < G__32391__a.length) {G__32391__a[G__32391__i] = arguments[G__32391__i + 0]; ++G__32391__i;}
-  args = new cljs.core.IndexedSeq(G__32391__a,0);
+var G__34966__i = 0, G__34966__a = new Array(arguments.length -  0);
+while (G__34966__i < G__34966__a.length) {G__34966__a[G__34966__i] = arguments[G__34966__i + 0]; ++G__34966__i;}
+  args = new cljs.core.IndexedSeq(G__34966__a,0);
 } 
-return G__32390__delegate.call(this,args);};
-G__32390.cljs$lang$maxFixedArity = 0;
-G__32390.cljs$lang$applyTo = (function (arglist__32392){
-var args = cljs.core.seq(arglist__32392);
-return G__32390__delegate(args);
+return G__34965__delegate.call(this,args);};
+G__34965.cljs$lang$maxFixedArity = 0;
+G__34965.cljs$lang$applyTo = (function (arglist__34967){
+var args = cljs.core.seq(arglist__34967);
+return G__34965__delegate(args);
 });
-G__32390.cljs$core$IFn$_invoke$arity$variadic = G__32390__delegate;
-return G__32390;
+G__34965.cljs$core$IFn$_invoke$arity$variadic = G__34965__delegate;
+return G__34965;
 })()
 :coding_challenges.solar_system_3d.views.draw));
 });
 goog.exportSymbol('coding_challenges.solar_system_3d.views.solar_system_3d_sketch', coding_challenges.solar_system_3d.views.solar_system_3d_sketch);
 
-if(cljs.core.truth_(cljs.core.some.call(null,(function (p1__12874__12875__auto__){
-return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"no-start","no-start",1381488856),p1__12874__12875__auto__);
+if(cljs.core.truth_(cljs.core.some.call(null,(function (p1__14841__14842__auto__){
+return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"no-start","no-start",1381488856),p1__14841__14842__auto__);
 }),null))){
 } else {
 quil.sketch.add_sketch_to_init_list.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"fn","fn",-1175266204),coding_challenges.solar_system_3d.views.solar_system_3d_sketch,new cljs.core.Keyword(null,"host-id","host-id",742376279),"solar-system-3d"], null));
@@ -108,54 +108,54 @@ return new cljs.core.Keyword(null,"sketch","sketch",465948709);
 }
 })();
 return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.title,new cljs.core.Keyword(null,"label","label",1718410804),"Solar system 3D demo",new cljs.core.Keyword(null,"level","level",1290497552),new cljs.core.Keyword(null,"level1","level1",813811133)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"canvas#solar-system-3d","canvas#solar-system-3d",-2076799385),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"width","width",-384071477),coding_challenges.solar_system_3d.views.w,new cljs.core.Keyword(null,"height","height",1025178622),coding_challenges.solar_system_3d.views.h], null)], null),new cljs.core.PersistentVector(null, 7, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.horizontal_tabs,new cljs.core.Keyword(null,"tabs","tabs",-779855354),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"id","id",-1388402092),new cljs.core.Keyword(null,"sketch","sketch",465948709),new cljs.core.Keyword(null,"label","label",1718410804),"Sketch"], null),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"id","id",-1388402092),new cljs.core.Keyword(null,"planet","planet",276671984),new cljs.core.Keyword(null,"label","label",1718410804),"Planet"], null)], null),new cljs.core.Keyword(null,"model","model",331153215),code__$1,new cljs.core.Keyword(null,"on-change","on-change",-732046149),((function (code__$1,code){
-return (function (p1__32393_SHARP_){
-re_frame.core.dispatch.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"setval","setval",-2073686367),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"solar-system","solar-system",477042371),new cljs.core.Keyword(null,"code","code",1586293142)], null),p1__32393_SHARP_], null)], null));
+return (function (p1__34968_SHARP_){
+re_frame.core.dispatch.call(null,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"setval","setval",-2073686367),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"solar-system","solar-system",477042371),new cljs.core.Keyword(null,"code","code",1586293142)], null),p1__34968_SHARP_], null)], null));
 
-var seq__32399 = cljs.core.seq.call(null,document.querySelectorAll("code"));
-var chunk__32400 = null;
-var count__32401 = (0);
-var i__32402 = (0);
+var seq__34974 = cljs.core.seq.call(null,document.querySelectorAll("code"));
+var chunk__34975 = null;
+var count__34976 = (0);
+var i__34977 = (0);
 while(true){
-if((i__32402 < count__32401)){
-var x = cljs.core._nth.call(null,chunk__32400,i__32402);
+if((i__34977 < count__34976)){
+var x = cljs.core._nth.call(null,chunk__34975,i__34977);
 hljs.highlightBlock(x);
 
-var G__32404 = seq__32399;
-var G__32405 = chunk__32400;
-var G__32406 = count__32401;
-var G__32407 = (i__32402 + (1));
-seq__32399 = G__32404;
-chunk__32400 = G__32405;
-count__32401 = G__32406;
-i__32402 = G__32407;
+var G__34979 = seq__34974;
+var G__34980 = chunk__34975;
+var G__34981 = count__34976;
+var G__34982 = (i__34977 + (1));
+seq__34974 = G__34979;
+chunk__34975 = G__34980;
+count__34976 = G__34981;
+i__34977 = G__34982;
 continue;
 } else {
-var temp__4657__auto__ = cljs.core.seq.call(null,seq__32399);
+var temp__4657__auto__ = cljs.core.seq.call(null,seq__34974);
 if(temp__4657__auto__){
-var seq__32399__$1 = temp__4657__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__32399__$1)){
-var c__7220__auto__ = cljs.core.chunk_first.call(null,seq__32399__$1);
-var G__32408 = cljs.core.chunk_rest.call(null,seq__32399__$1);
-var G__32409 = c__7220__auto__;
-var G__32410 = cljs.core.count.call(null,c__7220__auto__);
-var G__32411 = (0);
-seq__32399 = G__32408;
-chunk__32400 = G__32409;
-count__32401 = G__32410;
-i__32402 = G__32411;
+var seq__34974__$1 = temp__4657__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__34974__$1)){
+var c__7220__auto__ = cljs.core.chunk_first.call(null,seq__34974__$1);
+var G__34983 = cljs.core.chunk_rest.call(null,seq__34974__$1);
+var G__34984 = c__7220__auto__;
+var G__34985 = cljs.core.count.call(null,c__7220__auto__);
+var G__34986 = (0);
+seq__34974 = G__34983;
+chunk__34975 = G__34984;
+count__34976 = G__34985;
+i__34977 = G__34986;
 continue;
 } else {
-var x = cljs.core.first.call(null,seq__32399__$1);
+var x = cljs.core.first.call(null,seq__34974__$1);
 hljs.highlightBlock(x);
 
-var G__32412 = cljs.core.next.call(null,seq__32399__$1);
-var G__32413 = null;
-var G__32414 = (0);
-var G__32415 = (0);
-seq__32399 = G__32412;
-chunk__32400 = G__32413;
-count__32401 = G__32414;
-i__32402 = G__32415;
+var G__34987 = cljs.core.next.call(null,seq__34974__$1);
+var G__34988 = null;
+var G__34989 = (0);
+var G__34990 = (0);
+seq__34974 = G__34987;
+chunk__34975 = G__34988;
+count__34976 = G__34989;
+i__34977 = G__34990;
 continue;
 }
 } else {
@@ -165,8 +165,8 @@ return null;
 break;
 }
 });})(code__$1,code))
-], null),(function (){var G__32403 = (((code__$1 instanceof cljs.core.Keyword))?code__$1.fqn:null);
-switch (G__32403) {
+], null),(function (){var G__34978 = (((code__$1 instanceof cljs.core.Keyword))?code__$1.fqn:null);
+switch (G__34978) {
 case "sketch":
 return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [re_com.core.h_box,new cljs.core.Keyword(null,"children","children",-940561982),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"pre","pre",2118456869),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"code.clojure","code.clojure",-450576994),"(def w 600)\n(def h 600)\n\n(defn setup []\n (->> (planet/make 50 0 0)\n      (planet/spawn-moons 5 1)))\n\n(defn update* [sun]\n (planet/update* sun))\n\n(defn draw [sun]\n (q/background 0)\n (q/lights)\n (q/translate (/ (q/width) 2)\n              (/ (q/height) 2))\n (planet/draw sun))"], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"pre","pre",2118456869),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"code.java","code.java",890802862),"// Daniel Shiffman\n// http://codingrainbow.com\n// http://patreon.com/codingrainbow\n// Code for: https://youtu.be/dncudkelNxw\n\nimport peasy.*;\nPlanet sun;\n\nPeasyCam cam;\n\nvoid setup() {\n  size(600, 600, P3D);\n  cam = new PeasyCam(this, 500);\n  sun = new Planet(50, 0, 0);\n  sun.spawnMoons(4, 1);\n}\n\nvoid draw() {\n  background(0);\n  lights();\n  sun.show();\n  sun.orbit();\n}\n"], null)], null)], null)], null);
 
@@ -186,4 +186,4 @@ throw (new Error([cljs.core.str("No matching clause: "),cljs.core.str(code__$1)]
 })(),new cljs.core.Keyword(null,"component-did-mount","component-did-mount",-1126910518),coding_challenges.solar_system_3d.views.solar_system_3d_sketch], null));
 });
 
-//# sourceMappingURL=views.js.map?rel=1484702588747
+//# sourceMappingURL=views.js.map?rel=1484780663121
