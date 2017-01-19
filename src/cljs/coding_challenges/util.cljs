@@ -17,10 +17,30 @@
          pairs (rest args)]
     (multi-transform* (apply this pairs) structure)))))
 
-(def u (multi update-val))
+(def u
+ "Applies fn to the navigated values.
+
+Even args call:
+ Must be called inside a com.rpl.specter/multi-transform.
+ Takes path<=>fn pairs as arguments.
+ Returns a path.
+Odd args call:
+ Takes a structure as first argument and path<=>fn pairs as rest.
+ Returns the transformation of structure."
+ (multi update-val))
 
 (defn assoc-val [p v]
  [p (terminal-val v)])
 
-(def a (multi assoc-val))
+(def a
+ "Replace the navigated value with the given value.
+
+Even args call:
+ Must be called inside a com.rpl.specter/multi-transform.
+ Takes path<=>value pairs as arguments.
+ Returns a path.
+Odd args call:
+ Takes a structure as first argument and path<=>value pairs as rest.
+ Returns the transformation of structure."
+ (multi assoc-val))
 
