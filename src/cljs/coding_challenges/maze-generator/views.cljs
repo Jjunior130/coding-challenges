@@ -6,32 +6,11 @@
            [re-com.core :as rc]
            [coding-challenges.maze-generator.cell :as cell]
            [com.rpl.specter :as sp
-            :refer [putval ALL transform FIRST select-one select
-                    setval collect-one pred keypath]]))
+            :refer [ALL FIRST select-one collect-one pred]]
+           [coding-challenges.util :refer [u a]]))
 
 (def w 600)
 (def h 600)
-
-(defn update-val [p f]
- [p (sp/terminal f)])
-
-(defn multi [f]
- (fn this [& args]
-  (if (even? (count args))
-   (let [pairs (partition 2 args)]
-    (apply sp/multi-path
-           (map (partial apply f)
-                pairs)))
-   (let [structure (first args)
-         pairs (rest args)]
-    (sp/multi-transform* (apply this pairs) structure)))))
-
-(def u (multi update-val))
-
-(defn assoc-val [p v]
- [p (sp/terminal-val v)])
-
-(def a (multi assoc-val))
 
 (defn setup []
  (-> {:w 40}
