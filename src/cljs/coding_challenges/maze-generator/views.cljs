@@ -16,82 +16,63 @@
  [p (sp/terminal f)])
 
 (defn multi [f]
- (fn [& pairs]
-  (apply sp/multi-path
-        (map (partial apply f)
-             (partition 2 pairs)))))
+ (fn this [& args]
+  (if (even? (count args))
+   (let [pairs (partition 2 args)]
+    (apply sp/multi-path
+           (map (partial apply f)
+                pairs)))
+   (let [structure (first args)
+         pairs (rest args)]
+    (sp/multi-transform* (apply this pairs) structure)))))
 
-(def multi-update-val (multi update-val))
+(def u (multi update-val))
 
 (defn assoc-val [p v]
  [p (sp/terminal-val v)])
 
-(def multi-assoc-val (multi assoc-val))
-
-(defn t [path data]
- (if (fn? data)
-  (update-val path data)
-  (assoc-val path data)))
-
-(defn mt [& args]
- (if (even? (count args))
-  (let [pairs (partition 2 args)]
-   (apply sp/multi-path
-          (map (partial apply t)
-               pairs)))
-  (let [structure (first args)
-        pairs (rest args)]
-   (sp/multi-transform* (mt pairs) structure)))))
+(def a (multi assoc-val))
 
 (defn setup []
  (-> {:w 40}
-     (mt 
-      [(collect-one :w) :cols] (comp
-                                q/floor
-                                (partial / (q/width))
-                                identity)
-      [(collect-one :w) :rows] (comp
-                                q/floor
-                                (partial / (q/height))
-                                identity)
+     (u
+      [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
+      [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
       [(collect-one :cols)
-         (collect-one :rows) :grid]
-        (comp
-         (fn [grid-of-cells]
-          (transform
-           [FIRST FIRST]
-           (fn [first-cell]
-            (assoc
-             first-cell
-             :current true
-             :visited true))
-           grid-of-cells))
-         (fn [cols rows]
-          (let [empty-grid
-                (vec
-                 (repeatedly
-                  cols
-                  (partial
-                   vec
-                   (repeat
-                    rows nil))))]
-           (reduce
-            #(%2 %1)
-            empty-grid
-            (for [i (range cols)
-                  j (range rows)]
-             #(setval (cell/path i j)
-                      (cell/make i j) %)))))))))
+       (collect-one :rows) :grid]
+      (comp
+       (fn [grid-of-cells]
+        (->> grid-of-cells
+             (sp/multi-transform*
+              [FIRST FIRST
+               (a
+                :current true
+                :visited true)])))
+       (fn [cols rows]
+        (let [empty-grid
+              (vec
+               (repeatedly
+                cols
+                (partial
+                 vec
+                 (repeat
+                  rows nil))))]
+         (reduce
+          #(%2 %1)
+          empty-grid
+          (for [i (range cols)
+                j (range rows)]
+           #(a %
+               (cell/path i j) (cell/make i j))))))))))
 
-(defn remove-wall [current-path current-wall
-                   next-path next-wall
+(defn remove-wall [previous-current-path current-wall
+                   next-current-path next-wall
                    grid]
- (-> grid
-     (mt 
-      current-path (partial
-                       cell/remove-wall current-wall)
-      next-path (partial
-                  cell/remove-wall next-wall))))
+ (u grid
+    previous-current-path (partial
+                           cell/remove-wall current-wall)
+    next-current-path (partial
+                       cell/remove-wall next-wall)))
 
 (defn remove-walls [{ci :i
                      cj :j}
@@ -100,24 +81,24 @@
                     grid]
  (let [x (- ci ni)
        y (- cj nj)
-       current-path (cell/path ci cj)
-       next-path (cell/path ni nj)]
+       previous-current-path (cell/path ci cj)
+       next-current-path (cell/path ni nj)]
   (cond->>
    grid
    (= x 1)
-   (remove-wall current-path :left
-                next-path :right)
+   (remove-wall previous-current-path :left
+                next-current-path :right)
    (= x -1)
-   (remove-wall current-path :right
-                next-path :left)
+   (remove-wall previous-current-path :right
+                next-current-path :left)
    (= y 1)
-   (remove-wall current-path :top
-                next-path :bottom)
+   (remove-wall previous-current-path :top
+                next-current-path :bottom)
    (= y -1)
-   (remove-wall current-path :bottom
-                next-path :top))))
+   (remove-wall previous-current-path :bottom
+                next-current-path :top))))
 
-(def current-cell-path
+(def current-path
  (sp/comp-paths ALL ALL (pred :current)))
 
 (defn update* [{grid :grid
@@ -126,7 +107,7 @@
  (let [{ci :i
         cj :j
         :as current}
-       (sp/compiled-select-one current-cell-path grid)
+       (sp/compiled-select-one current-path grid)
        previous-current-path (cell/path ci cj)
        {ni :i
         nj :j
@@ -139,26 +120,29 @@
           (sp/multi-transform*
            (sp/multi-path
             [:grid
-             (mt 
-              [current-cell-path :current] false
-              next-current-path #(assoc % 
-                                  :current true
-                                  :visited true)
-              [(collect-one
-                previous-current-path)
-               (collect-one
-                next-current-path)] remove-walls)
-            (mt
+             (sp/multi-path
+              (a
+               [current-path :current] false)
+              [next-current-path
+               (a
+                :current true
+                :visited true)]
+              (u
+               [(collect-one
+                 previous-current-path)
+                (collect-one
+                 next-current-path)] remove-walls))]
+            (u
              :stack #(conj % previous-current-path)))))
      (seq stack)
      (->> sketch
           (sp/multi-transform*
            (sp/multi-path
             [:grid
-             (mt
-              [current-cell-path :current] false
+             (a
+              [current-path :current] false
               [(peek stack) :current] true)]
-            (mt
+            (u
              :stack pop))))
      :else sketch)))
 
@@ -169,7 +153,7 @@
  (doseq [cell (flatten grid)]
   (cell/draw w cell))
  (cell/highlight w (sp/compiled-select-one
-                    current-cell-path grid)))
+                    current-path grid)))
 
 (q/defsketch maze-generator-sketch
              :setup  setup
