@@ -20,10 +20,10 @@
                         j :j
                         :as cell}]
  (u grid
-    [(collect-one (path i (dec j)))
-     (collect-one (path (inc i) j))
-     (collect-one (path i (inc j)))
-     (collect-one (path (dec i) j))]
+    [(collect-one (path      i (dec j)))
+     (collect-one (path (inc i)     j))
+     (collect-one (path      i (inc j)))
+     (collect-one (path (dec i)     j))]
     (fn [{top-visited? :visited
           :as top}
          {right-visited? :visited
@@ -45,10 +45,6 @@
             (conj left))]
       (when (seq neighbors)
        (rand-nth neighbors))))))
-
-(defn remove-wall [wall cell]
- (u cell
-    :walls #(disj % wall)))
 
 (defn update* [cell])
 

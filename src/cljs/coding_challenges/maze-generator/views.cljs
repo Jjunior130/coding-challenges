@@ -6,8 +6,9 @@
            [re-com.core :as rc]
            [coding-challenges.maze-generator.cell :as cell]
            [com.rpl.specter :as sp
-            :refer [ALL FIRST select-one collect-one pred]]
-           [coding-challenges.util :refer [u a]]))
+            :refer [ALL FIRST select-one collect-one pred multi-path]]
+           [coding-challenges.util :refer [mt u a cond->mt cond-mt
+                                           PASS]]))
 
 (def w 600)
 (def h 600)
@@ -20,12 +21,11 @@
      (collect-one :rows) :grid]
     (comp
      (fn [grid-of-cells]
-      (->> grid-of-cells
-           (sp/multi-transform*
-            [FIRST FIRST
-             (a
-              :current true
-              :visited true)])))
+      (mt grid-of-cells
+          [FIRST FIRST
+           (a
+            :current true
+            :visited true)]))
      (fn [cols rows]
       (let [empty-grid
             (vec
@@ -43,14 +43,11 @@
          #(a %
              (cell/path i j) (cell/make i j)))))))))
 
-(defn remove-wall [previous-current-path current-wall
-                   next-current-path next-wall
-                   grid]
- (u grid
-    previous-current-path (partial
-                           cell/remove-wall current-wall)
-    next-current-path (partial
-                       cell/remove-wall next-wall)))
+(defn remove-wall [previous-current-path previous-wall
+                   next-current-path next-wall]
+ (u
+  [previous-current-path :walls] #(disj % previous-wall)
+  [next-current-path :walls] #(disj % next-wall)))
 
 (defn remove-walls [{ci :i
                      cj :j}
@@ -61,7 +58,7 @@
        y (- cj nj)
        previous-current-path (cell/path ci cj)
        next-current-path (cell/path ni nj)]
-  (cond->>
+  (cond->mt
    grid
    (= x 1)
    (remove-wall previous-current-path :left
@@ -92,37 +89,34 @@
         :as nxt}
        (cell/check-neighbors grid current)
        next-current-path (cell/path ni nj)]
-    (cond
-     nxt
-     (->> sketch
-          (sp/multi-transform*
-           (sp/multi-path
-            [:grid
-             (sp/multi-path
-              (a
-               [current-path :current] false)
-              [next-current-path
-               (a
-                :current true
-                :visited true)]
-              (u
-               [(collect-one
-                 previous-current-path)
-                (collect-one
-                 next-current-path)] remove-walls))]
-            (u
-             :stack #(conj % previous-current-path)))))
-     (seq stack)
-     (->> sketch
-          (sp/multi-transform*
-           (sp/multi-path
-            [:grid
-             (a
-              [current-path :current] false
-              [(peek stack) :current] true)]
-            (u
-             :stack pop))))
-     :else sketch)))
+  (cond-mt
+   sketch
+   nxt
+   (multi-path
+    [:grid
+     (multi-path
+      (a
+       [current-path :current] false)
+      [next-current-path
+       (a
+        :current true
+        :visited true)]
+      (u
+       [(collect-one
+         previous-current-path)
+        (collect-one
+         next-current-path)] remove-walls))]
+    (u
+     :stack #(conj % previous-current-path)))
+   (seq stack)
+   (multi-path
+    [:grid
+     (a
+      [current-path :current] false
+      [(peek stack) :current] true)]
+    (u
+     :stack pop))
+   :else PASS)))
 
 (defn draw [{grid :grid
              w :w
