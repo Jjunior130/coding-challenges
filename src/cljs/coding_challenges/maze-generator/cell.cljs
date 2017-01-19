@@ -1,8 +1,8 @@
 (ns coding-challenges.maze-generator.cell
  (:require [quil.core :as q :include-macros true]
-           [coding-challenges.util :refer [u a]]
+           [coding-challenges.util :refer [u a cond->mt]]
            [com.rpl.specter :as sp
-            :refer [ALL select-one
+            :refer [ALL select-one STAY
                     collect-one keypath]]))
 
 (defn make [i j]
@@ -33,16 +33,16 @@
          {left-visited? :visited
           :as left}]
      (let [neighbors
-           (cond->
+           (cond->mt
             []
             (and top (not top-visited?))
-            (conj top)
+            (u STAY #(conj % top))
             (and right (not right-visited?))
-            (conj right)
+            (u STAY #(conj % right))
             (and bottom (not bottom-visited?))
-            (conj bottom)
+            (u STAY #(conj % bottom))
             (and left (not left-visited?))
-            (conj left))]
+            (u STAY #(conj % left)))]
       (when (seq neighbors)
        (rand-nth neighbors))))))
 
