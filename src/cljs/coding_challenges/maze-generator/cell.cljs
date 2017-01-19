@@ -36,13 +36,13 @@
            (cond->mt
             []
             (and top (not top-visited?))
-            (u STAY #(conj % top))
+            (a END [top])
             (and right (not right-visited?))
-            (u STAY #(conj % right))
+            (a END [right])
             (and bottom (not bottom-visited?))
-            (u STAY #(conj % bottom))
+            (a END [bottom])
             (and left (not left-visited?))
-            (u STAY #(conj % left)))]
+            (a END [left]))]
       (when (seq neighbors)
        (rand-nth neighbors))))))
 
