@@ -13,36 +13,35 @@
 (def h 600)
 
 (defn setup []
- (-> {:w 40}
-     (u
-      [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
-      [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
-      [(collect-one :cols)
-       (collect-one :rows) :grid]
-      (comp
-       (fn [grid-of-cells]
-        (->> grid-of-cells
-             (sp/multi-transform*
-              [FIRST FIRST
-               (a
-                :current true
-                :visited true)])))
-       (fn [cols rows]
-        (let [empty-grid
-              (vec
-               (repeatedly
-                cols
-                (partial
-                 vec
-                 (repeat
-                  rows nil))))]
-         (reduce
-          #(%2 %1)
-          empty-grid
-          (for [i (range cols)
-                j (range rows)]
-           #(a %
-               (cell/path i j) (cell/make i j))))))))))
+ (u {:w 40}
+    [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
+    [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
+    [(collect-one :cols)
+     (collect-one :rows) :grid]
+    (comp
+     (fn [grid-of-cells]
+      (->> grid-of-cells
+           (sp/multi-transform*
+            [FIRST FIRST
+             (a
+              :current true
+              :visited true)])))
+     (fn [cols rows]
+      (let [empty-grid
+            (vec
+             (repeatedly
+              cols
+              (partial
+               vec
+               (repeat
+                rows nil))))]
+       (reduce
+        #(%2 %1)
+        empty-grid
+        (for [i (range cols)
+              j (range rows)]
+         #(a %
+             (cell/path i j) (cell/make i j)))))))))
 
 (defn remove-wall [previous-current-path current-wall
                    next-current-path next-wall
