@@ -2,7 +2,9 @@
  (:require [quil.core :as q :include-macros true]
            [com.rpl.specter :as sp
             :refer [view ALL transform setval
-                    collect-one putval]]))
+                    collect-one putval]]
+           [coding-challenges.util :refer [mt u a cond->mt cond-mt
+                                           PASS]]))
 
 (defn make
  ([]
@@ -36,15 +38,15 @@
  [(make pos (* 0.8 r) c)
   (make pos (* 0.8 r) c)])
 
-(defn move [n cell]
+(defn move [n]
  (let [vel {:x (q/random (- n) n)
             :y (q/random (- n) n)}]
-  (->> cell
-       (transform :pos
-                  (partial merge-with + vel)))))
+  (u
+   :pos (partial merge-with + vel))))
 
 (defn update* [cell]
- (move 5 cell))
+ (mt cell
+     (move 5)))
 
 (defn draw [{{x :x
               y :y} :pos

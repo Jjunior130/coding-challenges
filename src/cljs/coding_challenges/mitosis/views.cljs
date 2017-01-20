@@ -6,8 +6,10 @@
            [re-com.core :as rc]
            [coding-challenges.mitosis.cell :as cell]
            [com.rpl.specter :as sp
-            :refer [putval ALL transform
-                    setval collect-one collect]]))
+            :refer [putval ALL transform STAY
+                    setval collect-one collect]]
+           [coding-challenges.util :refer [mt u a cond->mt cond-mt
+                                           PASS]]))
 
 (def w 700)
 (def h 700)
@@ -16,9 +18,8 @@
  (repeatedly 2 cell/make))
 
 (defn update* [cells]
- (->> cells
-      (transform ALL
-                 cell/update*)))
+ (u cells
+    ALL cell/update*))
 
 (defn draw [cells]
  (q/background 200)
@@ -26,10 +27,9 @@
   (cell/draw cell)))
 
 (defn mouse-pressed [cells event]
- (->> cells
-      (transform [ALL (partial cell/clicked? event)]
-                 cell/mitosis)
-      flatten))
+ (u cells
+    [ALL (partial cell/clicked? event)] cell/mitosis
+    STAY flatten))
 
 (q/defsketch mitosis-sketch
              :setup  setup
