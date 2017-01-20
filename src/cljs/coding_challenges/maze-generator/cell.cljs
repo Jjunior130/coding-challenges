@@ -18,15 +18,18 @@
 (defn push [side]
  (u STAY #(conj % side)))
 
+(defn index [i j]
+ [(collect-one (path i j))])
+
 (defn check-neighbors [grid
                        {i :i
                         j :j
                         :as cell}]
  (u grid
-    [(collect-one (path      i (dec j)))
-     (collect-one (path (inc i)     j))
-     (collect-one (path      i (inc j)))
-     (collect-one (path (dec i)     j))]
+    [(index      i (dec j))
+     (index (inc i)     j)
+     (index      i (inc j))
+     (index (dec i)     j)]
     (fn [{top-visited? :visited
           :as top}
          {right-visited? :visited
