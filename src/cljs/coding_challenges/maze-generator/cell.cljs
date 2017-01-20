@@ -15,6 +15,9 @@
  [(keypath i)
   (keypath j)])
 
+(defn push [side]
+ (u STAY #(conj % side)))
+
 (defn check-neighbors [grid
                        {i :i
                         j :j
@@ -36,13 +39,13 @@
            (cond->mt
             []
             (and top (not top-visited?))
-            (a END [top])
+            (push top)
             (and right (not right-visited?))
-            (a END [right])
+            (push right)
             (and bottom (not bottom-visited?))
-            (a END [bottom])
+            (push bottom)
             (and left (not left-visited?))
-            (a END [left]))]
+            (push left))]
       (when (seq neighbors)
        (rand-nth neighbors))))))
 
