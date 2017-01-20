@@ -7,7 +7,9 @@
            [coding-challenges.purple-rain.drop :as d]
            [com.rpl.specter :as sp
             :refer [putval ALL transform
-                    setval collect-one]]))
+                    setval collect-one]]
+           [coding-challenges.util
+            :refer [mt u a cond->mt cond-mt PASS]]))
 
 (def w 640)
 (def h 360)
@@ -16,14 +18,13 @@
  {:drops (repeatedly 500 d/make)})
 
 (defn update* [sketch]
- (->> sketch
-      (transform [:drops
-                  ALL]
-                 d/update*)))
+ (u sketch
+    [:drops ALL] d/update*))
 
-(defn draw [sketch]
+(defn draw [{drops :drops
+             :as sketch}]
  (q/background 230 230 250)
- (doseq [d (:drops sketch)]
+ (doseq [d drops]
   (d/draw d)))
 
 (q/defsketch purple-rain-sketch
