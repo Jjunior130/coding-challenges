@@ -1,6 +1,5 @@
 (ns coding-challenges.maze-generator.cell
  (:require [quil.core :as q :include-macros true]
-           [coding-challenges.util :refer [u a cond->mt]]
            [com.rpl.specter :as sp
             :refer [ALL select-one STAY
                     collect-one keypath]]))
@@ -11,46 +10,29 @@
   :j j
   :walls #{:top :right :bottom :left}})
 
-(defn path [i j]
- [(keypath i)
-  (keypath j)])
-
-(defn push [side]
- (u STAY #(conj % side)))
-
-(defn index [i j]
- [(collect-one (path i j))])
-
 (defn check-neighbors [grid
-                       {i :i
-                        j :j
-                        :as cell}]
- (u grid
-    [(index      i (dec j))
-     (index (inc i)     j)
-     (index      i (inc j))
-     (index (dec i)     j)]
-    (fn [{top-visited? :visited
-          :as top}
-         {right-visited? :visited
-          :as right}
-         {bottom-visited? :visited
-          :as bottom}
-         {left-visited? :visited
-          :as left}]
-     (let [neighbors
-           (cond->mt
-            []
-            (and top (not top-visited?))
-            (push top)
-            (and right (not right-visited?))
-            (push right)
-            (and bottom (not bottom-visited?))
-            (push bottom)
-            (and left (not left-visited?))
-            (push left))]
-      (when (seq neighbors)
-       (rand-nth neighbors))))))
+                       {ci :i
+                        cj :j}]
+ (let [{top-visited? :visited
+        :as top} ((grid ci) (dec cj))
+       {right-visited? :visited
+        :as right} ((grid (inc ci)) cj)
+       {bottom-visited? :visited
+        :as bottom} ((grid ci) (inc cj))
+       {left-visited? :visited
+        :as left} ((grid (dec ci)) cj)
+       neighbors (cond->
+                  []
+                  (and top (not top-visited?))
+                  (conj top)
+                  (and right (not right-visited?))
+                  (conj right)
+                  (and bottom (not bottom-visited?))
+                  (conj bottom)
+                  (and left (not left-visited?))
+                  (conj left))]
+  (when (seq neighbors)
+   (rand-nth neighbors))))
 
 (defn update* [cell])
 
