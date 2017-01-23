@@ -19,7 +19,7 @@
                  [danlentz/clj-uuid "0.1.6"]]
 
 
-  :plugins [[lein-cljsbuild "1.1.4"]]
+  :plugins [[lein-cljsbuild "1.1.5"]]
 
   :hooks [leiningen.cljsbuild]
 
