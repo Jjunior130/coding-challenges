@@ -16,13 +16,9 @@
 (defn setup []
  {:sponge [(box/make 0 0 0 200)]})
 
-(def rotate
- (u
-  :angle (partial + 0.01)))
-
 (defn update* [sketch]
- (mt sketch
-     rotate))
+ (update sketch
+         :angle (partial + 0.01)))
 
 (defn draw [{angle :angle
              sponge :sponge

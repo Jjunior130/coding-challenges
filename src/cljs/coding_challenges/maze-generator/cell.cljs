@@ -10,17 +10,20 @@
   :j j
   :walls #{:top :right :bottom :left}})
 
+(defn index [grid i j]
+ ((grid i (constantly nil)) j nil))
+
 (defn check-neighbors [grid
                        {ci :i
                         cj :j}]
  (let [{top-visited? :visited
-        :as top} ((grid ci) (dec cj))
+        :as top} (index grid ci (dec cj))
        {right-visited? :visited
-        :as right} ((grid (inc ci)) cj)
+        :as right} (index grid (inc ci) cj)
        {bottom-visited? :visited
-        :as bottom} ((grid ci) (inc cj))
+        :as bottom} (index grid ci (inc cj))
        {left-visited? :visited
-        :as left} ((grid (dec ci)) cj)
+        :as left} (index grid (dec ci) cj)
        neighbors (cond->
                   []
                   (and top (not top-visited?))

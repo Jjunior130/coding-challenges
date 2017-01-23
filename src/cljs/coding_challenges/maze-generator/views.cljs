@@ -61,12 +61,12 @@
                               :walls #(disj % next-wall))))))))
 
 (defn remove-wall [grid
-                    {ci :i
-                     cj :j
-                     :as previous-current}
-                    {ni :i
-                     nj :j
-                     :as next-current}]
+                   {ci :i
+                    cj :j
+                    :as previous-current}
+                   {ni :i
+                    nj :j
+                    :as next-current}]
  (let [x (- ci ni)
        y (- cj nj)]
   (cond-> grid
@@ -83,40 +83,38 @@
    (remove-walls previous-current :bottom
                  next-current :top))))
 
-(defn update* [{stack :stack
+(defn update* [{grid :grid
+                stack :stack
                 {ci :i
                  cj :j
                  :as previous-current} :current
                 :as sketch}]
- (if next-current
-  (-> sketch
-      (update
-       :grid (fn [grid]
-              (let [{ni :i
-                     nj :j
-                     :as next-current}
-                    (cell/check-neighbors grid previous-current)]
+ (let [{ni :i
+        nj :j
+        :as next-current}
+       (cell/check-neighbors grid previous-current)]
+  (if next-current
+   (-> sketch
+       (update
+        :grid (fn [grid]
                (-> grid
                    (update
                     ni (fn [row]
                         (update row
                                 nj #(assoc %
                                      :visited true))))
-                   (remove-wall previous-current next-current)))))
-      (update
-       :stack #(conj % previous-current))
-      (assoc
-       :current next-current))
-  (if (seq stack)
-   (let [{si :i
-          sj :j
-          :as sc} (peek stack)]
+                   (remove-wall previous-current next-current))))
+       (update
+        :stack #(conj % previous-current))
+       (assoc
+        :current next-current))
+   (if (seq stack)
     (-> sketch
         (update
          :stack pop)
         (assoc
-         :current sc)))
-   sketch)))
+         :current (peek stack)))
+    sketch))))
 
 (defn draw [{grid :grid
              w :w
