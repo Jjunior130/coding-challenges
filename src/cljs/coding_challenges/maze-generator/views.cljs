@@ -89,35 +89,35 @@
                  cj :j
                  :as previous-current} :current
                 :as sketch}]
- (let [{ni :i
-        nj :j
-        :as next-current}
-       (cell/check-neighbors grid previous-current)]
-  (if next-current
-   (-> sketch
-       (update
-        :grid (fn [grid]
+ (if next-current
+  (-> sketch
+      (update
+       :grid (fn [grid]
+              (let [{ni :i
+                     nj :j
+                     :as next-current}
+                    (cell/check-neighbors grid previous-current)]
                (-> grid
                    (update
                     ni (fn [row]
                         (update row
                                 nj #(assoc %
                                      :visited true))))
-                   (remove-walls previous-current next-current))))
-       (update
-        :stack #(conj % previous-current))
-       (assoc
-        :current next-current))
-   (if (seq stack)
-    (let [{si :i
-           sj :j
-           :as sc} (peek stack)]
-     (-> sketch
-         (update
-          :stack pop)
-         (assoc
-          :current sc)))
-    sketch))))
+                   (remove-walls previous-current next-current)))))
+      (update
+       :stack #(conj % previous-current))
+      (assoc
+       :current next-current))
+  (if (seq stack)
+   (let [{si :i
+          sj :j
+          :as sc} (peek stack)]
+    (-> sketch
+        (update
+         :stack pop)
+        (assoc
+         :current sc)))
+   sketch)))
 
 (defn draw [{grid :grid
              w :w
