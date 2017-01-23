@@ -41,11 +41,11 @@
    :grid grid
    :current current}))
 
-(defn remove-walls [grid
+(defn remove-walls [grid]
                    {ci :i
                     cj :j} previous-wall
                    {ni :i
-                    nj :j} next-wall]
+                    nj :j} next-wall
  (-> grid
      (update
       ci (fn [row]
