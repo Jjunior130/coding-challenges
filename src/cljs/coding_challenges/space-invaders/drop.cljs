@@ -1,8 +1,5 @@
 (ns coding-challenges.space-invaders.drop
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [view ALL transform setval
-                    collect-one putval]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make [x y]
  {:type 'Drop
@@ -11,8 +8,8 @@
   :r 16})
 
 (defn move-up [d]
- (->> d
-      (transform :y #(- % 5))))
+ (update d
+         :y #(- % 5)))
 
 (defn hits? [{dx :x
               dy :y

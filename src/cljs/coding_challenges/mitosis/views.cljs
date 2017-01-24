@@ -4,22 +4,29 @@
            [reagent.core :as reagent]
            [re-frame.core :as rf]
            [re-com.core :as rc]
-           [coding-challenges.mitosis.cell :as cell]
-           [com.rpl.specter :as sp
-            :refer [putval ALL transform STAY
-                    setval collect-one collect]]
-           [coding-challenges.util :refer [mt u a cond->mt cond-mt
-                                           PASS]]))
+           [coding-challenges.mitosis.cell :as cell]))
 
 (def w 700)
 (def h 700)
 
 (defn setup []
- (repeatedly 2 cell/make))
+ (vec
+  (loop [i (int 2)
+         cells []]
+   (if (zero? i)
+    cells
+    (recur (dec i) (conj cells (cell/make)))))))
 
 (defn update* [cells]
- (u cells
-    ALL cell/update*))
+ (vec
+  (loop [i (count cells)
+         updated-cells []
+         cells (vec cells)]
+   (if (zero? i)
+    updated-cells
+    (recur (dec i) (conj updated-cells
+                         (cell/update* (peek cells)))
+           (pop cells))))))
 
 (defn draw [cells]
  (q/background 200)
@@ -27,9 +34,18 @@
   (cell/draw cell)))
 
 (defn mouse-pressed [cells event]
- (u cells
-    [ALL (partial cell/clicked? event)] cell/mitosis
-    STAY flatten))
+ (loop [i (count cells)
+        non-clicked-cells []
+        cells (vec cells)]
+  (if (zero? i)
+   (concat non-clicked-cells cells)
+   (let [cc (peek cells)]
+    (if (cell/clicked? event cc)
+     (concat non-clicked-cells
+             (cell/mitosis cc)
+             (pop cells))
+     (recur (dec i) (conj non-clicked-cells cc)
+            (pop cells)))))))
 
 (q/defsketch mitosis-sketch
              :setup  setup

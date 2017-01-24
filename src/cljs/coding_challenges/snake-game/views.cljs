@@ -5,10 +5,7 @@
            [re-frame.core :as rf]
            [re-com.core :as rc]
            [coding-challenges.snake-game.snake
-            :as snake :refer [eat?]]
-           [com.rpl.specter :as sp
-            :refer [putval ALL transform
-                    setval collect-one]]))
+            :as snake :refer [eat?]]))
 
 (def w 600)
 (def h 600)
@@ -22,35 +19,33 @@
 
 (defn setup []
  (q/frame-rate 8)
- (->> {:snake (snake/make)
-       :scale 20}
-      (transform [(collect-one :scale)
-                  :food]
-                 pick-location)))
+ (let [scl 20]
+  {:snake (snake/make)
+   :scale scl
+   :food (pick-location scl)}))
 
-(defn update-snake [sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  (collect-one :food)
-                  :snake]
-                 snake/update*)))
+(defn update-snake [{scl :scale
+                     food :food
+                     :as sketch}]
+ (update sketch
+         :snake #(snake/update* scl food %)))
 
-(defn update-food [sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  (collect-one :snake)
-                  :food]
-                 (fn [scl snake food]
-                  (if (eat? food snake)
-                   (pick-location scl)
-                   food)))))
+(defn update-food [{scl :scale
+                    snake :snake
+                    :as sketch}]
+ (update sketch
+         :food (fn [food]
+                (if (eat? food snake)
+                 (pick-location scl)
+                 food))))
 
 (defn update* [sketch]
  (->> sketch
       update-snake
       update-food))
 
-(defn draw [{food :food
+(defn draw [{{x :x
+              y :y} :food
              snake :snake
              scl :scale
              :as sketch}]
@@ -58,35 +53,32 @@
  (snake/draw scl snake)
 
  (q/fill 255 0 100)
- (q/rect (-> food :x)
-         (-> food :y)
-         scl
-         scl))
+ (q/rect x y
+         scl scl))
 
 (defn turn-snake?
  "Change direction only if next position doesn't result in death."
- [nxd nyd sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  :snake]
-                 (fn [scl snake]
-                  (let [{x :x
-                         y :y
-                         xv :xspeed
-                         yv :yspeed
-                         :as nsd} (snake/dir nxd nyd snake)
-                        nsxp (+ x (* scl xv))
-                        nsyp (+ y (* scl yv))
-                        death?
-                        (or (snake/death?
-                             (:tail nsd)
-                             nsxp
-                             nsyp)
-                            (not (<= 0 nsxp (- (q/width) scl)))
-                            (not (<= 0 nsyp (- (q/height) scl))))]
-                   (if-not death?
-                    nsd
-                    snake))))))
+ [nxd nyd {scl :scale
+           :as sketch}]
+ (update sketch
+         :snake (fn [snake]
+                 (let [{x :x
+                        y :y
+                        xv :xspeed
+                        yv :yspeed
+                        :as nsd} (snake/dir nxd nyd snake)
+                       nsxp (+ x (* scl xv))
+                       nsyp (+ y (* scl yv))
+                       death?
+                       (or (snake/death?
+                            (:tail nsd)
+                            nsxp
+                            nsyp)
+                           (not (<= 0 nsxp (- (q/width) scl)))
+                           (not (<= 0 nsyp (- (q/height) scl))))]
+                  (if-not death?
+                   nsd
+                   snake)))))
 
 (defn key-pressed [sketch event]
  (letfn [(any-of
@@ -108,18 +100,20 @@
         (turn-snake? 1 0))
    :else sketch)))
 
-(defn increase-snake-tail [sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  :snake
-                  (collect-one :x)
-                  (collect-one :y)
-                  (collect-one :xspeed)
-                  (collect-one :yspeed)
-                  :tail]
-                 (fn [scl sx sy sxv syv tail]
-                  (conj tail {:x (- sx (* scl sxv))
-                              :y (- sy (* scl syv))})))))
+(defn increase-snake-tail [{scl :scale
+                            {sx :x
+                             sy :y
+                             sxv :xspeed
+                             syv :yspeed} :snake
+                            :as sketch}]
+ (update sketch
+         :snake
+         (fn [snake]
+          (update snake
+                  :tail
+                  (fn [tail]
+                   (conj tail {:x (- sx (* scl sxv))
+                               :y (- sy (* scl syv))}))))))
 
 (defn mouse-clicked [sketch event]
  (->> sketch
@@ -180,35 +174,33 @@
 
 (defn setup []
  (q/frame-rate 8)
- (->> {:snake (snake/make)
-       :scale 20}
-      (transform [(collect-one :scale)
-                  :food]
-                 pick-location)))
+ (let [scl 20]
+  {:snake (snake/make)
+   :scale scl
+   :food (pick-location scl)}))
 
-(defn update-snake [sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  (collect-one :food)
-                  :snake]
-                 snake/update*)))
+(defn update-snake [{scl :scale
+                     food :food
+                     :as sketch}]
+ (update sketch
+         :snake #(snake/update* scl food %)))
 
-(defn update-food [sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  (collect-one :snake)
-                  :food]
-                 (fn [scl snake food]
-                  (if (eat? food snake)
-                   (pick-location scl)
-                   food)))))
+(defn update-food [{scl :scale
+                    snake :snake
+                    :as sketch}]
+ (update sketch
+         :food (fn [food]
+                (if (eat? food snake)
+                 (pick-location scl)
+                 food))))
 
 (defn update* [sketch]
  (->> sketch
       update-snake
       update-food))
 
-(defn draw [{food :food
+(defn draw [{{x :x
+              y :y} :food
              snake :snake
              scl :scale
              :as sketch}]
@@ -216,35 +208,32 @@
  (snake/draw scl snake)
 
  (q/fill 255 0 100)
- (q/rect (-> food :x)
-         (-> food :y)
-         scl
-         scl))
+ (q/rect x y
+         scl scl))
 
 (defn turn-snake?
  \"Change direction only if next position doesn't result in death.\"
- [nxd nyd sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  :snake]
-                 (fn [scl snake]
-                  (let [{x :x
-                         y :y
-                         xv :xspeed
-                         yv :yspeed
-                         :as nsd} (snake/dir nxd nyd snake)
-                        nsxp (+ x (* scl xv))
-                        nsyp (+ y (* scl yv))
-                        death?
-                        (or (snake/death?
-                             (:tail nsd)
-                             nsxp
-                             nsyp)
-                            (not (<= 0 nsxp (- (q/width) scl)))
-                            (not (<= 0 nsyp (- (q/height) scl))))]
-                   (if-not death?
-                    nsd
-                    snake))))))
+ [nxd nyd {scl :scale
+           :as sketch}]
+ (update sketch
+         :snake (fn [snake]
+                 (let [{x :x
+                        y :y
+                        xv :xspeed
+                        yv :yspeed
+                        :as nsd} (snake/dir nxd nyd snake)
+                       nsxp (+ x (* scl xv))
+                       nsyp (+ y (* scl yv))
+                       death?
+                       (or (snake/death?
+                            (:tail nsd)
+                            nsxp
+                            nsyp)
+                           (not (<= 0 nsxp (- (q/width) scl)))
+                           (not (<= 0 nsyp (- (q/height) scl))))]
+                  (if-not death?
+                   nsd
+                   snake)))))
 
 (defn key-pressed [sketch event]
  (letfn [(any-of
@@ -266,18 +255,20 @@
         (turn-snake? 1 0))
    :else sketch)))
 
-(defn increase-snake-tail [sketch]
- (->> sketch
-      (transform [(collect-one :scale)
-                  :snake
-                  (collect-one :x)
-                  (collect-one :y)
-                  (collect-one :xspeed)
-                  (collect-one :yspeed)
-                  :tail]
-                 (fn [scl sx sy sxv syv tail]
-                  (conj tail {:x (- sx (* scl sxv))
-                              :y (- sy (* scl syv))})))))
+(defn increase-snake-tail [{scl :scale
+                            {sx :x
+                             sy :y
+                             sxv :xspeed
+                             syv :yspeed} :snake
+                            :as sketch}]
+ (update sketch
+         :snake
+         (fn [snake]
+          (update snake
+                  :tail
+                  (fn [tail]
+                   (conj tail {:x (- sx (* scl sxv))
+                               :y (- sy (* scl syv))}))))))
 
 (defn mouse-clicked [sketch event]
  (->> sketch
@@ -372,35 +363,34 @@ function keyPressed() {
 (defn death? [tail x y]
  ((set tail) {:x x :y y}))
 
-(defn update-tail [scl food snake]
- (->> snake
-      (transform [(collect-one :x)
-                  (collect-one :y)
-                  (collect-one :xspeed)
-                  (collect-one :yspeed)
-                  :tail]
-                 (fn [sx sy sxv syv tail]
-                  (cond
-                   (death? tail sx sy)
-                   (empty tail)
-                   (eat? food {:x (+ (* sxv scl) sx)
-                               :y (+ (* syv scl) sy)})
-                   (conj tail {:x sx
-                               :y sy})
-                   (seq tail)
-                   (subvec (conj tail {:x sx
-                                       :y sy})
-                           1)
-                   :else tail)))))
+(defn update-tail [scl food {sx :x
+                             sy :y
+                             sxv :xspeed
+                             syv :yspeed
+                             :as snake}]
+ (-> snake
+     (update :tail (fn [tail]
+                    (cond
+                     (death? tail sx sy)
+                     (empty tail)
+                     (eat? food {:x (+ (* sxv scl) sx)
+                                 :y (+ (* syv scl) sy)})
+                     (conj tail {:x sx
+                                 :y sy})
+                     (seq tail)
+                     (subvec (conj tail {:x sx
+                                         :y sy})
+                             1)
+                     :else tail)))))
 
-(defn move-forward [scl snake]
- (->> snake
-      (transform [(collect-one :xspeed) :x]
-                 (comp #(q/constrain % 0 (- (q/width) scl))
-                       #(+ (* %1 scl) %2)))
-      (transform [(collect-one :yspeed) :y]
-                 (comp #(q/constrain % 0 (- (q/height) scl))
-                       #(+ (* %1 scl) %2)))))
+(defn move-forward [scl {xspeed :xspeed
+                         yspeed :yspeed
+                         :as snake}]
+ (-> snake
+     (update :x (comp #(q/constrain % 0 (- (q/width) scl))
+                      (partial + (* xspeed scl))))
+     (update :y (comp #(q/constrain % 0 (- (q/height) scl))
+                      (partial + (* yspeed scl))))))
 
 (defn update* [scl food snake]
  (->> snake
@@ -409,18 +399,18 @@ function keyPressed() {
 
 (defn draw [scl {sx :x
                  sy :y
+                 tail :tail
                  :as snake}]
  (q/fill 255)
  (q/rect sx sy scl scl)
- (doseq [{y :y x :x} (:tail snake)]
+ (doseq [{y :y x :x} tail]
   (q/fill 155) ; distinguish head from tail
   (q/rect x y scl scl)))
 
 (defn dir [x y snake]
- (->> snake
-      (setval :xspeed x)
-      (setval :yspeed y)))
-"]]
+ (-> snake
+     (assoc :xspeed x)
+     (assoc :yspeed y)))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman

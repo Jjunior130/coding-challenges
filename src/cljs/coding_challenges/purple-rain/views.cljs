@@ -4,25 +4,29 @@
            [reagent.core :as reagent]
            [re-frame.core :as rf]
            [re-com.core :as rc]
-           [coding-challenges.purple-rain.drop :as d]
-           [com.rpl.specter :as sp
-            :refer [putval ALL transform
-                    setval collect-one]]
-           [coding-challenges.util
-            :refer [mt u a cond->mt cond-mt PASS]]))
+           [coding-challenges.purple-rain.drop :as d]))
 
 (def w 640)
 (def h 360)
 
 (defn setup []
- {:drops (repeatedly 500 d/make)})
+ (loop [i (int 500)
+        drops []]
+  (if (zero? i)
+   drops
+   (recur (dec i) (conj drops (d/make))))))
 
-(defn update* [sketch]
- (u sketch
-    [:drops ALL] d/update*))
+(defn update* [drops]
+ (loop [i (count drops)
+        drops drops
+        updated-drops []]
+  (if (zero? i)
+   updated-drops
+   (recur (dec i) (pop drops)
+          (conj updated-drops
+                (d/update* (peek drops)))))))
 
-(defn draw [{drops :drops
-             :as sketch}]
+(defn draw [drops]
  (q/background 230 230 250)
  (doseq [d drops]
   (d/draw d)))
@@ -72,19 +76,26 @@
 (def h 360)
 
 (defn setup []
- {:drops (repeatedly 500 d/make)})
+ (loop [i (int 500)
+        drops []]
+  (if (zero? i)
+   drops
+   (recur (dec i) (conj drops (d/make))))))
 
-(defn update* [sketch]
- (->> sketch
-      (transform [:drops
-                  ALL]
-                 d/update*)))
+(defn update* [drops]
+ (loop [i (count drops)
+        drops drops
+        updated-drops []]
+  (if (zero? i)
+   updated-drops
+   (recur (dec i) (pop drops)
+          (conj updated-drops
+                (d/update* (peek drops)))))))
 
-(defn draw [sketch]
+(defn draw [drops]
  (q/background 230 230 250)
- (doseq [d (:drops sketch)]
-  (d/draw d)))
-"]]
+ (doseq [d drops]
+  (d/draw d)))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman
@@ -118,45 +129,43 @@ function draw() {
           [[:pre
             [:code.clojure
              "(defn make []
- (->> {:x (q/random (q/width))
-       :y (q/random -200 -100)
-       :z (q/random 20)}
-      (transform [(collect-one :z)
-                  :len]
-                 #(q/map-range %1 0 20 10 20))
-      (transform [(collect-one :z)
-                  :yspeed]
-                 #(q/map-range %1 0 20 1 20))))
+ (let [z (q/random 20)]
+  {:x (q/random (q/width))
+   :y (q/random -200 -100)
+   :z z
+   :len (q/map-range z 0 20 10 20)
+   :yspeed (q/map-range z 0 20 1 20)}))
 
-(defn fall [d]
- (->> d
-      (transform [(collect-one :yspeed) :y] +)
-      (transform [(collect-one :z (view #(q/map-range % 0 20 0 0.2)))
-                  :yspeed]
-                 (fn [grav yspeed]
-                  (+ grav yspeed)))))
+(defn fall [{yspeed :yspeed
+             z :z
+             :as d}]
+ (let [grav (q/map-range z 0 20 0 0.2)]
+  (-> d
+     (update :y (partial + yspeed))
+     (assoc :yspeed (+ grav yspeed)))))
 
-(defn loop-edge [d]
- (->> d
-      (setval :y (q/random -200 -100))
-      (transform [(collect-one :z)
-                  :yspeed]
-                 #(q/map-range %1 0 20 4 10))))
+(defn loop-edge [{z :z
+                  :as d}]
+ (assoc d
+  :y (q/random -200 -100)
+  :yspeed (q/map-range z 0 20 4 10)))
 
 (defn update* [{y :y
                 :as d}]
- (cond->>
-  d
-  (> y (q/height)) loop-edge
-  :always fall))
+ (if (> y (q/height))
+  (-> d loop-edge fall)
+  (-> d fall)))
 
-(defn draw [d]
- (let [thick (q/map-range (:z d) 0 20 1 3)]
+(defn draw [{x :x
+             y :y
+             z :z
+             len :len
+             :as d}]
+ (let [thick (q/map-range z 0 20 1 3)]
   (q/stroke-weight thick))
  (q/stroke 138 43 226)
- (q/line (:x d) (:y d)
-         (:x d) (+ (:len d) (:y d))))
-"]]
+ (q/line x y
+         x (+ len y)))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman

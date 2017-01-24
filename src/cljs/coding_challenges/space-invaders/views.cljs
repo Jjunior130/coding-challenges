@@ -7,49 +7,48 @@
            [coding-challenges.space-invaders.flower :as flower]
            [coding-challenges.space-invaders.ship :as ship]
            [coding-challenges.space-invaders.drop :as d
-            :refer [hits?]]
-           [com.rpl.specter :as sp
-            :refer [putval ALL transform setval
-                    collect-one collect]]))
+            :refer [hits?]]))
 
 (def w 600)
 (def h 400)
 
 (defn setup []
  {:ship (ship/make)
-  :flowers (for [i (range 6)]
-            (flower/make (+ (* i 80) 80)
-                         60))})
+  :flowers (loop [i 6
+                  flowers []]
+            (if (zero? i)
+             flowers
+             (recur (dec i)
+                    (conj flowers
+                          (flower/make (+ (* (dec i) 80) 80)
+                                       60)))))})
 
-(defn update-drops [sketch]
- (->> sketch
-      (transform [(collect-one :flowers)
-                  :drops]
-                 (fn [flowers drops]
-                  (->> (remove #(some (partial hits? %) flowers)
-                               drops)
-                       (transform ALL d/update*))))))
+(defn update-drops [{flowers :flowers
+                     :as sketch}]
+ (update sketch
+         :drops (fn [drops]
+                 (->> (remove #(some (partial hits? %) flowers)
+                              drops)
+                      (mapv d/update*)))))
 
 (defn horizontal-edge? [{x :x}]
  ((some-fn (partial > 0)
           (partial < (q/width)))
   x))
 
-(defn update-flowers [sketch]
- (->> sketch
-      (transform [(collect-one :drops)
-                  :flowers]
-                 (fn [drops flowers]
-                  (if (some horizontal-edge?
-                            flowers)
-                   (transform ALL (partial flower/update* true drops)
-                              flowers)
-                   (transform ALL (partial flower/update* false drops)
-                              flowers))))))
+(defn update-flowers [{drops :drops
+                       :as sketch}]
+ (update sketch
+         :flowers
+         (fn [flowers]
+          (if (some horizontal-edge?
+                    flowers)
+           (mapv (partial flower/update* true drops) flowers)
+           (mapv (partial flower/update* false drops) flowers)))))
 
 (defn update-ship [sketch]
- (->> sketch
-      (transform :ship ship/update*)))
+ (update sketch
+         :ship ship/update*))
 
 (defn update* [sketch]
  (->> sketch
@@ -68,27 +67,23 @@
  (doseq [flower flowers]
   (flower/draw flower)))
 
-(defn key-pressed [sketch event]
+(defn key-pressed [{{x :x} :ship
+                    :as sketch} event]
  (letfn [(any-of
           [& ks]
           (some (partial = (:key event))
                 ks))]
-  (cond->> sketch
+  (cond-> sketch
    (any-of (keyword " "))
-   (transform [(collect-one :ship)
-               :drops]
-              (fn [{x :x
-                    :as ship} drops]
-               (conj drops
-                     (d/make x (q/height)))))
+   (update :drops #(conj % (d/make x (q/height))))
    (any-of :left :a)
-   (setval [:ship :xdir] -1)
+   (update :ship #(assoc % :xdir -1))
    (any-of :right :d)
-   (setval [:ship :xdir] 1))))
+   (update :ship #(assoc % :xdir 1)))))
 
 (defn key-released [sketch]
- (->> sketch
-      (setval [:ship :xdir] 0)))
+ (-> sketch
+     (update :ship #(assoc % :xdir 0))))
 
 (q/defsketch space-invaders-sketch
              :setup  setup
@@ -142,39 +137,41 @@
 
 (defn setup []
  {:ship (ship/make)
-  :flowers (for [i (range 6)]
-            (flower/make (+ (* i 80) 80)
-                         60))})
+  :flowers (loop [i 6
+                  flowers []]
+            (if (zero? i)
+             flowers
+             (recur (dec i)
+                    (conj flowers
+                          (flower/make (+ (* (dec i) 80) 80)
+                                       60)))))})
 
-(defn update-drops [sketch]
- (->> sketch
-      (transform [(collect-one :flowers)
-                  :drops]
-                 (fn [flowers drops]
-                  (->> (remove #(some (partial hits? %) flowers)
-                               drops)
-                       (transform ALL d/update*))))))
+(defn update-drops [{flowers :flowers
+                     :as sketch}]
+ (update sketch
+         :drops (fn [drops]
+                 (->> (remove #(some (partial hits? %) flowers)
+                              drops)
+                      (mapv d/update*)))))
 
 (defn horizontal-edge? [{x :x}]
  ((some-fn (partial > 0)
           (partial < (q/width)))
   x))
 
-(defn update-flowers [sketch]
- (->> sketch
-      (transform [(collect-one :drops)
-                  :flowers]
-                 (fn [drops flowers]
-                  (if (some horizontal-edge?
-                            flowers)
-                   (transform ALL (partial flower/update* true drops)
-                              flowers)
-                   (transform ALL (partial flower/update* false drops)
-                              flowers))))))
+(defn update-flowers [{drops :drops
+                       :as sketch}]
+ (update sketch
+         :flowers
+         (fn [flowers]
+          (if (some horizontal-edge?
+                    flowers)
+           (mapv (partial flower/update* true drops) flowers)
+           (mapv (partial flower/update* false drops) flowers)))))
 
 (defn update-ship [sketch]
- (->> sketch
-      (transform :ship ship/update*)))
+ (update sketch
+         :ship ship/update*))
 
 (defn update* [sketch]
  (->> sketch
@@ -193,31 +190,23 @@
  (doseq [flower flowers]
   (flower/draw flower)))
 
-(defn key-pressed [sketch event]
+(defn key-pressed [{{x :x} :ship
+                    :as sketch} event]
  (letfn [(any-of
           [& ks]
           (some (partial = (:key event))
                 ks))]
-  (cond
-   (any-of (keyword \" \"))
-   (->> sketch
-        (transform [(collect-one :ship)
-                    :drops]
-                   (fn [{x :x
-                         :as ship} drops]
-                    (conj drops
-                          (d/make x (q/height))))))
+  (cond-> sketch
+   (any-of (keyword " "))
+   (update :drops #(conj % (d/make x (q/height))))
    (any-of :left :a)
-   (->> sketch
-        (setval [:ship :xdir] -1))
+   (update :ship #(assoc % :xdir -1))
    (any-of :right :d)
-   (->> sketch
-        (setval [:ship :xdir] 1))
-   :else sketch)))
+   (update :ship #(assoc % :xdir 1)))))
 
 (defn key-released [sketch]
- (->> sketch
-      (setval [:ship :xdir] 0)))"]]
+ (-> sketch
+     (update :ship #(assoc % :xdir 0))))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman
@@ -311,8 +300,8 @@ function keyPressed() {
   :r 16})
 
 (defn move-up [d]
- (->> d
-      (transform :y #(- % 5))))
+ (update d
+         :y #(- % 5)))
 
 (defn hits? [{dx :x
               dy :y
@@ -335,8 +324,7 @@ function keyPressed() {
              :as d}]
  (q/fill 150 0 255)
  (q/ellipse dx dy
-            dr dr))
-"]]
+            dr dr))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman
@@ -388,20 +376,19 @@ function Drop(x, y) {
   :xdir 1})
 
 (defn grow [flower]
- (->> flower
-      (transform :r (partial + 2))))
+ (update flower
+         :r (partial + 2)))
 
-(defn move [flower]
- (->> flower
-      (transform [(collect-one :xdir)
-                  :x]
-                 +)))
+(defn move [{xdir :xdir
+             :as flower}]
+ (update flower
+         :x (partial + xdir)))
 
-(defn shift-down [flower]
- (->> flower
-      (transform [(collect-one :r)
-                  :y] +)
-      (transform :xdir (partial * -1))))
+(defn shift-down [{r :r
+                   :as flower}]
+ (-> flower
+     (update :y (partial + r))
+     (update :xdir (partial * -1))))
 
 (defn update* [edge? drops flower]
  (cond->> flower
@@ -415,8 +402,7 @@ function Drop(x, y) {
              :as flower}]
  (q/fill 255 0 200)
  (q/ellipse x y
-            (* 2 r) (* 2 r)))
-"]]
+            (* 2 r) (* 2 r)))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman
@@ -462,12 +448,10 @@ function Flower(x, y) {
   :x (/ (q/width) 2)
   :xdir 0})
 
-(defn move [ship]
- (->> ship
-      (transform [(collect-one :xdir)
-                  :x]
-                 (fn [xdir x]
-                  (+ x (* 5 xdir))))))
+(defn move [{xdir :xdir
+             :as ship}]
+ (update ship
+         :x (partial + (* 5 xdir))))
 
 (defn update* [ship]
  (move ship))
@@ -476,8 +460,7 @@ function Flower(x, y) {
              :as ship}]
  (q/fill 255)
  (q/rect-mode :center)
- (q/rect x (- (q/height) 20) 20 60))
-"]]
+ (q/rect x (- (q/height) 20) 20 60))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman

@@ -1,36 +1,33 @@
 (ns coding-challenges.purple-rain.drop
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [view ALL transform multi-path
-                    setval collect-one putval]]
-           [coding-challenges.util
-            :refer [mt u a cond->mt cond-mt PASS]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make []
- (u {:x (q/random (q/width))
-     :y (q/random -200 -100)
-     :z (q/random 20)}
-    [(collect-one :z) :len] #(q/map-range %1 0 20 10 20)
-    [(collect-one :z) :yspeed] #(q/map-range %1 0 20 1 20)))
+ (let [z (q/random 20)]
+  {:x (q/random (q/width))
+   :y (q/random -200 -100)
+   :z z
+   :len (q/map-range z 0 20 10 20)
+   :yspeed (q/map-range z 0 20 1 20)}))
 
-(def fall
- (u
-  [(collect-one :yspeed) :y] +
-  [(collect-one :z (view #(q/map-range % 0 20 0 0.2)))
-   :yspeed] (fn [grav yspeed]
-             (+ grav yspeed))))
+(defn fall [{yspeed :yspeed
+             z :z
+             :as d}]
+ (let [grav (q/map-range z 0 20 0 0.2)]
+  (-> d
+     (update :y (partial + yspeed))
+     (assoc :yspeed (+ grav yspeed)))))
 
-(def loop-edge
- (u
-  :y #(q/random -200 -100)
-  [(collect-one :z) :yspeed] #(q/map-range %1 0 20 4 10)))
+(defn loop-edge [{z :z
+                  :as d}]
+ (assoc d
+  :y (q/random -200 -100)
+  :yspeed (q/map-range z 0 20 4 10)))
 
 (defn update* [{y :y
                 :as d}]
- (cond->mt
-  d
-  (> y (q/height)) loop-edge
-  :always fall))
+ (if (> y (q/height))
+  (-> d loop-edge fall)
+  (-> d fall)))
 
 (defn draw [{x :x
              y :y

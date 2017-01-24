@@ -4,11 +4,7 @@
            [re-frame.core :as rf]
            [reagent.core :as reagent]
            [re-com.core :as rc]
-           [coding-challenges.menger-sponge-fractal.box :as box]
-           [com.rpl.specter :as sp
-            :refer [ALL transform setval collect-one]]
-           [coding-challenges.util :refer [mt u a cond->mt cond-mt
-                                           PASS]]))
+           [coding-challenges.menger-sponge-fractal.box :as box]))
 
 (def w 400)
 (def h 400)
@@ -33,8 +29,8 @@
   (box/draw b)))
 
 (defn mouse-clicked [sketch event]
- (u sketch
-    :sponge (partial mapcat box/generate)))
+ (update sketch
+         :sponge (partial mapcat box/generate)))
 
 (q/defsketch menger-sponge-fractal-sketch
              :setup  setup
@@ -85,26 +81,25 @@
 (defn setup []
  {:sponge [(box/make 0 0 0 200)]})
 
-(defn rotate [sketch]
- (->> sketch
-      (transform :angle (partial + 0.01))))
-
 (defn update* [sketch]
- (rotate sketch))
+ (update sketch
+         :angle (partial + 0.01)))
 
-(defn draw [sketch]
+(defn draw [{angle :angle
+             sponge :sponge
+             :as sketch}]
  (q/background 51)
  (q/lights)
  (q/translate (/ (q/width) 2) (/ (q/height) 2))
- (q/rotate-x (:angle sketch))
- (q/rotate-y (* 0.4 (:angle sketch)))
- (q/rotate-z (* 0.1 (:angle sketch)))
- (doseq [b (:sponge sketch)]
+ (q/rotate-x angle)
+ (q/rotate-y (* 0.4 angle))
+ (q/rotate-z (* 0.1 angle))
+ (doseq [b sponge]
   (box/draw b)))
 
 (defn mouse-clicked [sketch event]
- (->> sketch
-      (transform :sponge (partial mapcat box/generate))))"]]
+ (update sketch
+         :sponge (partial mapcat box/generate)))"]]
            [:pre
             [:code.javascript
              "

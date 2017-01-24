@@ -1,8 +1,5 @@
 (ns coding-challenges.snake-game.snake
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [ALL transform setval
-                    collect-one putval]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make
  ([]
@@ -28,35 +25,34 @@
 (defn death? [tail x y]
  ((set tail) {:x x :y y}))
 
-(defn update-tail [scl food snake]
- (->> snake
-      (transform [(collect-one :x)
-                  (collect-one :y)
-                  (collect-one :xspeed)
-                  (collect-one :yspeed)
-                  :tail]
-                 (fn [sx sy sxv syv tail]
-                  (cond
-                   (death? tail sx sy)
-                   (empty tail)
-                   (eat? food {:x (+ (* sxv scl) sx)
-                               :y (+ (* syv scl) sy)})
-                   (conj tail {:x sx
-                               :y sy})
-                   (seq tail)
-                   (subvec (conj tail {:x sx
-                                       :y sy})
-                           1)
-                   :else tail)))))
+(defn update-tail [scl food {sx :x
+                             sy :y
+                             sxv :xspeed
+                             syv :yspeed
+                             :as snake}]
+ (-> snake
+     (update :tail (fn [tail]
+                    (cond
+                     (death? tail sx sy)
+                     (empty tail)
+                     (eat? food {:x (+ (* sxv scl) sx)
+                                 :y (+ (* syv scl) sy)})
+                     (conj tail {:x sx
+                                 :y sy})
+                     (seq tail)
+                     (subvec (conj tail {:x sx
+                                         :y sy})
+                             1)
+                     :else tail)))))
 
-(defn move-forward [scl snake]
- (->> snake
-      (transform [(collect-one :xspeed) :x]
-                 (comp #(q/constrain % 0 (- (q/width) scl))
-                       #(+ (* %1 scl) %2)))
-      (transform [(collect-one :yspeed) :y]
-                 (comp #(q/constrain % 0 (- (q/height) scl))
-                       #(+ (* %1 scl) %2)))))
+(defn move-forward [scl {xspeed :xspeed
+                         yspeed :yspeed
+                         :as snake}]
+ (-> snake
+     (update :x (comp #(q/constrain % 0 (- (q/width) scl))
+                      (partial + (* xspeed scl))))
+     (update :y (comp #(q/constrain % 0 (- (q/height) scl))
+                      (partial + (* yspeed scl))))))
 
 (defn update* [scl food snake]
  (->> snake
@@ -65,15 +61,16 @@
 
 (defn draw [scl {sx :x
                  sy :y
+                 tail :tail
                  :as snake}]
  (q/fill 255)
  (q/rect sx sy scl scl)
- (doseq [{y :y x :x} (:tail snake)]
+ (doseq [{y :y x :x} tail]
   (q/fill 155) ; distinguish head from tail
   (q/rect x y scl scl)))
 
 (defn dir [x y snake]
- (->> snake
-      (setval :xspeed x)
-      (setval :yspeed y)))
+ (-> snake
+     (assoc :xspeed x)
+     (assoc :yspeed y)))
 

@@ -1,8 +1,5 @@
 (ns coding-challenges.maze-generator.cell
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [ALL select-one STAY
-                    collect-one keypath]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make [i j]
  {:type 'Cell
