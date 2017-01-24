@@ -10,7 +10,11 @@
 (def h 600)
 
 (defn setup []
-  {:stars (repeatedly 800 star/make)})
+  {:stars (loop [i (int 800)
+                 stars []]
+           (if (zero? i)
+            stars
+            (recur (dec i) (conj stars (star/make)))))})
 
 (defn get-speed-from-mouse [sketch]
  (assoc sketch
