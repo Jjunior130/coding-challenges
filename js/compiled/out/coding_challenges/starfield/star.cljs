@@ -1,7 +1,5 @@
 (ns coding-challenges.starfield.star
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [ALL transform setval collect-one]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make []
  {:type 'Star
@@ -9,23 +7,23 @@
   :y (q/random (- (q/height)) (q/height))
   :z (q/random (q/width))})
 
-(defn move-forward [speed star]
- (->> star
-      (transform [(collect-one :z) :pz] identity)
-      (transform :z #(- % speed))))
+(defn move-forward [speed {z :z
+                           :as star}]
+ (-> star
+     (assoc :pz z)
+     (update :z #(- % speed))))
 
 (defn reset? [{z :z
                :as star}]
- (cond->
-  star
-  (< z 1)
-  (->> (setval :z (q/width))
-       (setval :x (q/random (- (q/width))
-                            (q/width)))
-       (setval :y (q/random (- (q/height))
-                            (q/height)))
-       (transform [(collect-one :z) :pz]
-                  identity))))
+ (let [nz (q/width)]
+  (cond->
+   star
+   (< z 1)
+   (assoc
+    :z nz
+    :x (q/random (- (q/width)) (q/width))
+    :y (q/random (- (q/height)) (q/height))
+    :pz nz))))
 
 (defn update* [speed star]
  (->> star

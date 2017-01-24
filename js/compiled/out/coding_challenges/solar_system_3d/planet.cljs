@@ -1,8 +1,5 @@
 (ns coding-challenges.solar-system-3d.planet
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [ALL transform setval
-                    collect-one putval]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn random-coordinate [distance]
  (let [theta (Math/acos (q/random -1 1))
@@ -20,37 +17,49 @@
    :z z}))
 
 (defn make [r d o]
- (->> {:type 'Planet
-       :radius r
-       :distance d
-       :angle (rand q/TWO-PI)
-       :orbit-speed o}
-      (transform [(collect-one :distance) :v]
-                 random-coordinate)))
+ {:type 'Planet
+  :radius r
+  :distance d
+  :angle (rand q/TWO-PI)
+  :orbit-speed o
+  :v (random-coordinate d)})
 
-(defn spawn-moons [total level planet]
- (->> planet
-      (setval :planets
-              (repeatedly total
-                          #(cond->>
-                            (let [r (/ (:radius planet)
-                                       (* level 2))
-                                  x (+ (:radius planet) r)]
-                             (make
-                              r
-                              (q/random x
-                                        (* 2 x))
-                              (q/random -0.1 0.1)))
-                            (< level 3)
-                            (spawn-moons (rand-int 4)
-                                         (inc level)))))))
+(defn spawn-moons [total level {radius :radius
+                                :as planet}]
+ (assoc planet
+  :planets (loop [i (int total)
+                  planets []]
+            (if (zero? i)
+             planets
+             (recur (dec i)
+                    (conj planets
+                          (cond->>
+                           (let [r (/ radius
+                                      (* level 2))
+                                 x (+ radius r)]
+                            (make
+                             r
+                             (q/random x
+                                       (* 2 x))
+                             (q/random -0.1 0.1)))
+                           (< level 3)
+                           (spawn-moons (rand-int 4)
+                                        (inc level)))))))))
 
-(defn orbit [planet]
- (->> planet
-      (transform [(collect-one :orbit-speed)
-                  :angle] +)
-      (transform [:planets ALL]
-                 orbit)))
+(defn orbit [{orbit-speed :orbit-speed
+              :as planet}]
+ (-> planet
+     (update :angle (partial + orbit-speed))
+     (update :planets
+             (fn [planets]
+              (loop [i (count planets)
+                     planets planets
+                     orbited-planets []]
+               (if (zero? i)
+                orbited-planets
+                (recur (dec i) (pop planets)
+                       (conj orbited-planets
+                             (orbit (peek planets))))))))))
 
 (defn update* [planet]
  (orbit planet))
@@ -68,7 +77,10 @@
 (defn draw [{angle :angle
              radius :radius
              planets :planets
-             v :v
+             {vx :x
+              vy :y
+              vz :z
+              :as v} :v
              :as planet}]
  (q/push-matrix)
  (q/no-stroke)
@@ -79,9 +91,7 @@
         z :z
         :as p} (cross v v2)]
   (q/rotate angle x y z))
- (q/translate (-> v :x)
-              (-> v :y)
-              (-> v :z))
+ (q/translate vx vy vz)
  (q/sphere radius)
  (doseq [p planets]
   (draw p))

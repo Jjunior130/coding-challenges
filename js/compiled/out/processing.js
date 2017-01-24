@@ -18066,7 +18066,7 @@ module.exports = function setupParser(Processing, options) {
 //      if (width < 0) { x += width; width = -width; }
 //      if (height < 0) { y += height; height = -height; }
 
-      console.log(x,y,width,height);
+ //     console.log(x,y,width,height);
 
       // Translate the line by (0.5, 0.5) to draw a crisp rectangle border
       if (doStroke && lineWidth % 2 === 1) {

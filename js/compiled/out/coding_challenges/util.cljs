@@ -75,8 +75,7 @@ Acts like cond; Short circuit after first true."
                                       boolean
                                       first)
                                      pairs))]
-  (if condition
-   (mt structure path)
-   structure)))
+  (when condition
+   (mt structure path))))
 
 (def PASS (u STAY identity))

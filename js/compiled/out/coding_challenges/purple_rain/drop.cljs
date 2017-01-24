@@ -1,44 +1,42 @@
 (ns coding-challenges.purple-rain.drop
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [view ALL transform setval collect-one putval]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make []
- (->> {:x (q/random (q/width))
-       :y (q/random -200 -100)
-       :z (q/random 20)}
-      (transform [(collect-one :z)
-                  :len]
-                 #(q/map-range %1 0 20 10 20))
-      (transform [(collect-one :z)
-                  :yspeed]
-                 #(q/map-range %1 0 20 1 20))))
+ (let [z (q/random 20)]
+  {:x (q/random (q/width))
+   :y (q/random -200 -100)
+   :z z
+   :len (q/map-range z 0 20 10 20)
+   :yspeed (q/map-range z 0 20 1 20)}))
 
-(defn fall [d]
- (->> d
-      (transform [(collect-one :yspeed) :y] +)
-      (transform [(collect-one :z (view #(q/map-range % 0 20 0 0.2)))
-                  :yspeed]
-                 (fn [grav yspeed]
-                  (+ grav yspeed)))))
+(defn fall [{yspeed :yspeed
+             z :z
+             :as d}]
+ (let [grav (q/map-range z 0 20 0 0.2)]
+  (-> d
+     (update :y (partial + yspeed))
+     (assoc :yspeed (+ grav yspeed)))))
 
-(defn loop-edge [d]
- (->> d
-      (setval :y (q/random -200 -100))
-      (transform [(collect-one :z)
-                  :yspeed]
-                 #(q/map-range %1 0 20 4 10))))
+(defn loop-edge [{z :z
+                  :as d}]
+ (assoc d
+  :y (q/random -200 -100)
+  :yspeed (q/map-range z 0 20 4 10)))
 
 (defn update* [{y :y
                 :as d}]
- (cond->>
-  d
-  (> y (q/height)) loop-edge
-  :always fall))
+ (if (> y (q/height))
+  (-> d loop-edge fall)
+  (-> d fall)))
 
-(defn draw [d]
- (let [thick (q/map-range (:z d) 0 20 1 3)]
+(defn draw [{x :x
+             y :y
+             z :z
+             len :len
+             :as d}]
+ (let [thick (q/map-range z 0 20 1 3)]
   (q/stroke-weight thick))
  (q/stroke 138 43 226)
- (q/line (:x d) (:y d)
-         (:x d) (+ (:len d) (:y d))))
+ (q/line x y
+         x (+ len y)))
 

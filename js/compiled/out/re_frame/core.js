@@ -388,4 +388,4 @@ return re_frame.core.register_sub.cljs$core$IFn$_invoke$arity$variadic(cljs.core
 });
 
 
-//# sourceMappingURL=core.js.map?rel=1484780630902
+//# sourceMappingURL=core.js.map?rel=1485242656045

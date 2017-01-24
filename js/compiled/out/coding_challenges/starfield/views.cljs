@@ -4,9 +4,7 @@
            [reagent.core :as reagent]
            [re-frame.core :as rf]
            [re-com.core :as rc]
-           [coding-challenges.starfield.star :as star]
-           [com.rpl.specter :as sp
-            :refer [ALL transform setval collect-one]]))
+           [coding-challenges.starfield.star :as star]))
 
 (def w 600)
 (def h 600)
@@ -15,26 +13,33 @@
   {:stars (repeatedly 800 star/make)})
 
 (defn get-speed-from-mouse [sketch]
- (->> sketch
-      (setval
-       :speed (/ (q/mouse-x) 12))))
+ (assoc sketch
+  :speed (/ (q/mouse-x) 12)))
 
-(defn update-stars [sketch]
- (->> sketch
-      (transform
-       [(collect-one :speed) :stars ALL]
-       star/update*)))
+(defn update-stars [{speed :speed
+                     :as sketch}]
+ (update sketch
+         :stars
+         #(loop [i (count %)
+                 stars (vec %)
+                 updated-stars []]
+           (if (zero? i)
+            updated-stars
+            (recur (dec i) (pop stars)
+                   (conj updated-stars
+                         (star/update* speed (peek stars))))))))
 
 (defn update* [sketch]
  (->> sketch
       get-speed-from-mouse
       update-stars))
 
-(defn draw [sketch]
+(defn draw [{stars :stars
+             :as sketch}]
  (q/background 0)
  (q/translate (/ (q/width) 2)
               (/ (q/height) 2))
- (doseq [star (:stars sketch)]
+ (doseq [star stars]
   (star/draw star)))
 
 (q/defsketch starfield-sketch
@@ -87,26 +92,33 @@
   {:stars (repeatedly 800 star/make)})
 
 (defn get-speed-from-mouse [sketch]
- (->> sketch
-      (setval
-       :speed (/ (q/mouse-x) 12))))
+ (assoc sketch
+  :speed (/ (q/mouse-x) 12)))
 
-(defn update-stars [sketch]
- (->> sketch
-      (transform
-       [(collect-one :speed) :stars ALL]
-       star/update*)))
+(defn update-stars [{speed :speed
+                     :as sketch}]
+ (update sketch
+         :stars
+         #(loop [i (count %)
+                 stars (vec %)
+                 updated-stars []]
+           (if (zero? i)
+            updated-stars
+            (recur (dec i) (pop stars)
+                   (conj updated-stars
+                         (star/update* speed (peek stars))))))))
 
 (defn update* [sketch]
  (->> sketch
       get-speed-from-mouse
       update-stars))
 
-(defn draw [sketch]
+(defn draw [{stars :stars
+             :as sketch}]
  (q/background 0)
  (q/translate (/ (q/width) 2)
               (/ (q/height) 2))
- (doseq [star (:stars sketch)]
+ (doseq [star stars]
   (star/draw star)))"]]
             [:pre
              [:code.javascript.hljs
@@ -147,23 +159,23 @@ function draw() {
   :y (q/random (- (q/height)) (q/height))
   :z (q/random (q/width))})
 
-(defn move-forward [speed star]
- (->> star
-      (transform [(collect-one :z) :pz] identity)
-      (transform :z #(- % speed))))
+(defn move-forward [speed {z :z
+                           :as star}]
+ (-> star
+     (assoc :pz z)
+     (update :z #(- % speed))))
 
 (defn reset? [{z :z
                :as star}]
- (cond->
-  star
-  (< z 1)
-  (->> (setval :z (q/width))
-       (setval :x (q/random (- (q/width))
-                            (q/width)))
-       (setval :y (q/random (- (q/height))
-                            (q/height)))
-       (transform [(collect-one :z) :pz]
-                  identity))))
+ (let [nz (q/width)]
+  (cond->
+   star
+   (< z 1)
+   (assoc
+    :z nz
+    :x (q/random (- (q/width)) (q/width))
+    :y (q/random (- (q/height)) (q/height))
+    :pz nz))))
 
 (defn update* [speed star]
  (->> star

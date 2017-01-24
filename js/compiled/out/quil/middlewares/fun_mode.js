@@ -34,23 +34,23 @@ quil.middlewares.fun_mode.key_event = (function quil$middlewares$fun_mode$key_ev
 return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"key","key",-1516042587),quil.core.key_as_keyword.call(null),new cljs.core.Keyword(null,"key-code","key-code",-1732114304),quil.core.key_code.call(null),new cljs.core.Keyword(null,"raw-key","raw-key",-162482279),quil.core.raw_key.call(null)], null);
 });
 quil.middlewares.fun_mode.wrap_handler = (function quil$middlewares$fun_mode$wrap_handler(var_args){
-var args34790 = [];
-var len__7484__auto___34793 = arguments.length;
-var i__7485__auto___34794 = (0);
+var args34726 = [];
+var len__7484__auto___34729 = arguments.length;
+var i__7485__auto___34730 = (0);
 while(true){
-if((i__7485__auto___34794 < len__7484__auto___34793)){
-args34790.push((arguments[i__7485__auto___34794]));
+if((i__7485__auto___34730 < len__7484__auto___34729)){
+args34726.push((arguments[i__7485__auto___34730]));
 
-var G__34795 = (i__7485__auto___34794 + (1));
-i__7485__auto___34794 = G__34795;
+var G__34731 = (i__7485__auto___34730 + (1));
+i__7485__auto___34730 = G__34731;
 continue;
 } else {
 }
 break;
 }
 
-var G__34792 = args34790.length;
-switch (G__34792) {
+var G__34728 = args34726.length;
+switch (G__34728) {
 case 2:
 return quil.middlewares.fun_mode.wrap_handler.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -60,7 +60,7 @@ return quil.middlewares.fun_mode.wrap_handler.cljs$core$IFn$_invoke$arity$3((arg
 
 break;
 default:
-throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args34790.length)].join('')));
+throw (new Error([cljs.core.str("Invalid arity: "),cljs.core.str(args34726.length)].join('')));
 
 }
 });
@@ -91,14 +91,14 @@ quil.middlewares.fun_mode.wrap_handler.cljs$lang$maxFixedArity = 3;
 
 quil.middlewares.fun_mode.wrap_handlers = (function quil$middlewares$fun_mode$wrap_handlers(var_args){
 var args__7491__auto__ = [];
-var len__7484__auto___34799 = arguments.length;
-var i__7485__auto___34800 = (0);
+var len__7484__auto___34735 = arguments.length;
+var i__7485__auto___34736 = (0);
 while(true){
-if((i__7485__auto___34800 < len__7484__auto___34799)){
-args__7491__auto__.push((arguments[i__7485__auto___34800]));
+if((i__7485__auto___34736 < len__7484__auto___34735)){
+args__7491__auto__.push((arguments[i__7485__auto___34736]));
 
-var G__34801 = (i__7485__auto___34800 + (1));
-i__7485__auto___34800 = G__34801;
+var G__34737 = (i__7485__auto___34736 + (1));
+i__7485__auto___34736 = G__34737;
 continue;
 } else {
 }
@@ -121,10 +121,10 @@ return cljs.core.apply.call(null,quil.middlewares.fun_mode.wrap_handler,options_
 
 quil.middlewares.fun_mode.wrap_handlers.cljs$lang$maxFixedArity = (1);
 
-quil.middlewares.fun_mode.wrap_handlers.cljs$lang$applyTo = (function (seq34797){
-var G__34798 = cljs.core.first.call(null,seq34797);
-var seq34797__$1 = cljs.core.next.call(null,seq34797);
-return quil.middlewares.fun_mode.wrap_handlers.cljs$core$IFn$_invoke$arity$variadic(G__34798,seq34797__$1);
+quil.middlewares.fun_mode.wrap_handlers.cljs$lang$applyTo = (function (seq34733){
+var G__34734 = cljs.core.first.call(null,seq34733);
+var seq34733__$1 = cljs.core.next.call(null,seq34733);
+return quil.middlewares.fun_mode.wrap_handlers.cljs$core$IFn$_invoke$arity$variadic(G__34734,seq34733__$1);
 });
 
 quil.middlewares.fun_mode.wrap_mouse_wheel = (function quil$middlewares$fun_mode$wrap_mouse_wheel(options){
@@ -152,4 +152,4 @@ return new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null,"x"
 })], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"key-pressed","key-pressed",-757100364),quil.middlewares.fun_mode.key_event], null),new cljs.core.Keyword(null,"key-released","key-released",215919828),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"key-typed","key-typed",-876037597),quil.middlewares.fun_mode.key_event], null),new cljs.core.Keyword(null,"on-close","on-close",-761178394)));
 });
 
-//# sourceMappingURL=fun_mode.js.map?rel=1484780662768
+//# sourceMappingURL=fun_mode.js.map?rel=1485242678536

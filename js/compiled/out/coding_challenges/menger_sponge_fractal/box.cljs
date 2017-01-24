@@ -7,25 +7,30 @@
         :z z}
   :r r})
 
-(defn generate [box]
- (for [x (range -1 2)
-       y (range -1 2)
-       z (range -1 2)
-       :let [sum (apply + (map Math/abs [x y z]))
-             new-r (/ (:r box) 3)]
+(defn generate [{r :r
+                 {x :x
+                  y :y
+                  z :z} :pos
+                 :as box}]
+ (for [nx (range -1 2)
+       ny (range -1 2)
+       nz (range -1 2)
+       :let [sum (apply + (map Math/abs [nx ny nz]))
+             new-r (/ r 3)]
        :when (> sum 1)]
-  (make (+ (* x new-r) (-> box :pos :x))
-        (+ (* y new-r) (-> box :pos :y))
-        (+ (* z new-r) (-> box :pos :z))
+  (make (+ (* nx new-r) x)
+        (+ (* ny new-r) y)
+        (+ (* nz new-r) z)
         new-r)))
 
-(defn draw [box]
+(defn draw [{r :r
+             {x :x
+              y :y
+              z :z} :pos
+             :as box}]
  (q/push-matrix)
- (q/translate
-  (-> box :pos :x)
-  (-> box :pos :y)
-  (-> box :pos :z))
+ (q/translate x y z)
  (q/no-stroke)
- (q/box (:r box))
+ (q/box r)
  (q/pop-matrix))
 

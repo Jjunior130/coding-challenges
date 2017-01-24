@@ -182,4 +182,4 @@ return re_frisk.devtool.mount.call(null,w,d);
 return d.close();
 });
 
-//# sourceMappingURL=devtool.js.map?rel=1484780632262
+//# sourceMappingURL=devtool.js.map?rel=1485242657063

@@ -42,4 +42,4 @@ return coding_challenges.core.mount_root.call(null);
 });
 goog.exportSymbol('coding_challenges.core.init', coding_challenges.core.init);
 
-//# sourceMappingURL=core.js.map?rel=1484810683741
+//# sourceMappingURL=core.js.map?rel=1485242680762

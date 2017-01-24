@@ -4,128 +4,127 @@
            [reagent.core :as reagent]
            [re-frame.core :as rf]
            [re-com.core :as rc]
-           [coding-challenges.maze-generator.cell :as cell]
-           [com.rpl.specter :as sp
-            :refer [ALL FIRST select-one collect-one pred multi-path]]
-           [coding-challenges.util :refer [mt u a cond->mt cond-mt
-                                           PASS]]))
+           [coding-challenges.maze-generator.cell :as cell]))
 
 (def w 600)
 (def h 600)
 
 (defn setup []
- (u {:w 40}
-    [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
-    [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
-    [(collect-one :cols)
-     (collect-one :rows) :grid]
-    (comp
-     (fn [grid-of-cells]
-      (mt grid-of-cells
-          [FIRST FIRST
-           (a
-            :current true
-            :visited true)]))
-     (fn [cols rows]
-      (let [empty-grid
-            (vec
-             (repeatedly
-              cols
-              (partial
-               vec
-               (repeat
-                rows nil))))]
-       (reduce
-        #(%2 %1)
-        empty-grid
-        (for [i (range cols)
-              j (range rows)]
-         #(a %
-             (cell/path i j) (cell/make i j)))))))))
+ (let [w 40
+       cols (q/floor (/ (q/width) w))
+       rows (q/floor (/ (q/height) w))
+       empty-grid (vec
+                   (repeatedly
+                    cols
+                    (partial
+                     vec
+                     (repeat
+                      rows nil))))
+       grid-of-cells (reduce
+                      #(%2 %1)
+                      empty-grid
+                      (for [i (range cols)
+                            j (range rows)]
+                       (fn [grid]
+                        (update grid
+                                i #(assoc %
+                                    j (cell/make i j))))))
+       grid (update grid-of-cells
+                    0 (fn [row]
+                       (update row
+                               0 #(assoc %
+                                   :visited true))))
+       current ((grid 0) 0)]
+  {:w w
+   :cols cols
+   :rows rows
+   :grid grid
+   :current current}))
 
-(defn remove-wall [previous-current-path previous-wall
-                   next-current-path next-wall]
- (u
-  [previous-current-path :walls] #(disj % previous-wall)
-  [next-current-path :walls] #(disj % next-wall)))
-
-(defn remove-walls [{ci :i
-                     cj :j}
+(defn remove-walls [grid
+                    {ci :i
+                     cj :j} previous-wall
                     {ni :i
-                     nj :j}
-                    grid]
- (let [x (- ci ni)
-       y (- cj nj)
-       previous-current-path (cell/path ci cj)
-       next-current-path (cell/path ni nj)]
-  (cond->mt
-   grid
-   (= x 1)
-   (remove-wall previous-current-path :left
-                next-current-path :right)
-   (= x -1)
-   (remove-wall previous-current-path :right
-                next-current-path :left)
-   (= y 1)
-   (remove-wall previous-current-path :top
-                next-current-path :bottom)
-   (= y -1)
-   (remove-wall previous-current-path :bottom
-                next-current-path :top))))
+                     nj :j} next-wall]
+ (-> grid
+     (update
+      ci (fn [row]
+          (update row
+                  cj (fn [cell]
+                      (update cell
+                              :walls #(disj % previous-wall))))))
+     (update
+      ni (fn [row]
+          (update row
+                  nj (fn [cell]
+                      (update cell
+                              :walls #(disj % next-wall))))))))
 
-(def current-path
- (sp/comp-paths ALL ALL (pred :current)))
+(defn remove-wall [grid
+                   {ci :i
+                    cj :j
+                    :as previous-current}
+                   {ni :i
+                    nj :j
+                    :as next-current}]
+ (let [x (- ci ni)
+       y (- cj nj)]
+  (cond-> grid
+   (= x 1)
+   (remove-walls previous-current :left
+                 next-current :right)
+   (= x -1)
+   (remove-walls previous-current :right
+                 next-current :left)
+   (= y 1)
+   (remove-walls previous-current :top
+                 next-current :bottom)
+   (= y -1)
+   (remove-walls previous-current :bottom
+                 next-current :top))))
 
 (defn update* [{grid :grid
                 stack :stack
+                {ci :i
+                 cj :j
+                 :as previous-current} :current
                 :as sketch}]
- (let [{ci :i
-        cj :j
-        :as current}
-       (sp/compiled-select-one current-path grid)
-       previous-current-path (cell/path ci cj)
-       {ni :i
+ (let [{ni :i
         nj :j
-        :as nxt}
-       (cell/check-neighbors grid current)
-       next-current-path (cell/path ni nj)]
-  (cond-mt
-   sketch
-   nxt
-   (multi-path
-    [:grid
-     (multi-path
-      (a
-       [current-path :current] false)
-      [next-current-path
-       (a
-        :current true
-        :visited true)]
-      (u
-       [(collect-one
-         previous-current-path)
-        (collect-one
-         next-current-path)] remove-walls))]
-    (u
-     :stack #(conj % previous-current-path)))
-   (seq stack)
-   (multi-path
-    [:grid
-     (a
-      [current-path :current] false
-      [(peek stack) :current] true)]
-    (u
-     :stack pop))
-   :else PASS)))
+        :as next-current}
+       (cell/check-neighbors grid previous-current)]
+  (if next-current
+   (-> sketch
+       (update
+        :grid (fn [grid]
+               (-> grid
+                   (update
+                    ni (fn [row]
+                        (update row
+                                nj #(assoc %
+                                     :visited true))))
+                   (remove-wall previous-current next-current))))
+       (update
+        :stack #(conj % previous-current))
+       (assoc
+        :current next-current))
+   (if (seq stack)
+    (-> sketch
+        (update
+         :stack pop)
+        (assoc
+         :current (peek stack)))
+    sketch))))
 
 (defn draw [{grid :grid
              w :w
+             {ci :i
+              cj :j} :current
              :as sketch}]
  (q/background 51)
  (doseq [cell (flatten grid)]
   (cell/draw w cell))
- (cell/highlight w (sp/compiled-select-one
-                    current-path grid)))
+ (cell/highlight w ((grid ci) cj)))
 
 (q/defsketch maze-generator-sketch
              :setup  setup
@@ -172,118 +171,160 @@
 (def h 600)
 
 (defn setup []
- (u {:w 40}
-    [(collect-one :w) :cols] #(->> % (/ (q/width)) q/floor)
-    [(collect-one :w) :rows] #(->> % (/ (q/height)) q/floor)
-    [(collect-one :cols)
-     (collect-one :rows) :grid]
-    (comp
-     (fn [grid-of-cells]
-      (mt grid-of-cells
-          [FIRST FIRST
-           (a
-            :current true
-            :visited true)]))
-     (fn [cols rows]
-      (let [empty-grid
-            (vec
-             (repeatedly
-              cols
-              (partial
-               vec
-               (repeat
-                rows nil))))]
-       (reduce
-        #(%2 %1)
-        empty-grid
-        (for [i (range cols)
-              j (range rows)]
-         #(a %
-             (cell/path i j) (cell/make i j)))))))))
+ (let [w 40
+       cols (q/floor (/ (q/width) w))
+       rows (q/floor (/ (q/height) w))
+       empty-grid (vec
+                   (repeatedly
+                    cols
+                    (partial
+                     vec
+                     (repeat
+                      rows nil))))
+       grid-of-cells (reduce
+                      #(%2 %1)
+                      empty-grid
+                      (for [i (range cols)
+                            j (range rows)]
+                       (fn [grid]
+                        (update grid
+                                i #(assoc %
+                                    j (cell/make i j))))))
+       grid (update grid-of-cells
+                    0 (fn [row]
+                       (update row
+                               0 #(assoc %
+                                   :visited true))))
+       current ((grid 0) 0)]
+  {:w w
+   :cols cols
+   :rows rows
+   :grid grid
+   :current current}))
 
-(defn remove-wall [previous-current-path previous-wall
-                   next-current-path next-wall]
- (u
-  [previous-current-path :walls] #(disj % previous-wall)
-  [next-current-path :walls] #(disj % next-wall)))
+(defn remove-wall [grid
+                   {ci :i
+                    cj :j} previous-wall
+                   {ni :i
+                    nj :j} next-wall]
+ (-> grid
+     (update
+      ci (fn [row]
+          (update row
+                  cj (fn [cell]
+                      (update cell
+                              :walls #(disj % previous-wall))))))
+     (update
+      ni (fn [row]
+          (update row
+                  nj (fn [cell]
+                      (update cell
+                              :walls #(disj % next-wall))))))))
 
-(defn remove-walls [{ci :i
-                     cj :j}
+(defn remove-walls [grid
+                    {ci :i
+                     cj :j
+                     :as previous-current}
                     {ni :i
-                     nj :j}
-                    grid]
+                     nj :j
+                     :as next-current}]
  (let [x (- ci ni)
-       y (- cj nj)
-       previous-current-path (cell/path ci cj)
-       next-current-path (cell/path ni nj)]
-  (cond->mt
-   grid
+       y (- cj nj)]
+  (cond-> grid
    (= x 1)
-   (remove-wall previous-current-path :left
-                next-current-path :right)
+   (remove-wall previous-current :left
+                next-current :right)
    (= x -1)
-   (remove-wall previous-current-path :right
-                next-current-path :left)
+   (remove-wall previous-current :right
+                next-current :left)
    (= y 1)
-   (remove-wall previous-current-path :top
-                next-current-path :bottom)
+   (remove-wall previous-current :top
+                next-current :bottom)
    (= y -1)
-   (remove-wall previous-current-path :bottom
-                next-current-path :top))))
-
-(def current-path
- (sp/comp-paths ALL ALL (pred :current)))
+   (remove-wall previous-current :bottom
+                next-current :top))))
 
 (defn update* [{grid :grid
                 stack :stack
+                {ci :i
+                 cj :j
+                 :as previous-current} :current
                 :as sketch}]
- (let [{ci :i
-        cj :j
-        :as current}
-       (sp/compiled-select-one current-path grid)
-       previous-current-path (cell/path ci cj)
-       {ni :i
+ (let [{ni :i
         nj :j
-        :as nxt}
-       (cell/check-neighbors grid current)
-       next-current-path (cell/path ni nj)]
-  (cond-mt
-   sketch
-   nxt
-   (multi-path
-    [:grid
-     (multi-path
-      (a
-       [current-path :current] false)
-      [next-current-path
-       (a
-        :current true
-        :visited true)]
-      (u
-       [(collect-one
-         previous-current-path)
-        (collect-one
-         next-current-path)] remove-walls))]
-    (u
-     :stack #(conj % previous-current-path)))
-   (seq stack)
-   (multi-path
-    [:grid
-     (a
-      [current-path :current] false
-      [(peek stack) :current] true)]
-    (u
-     :stack pop))
-   :else PASS)))
+        :as next-current}
+       (cell/check-neighbors grid previous-current)]
+  (if next-current
+   (-> sketch
+       (update
+(def w 600)
+(def h 600)
 
-(defn draw [{grid :grid
-             w :w
-             :as sketch}]
- (q/background 51)
- (doseq [cell (flatten grid)]
-  (cell/draw w cell))
- (cell/highlight w (sp/compiled-select-one
-                    current-path grid)))"]]
+(defn setup []
+ (let [w 40
+       cols (q/floor (/ (q/width) w))
+       rows (q/floor (/ (q/height) w))
+       empty-grid (vec
+                   (repeatedly
+                    cols
+                    (partial
+                     vec
+                     (repeat
+                      rows nil))))
+       grid-of-cells (reduce
+                      #(%2 %1)
+                      empty-grid
+                      (for [i (range cols)
+                            j (range rows)]
+                       (fn [grid]
+                        (update grid
+                                i #(assoc %
+                                    j (cell/make i j))))))
+       grid (update grid-of-cells
+                    0 (fn [row]
+                       (update row
+                               0 #(assoc %
+                                   :visited true))))
+       current ((grid 0) 0)]
+  {:w w
+   :cols cols
+   :rows rows
+   :grid grid
+   :current current}))
+
+(defn remove-walls [grid
+                   {ci :i
+                    cj :j} previous-wall
+                   {ni :i
+                    nj :j} next-wall]
+ (-> grid
+     (update
+      ci (fn [row]
+          (update row
+                  cj (fn [cell]
+                      (update cell
+                              :walls #(disj % previous-wall))))))
+     (update
+      ni (fn [row]
+          (update row
+                  nj (fn [cell]
+                      (update cell
+                              :walls #(disj % next-wall))))))))
+
+(defn remove-wall [grid
+                    {ci :i
+                     cj :j
+                     :as previous-current}
+                    {ni :i
+                     nj :j
+                     :as next-current}]
+ (let [x (- ci ni)
+       y (- cj nj)]
+  (cond-> grid
+   (= x 1)
+   (remove-walls previous-current :left
+                 next-current :right)
+   (= x -1)"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman
@@ -390,40 +431,29 @@ function removeWalls(a, b) {
   :j j
   :walls #{:top :right :bottom :left}})
 
-(defn path [i j]
- [(keypath i)
-  (keypath j)])
-
 (defn check-neighbors [grid
-                       {i :i
-                        j :j
-                        :as cell}]
- (u grid
-    [(collect-one (path      i (dec j)))
-     (collect-one (path (inc i)     j))
-     (collect-one (path      i (inc j)))
-     (collect-one (path (dec i)     j))]
-    (fn [{top-visited? :visited
-          :as top}
-         {right-visited? :visited
-          :as right}
-         {bottom-visited? :visited
-          :as bottom}
-         {left-visited? :visited
-          :as left}]
-     (let [neighbors
-           (cond->mt
-            []
-            (and top (not top-visited?))
-            (u STAY #(conj % top))
-            (and right (not right-visited?))
-            (u STAY #(conj % right))
-            (and bottom (not bottom-visited?))
-            (u STAY #(conj % bottom))
-            (and left (not left-visited?))
-            (u STAY #(conj % left)))]
-      (when (seq neighbors)
-       (rand-nth neighbors))))))
+                       {ci :i
+                        cj :j}]
+ (let [{top-visited? :visited
+        :as top} ((grid ci) (dec cj))
+       {right-visited? :visited
+        :as right} ((grid (inc ci)) cj)
+       {bottom-visited? :visited
+        :as bottom} ((grid ci) (inc cj))
+       {left-visited? :visited
+        :as left} ((grid (dec ci)) cj)
+       neighbors (cond->
+                  []
+                  (and top (not top-visited?))
+                  (conj top)
+                  (and right (not right-visited?))
+                  (conj right)
+                  (and bottom (not bottom-visited?))
+                  (conj bottom)
+                  (and left (not left-visited?))
+                  (conj left))]
+  (when (seq neighbors)
+   (rand-nth neighbors))))
 
 (defn update* [cell])
 

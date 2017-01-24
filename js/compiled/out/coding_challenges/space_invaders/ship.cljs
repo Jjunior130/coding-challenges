@@ -1,20 +1,15 @@
 (ns coding-challenges.space-invaders.ship
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [view ALL transform setval
-                    collect-one putval]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make []
  {:type 'Ship
   :x (/ (q/width) 2)
   :xdir 0})
 
-(defn move [ship]
- (->> ship
-      (transform [(collect-one :xdir)
-                  :x]
-                 (fn [xdir x]
-                  (+ x (* 5 xdir))))))
+(defn move [{xdir :xdir
+             :as ship}]
+ (update ship
+         :x (partial + (* 5 xdir))))
 
 (defn update* [ship]
  (move ship))

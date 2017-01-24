@@ -1,8 +1,5 @@
 (ns coding-challenges.mitosis.cell
- (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp
-            :refer [view ALL transform setval
-                    collect-one putval]]))
+ (:require [quil.core :as q :include-macros true]))
 
 (defn make
  ([]
@@ -39,9 +36,8 @@
 (defn move [n cell]
  (let [vel {:x (q/random (- n) n)
             :y (q/random (- n) n)}]
-  (->> cell
-       (transform :pos
-                  (partial merge-with + vel)))))
+  (update cell
+          :pos (partial merge-with + vel))))
 
 (defn update* [cell]
  (move 5 cell))

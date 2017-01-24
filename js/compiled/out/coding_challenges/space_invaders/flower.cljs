@@ -1,6 +1,5 @@
 (ns coding-challenges.space-invaders.flower
  (:require [quil.core :as q :include-macros true]
-           [com.rpl.specter :as sp :refer [view ALL transform setval collect-one putval]]
            [coding-challenges.space-invaders.drop :refer [hits?]]))
 
 (defn make [x y]
@@ -11,20 +10,19 @@
   :xdir 1})
 
 (defn grow [flower]
- (->> flower
-      (transform :r (partial + 2))))
+ (update flower
+         :r (partial + 2)))
 
-(defn move [flower]
- (->> flower
-      (transform [(collect-one :xdir)
-                  :x]
-                 +)))
+(defn move [{xdir :xdir
+             :as flower}]
+ (update flower
+         :x (partial + xdir)))
 
-(defn shift-down [flower]
- (->> flower
-      (transform [(collect-one :r)
-                  :y] +)
-      (transform :xdir (partial * -1))))
+(defn shift-down [{r :r
+                   :as flower}]
+ (-> flower
+     (update :y (partial + r))
+     (update :xdir (partial * -1))))
 
 (defn update* [edge? drops flower]
  (cond->> flower
