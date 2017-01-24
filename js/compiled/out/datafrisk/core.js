@@ -421,4 +421,4 @@ return datafrisk.core.FriskInline.cljs$core$IFn$_invoke$arity$variadic(cljs.core
 });
 
 
-//# sourceMappingURL=core.js.map?rel=1485242656610
+//# sourceMappingURL=core.js.map?rel=1485243256327

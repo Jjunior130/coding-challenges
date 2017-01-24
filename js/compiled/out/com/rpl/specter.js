@@ -3290,4 +3290,4 @@ return G__13007;
 })()
 ,cljs.core.assoc,new cljs.core.Keyword(null,"dynamicnav","dynamicnav",1267703844),true);
 
-//# sourceMappingURL=specter.js.map?rel=1485242654223
+//# sourceMappingURL=specter.js.map?rel=1485243253996

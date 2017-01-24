@@ -230,9 +230,9 @@ module.exports = {
     BOX:            41,
 
     // Arc drawing modes
-    //OPEN:          1, // shared with Shape closing modes   
+    //OPEN:          1, // shared with Shape closing modes
     CHORD:           2,
-    PIE:             3, 
+    PIE:             3,
 
 
     GROUP:          0,
@@ -7806,7 +7806,7 @@ module.exports = function withTouch(p, curElement, attachEventHandler, document,
       // prevent scroll from kicking in globally before
       // calling the scroll handler.
       e.stopPropagation();
-      e.preventDefault();   
+      e.preventDefault();
       p.mouseScrolled();
     }
   };
@@ -17644,7 +17644,7 @@ module.exports = function setupParser(Processing, options) {
           } else if (mode === PConstants.PIE) {
             p.line(centerX + Math.cos(start) * hr, centerY + Math.sin(start) * vr, centerX, centerY);
             p.line(centerX, centerY, centerX + Math.cos(stop) * hr, centerY + Math.sin(stop) * vr);
-          } 
+          }
 
           p.endShape(closed ? PConstants.CLOSE : undefined);
         };
@@ -18066,7 +18066,7 @@ module.exports = function setupParser(Processing, options) {
 //      if (width < 0) { x += width; width = -width; }
 //      if (height < 0) { y += height; height = -height; }
 
- //     console.log(x,y,width,height);
+//      console.log(x,y,width,height);
 
       // Translate the line by (0.5, 0.5) to draw a crisp rectangle border
       if (doStroke && lineWidth % 2 === 1) {

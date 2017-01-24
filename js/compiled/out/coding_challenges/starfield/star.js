@@ -56,4 +56,4 @@ quil.core.stroke.call(null,(255));
 return quil.core.line.call(null,px,py,sx,sy);
 });
 
-//# sourceMappingURL=star.js.map?rel=1485242678247
+//# sourceMappingURL=star.js.map?rel=1485243281235

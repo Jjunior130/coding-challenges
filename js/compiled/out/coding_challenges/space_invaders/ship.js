@@ -27,4 +27,4 @@ quil.core.rect_mode.call(null,new cljs.core.Keyword(null,"center","center",-7489
 return quil.core.rect.call(null,x,(quil.core.height.call(null) - (20)),(20),(60));
 });
 
-//# sourceMappingURL=ship.js.map?rel=1485242679324
+//# sourceMappingURL=ship.js.map?rel=1485243282479

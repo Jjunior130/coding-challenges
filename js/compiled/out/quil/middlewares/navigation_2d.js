@@ -113,4 +113,4 @@ return user_mouse_wheel.call(null,quil.middlewares.navigation_2d.mouse_wheel.cal
 );
 });
 
-//# sourceMappingURL=navigation_2d.js.map?rel=1485242678472
+//# sourceMappingURL=navigation_2d.js.map?rel=1485243281497

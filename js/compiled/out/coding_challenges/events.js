@@ -62,4 +62,4 @@ coding_challenges.socket.chsk_send_BANG_.call(null,new cljs.core.PersistentVecto
 return db;
 }));
 
-//# sourceMappingURL=events.js.map?rel=1485242680152
+//# sourceMappingURL=events.js.map?rel=1485243283504

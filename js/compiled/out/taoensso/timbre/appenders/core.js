@@ -166,4 +166,4 @@ return taoensso.timbre.appenders.core.console_appender.cljs$core$IFn$_invoke$ari
  */
 taoensso.timbre.appenders.core.console__QMARK_appender = taoensso.timbre.appenders.core.console_appender;
 
-//# sourceMappingURL=core.js.map?rel=1485242671214
+//# sourceMappingURL=core.js.map?rel=1485243272856

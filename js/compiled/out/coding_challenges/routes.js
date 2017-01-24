@@ -211,4 +211,4 @@ secretary.core.add_route_BANG_.call(null,"/about",action__35820__auto___36124);
 return coding_challenges.routes.hook_browser_navigation_BANG_.call(null);
 });
 
-//# sourceMappingURL=routes.js.map?rel=1485242680733
+//# sourceMappingURL=routes.js.map?rel=1485243284215

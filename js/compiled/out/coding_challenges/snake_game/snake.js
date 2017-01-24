@@ -185,4 +185,4 @@ coding_challenges.snake_game.snake.dir = (function coding_challenges$snake_game$
 return cljs.core.assoc.call(null,cljs.core.assoc.call(null,snake,new cljs.core.Keyword(null,"xspeed","xspeed",1490661174),x),new cljs.core.Keyword(null,"yspeed","yspeed",-1471063521),y);
 });
 
-//# sourceMappingURL=snake.js.map?rel=1485242679880
+//# sourceMappingURL=snake.js.map?rel=1485243283183
