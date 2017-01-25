@@ -13,22 +13,22 @@
  (let [w 40
        cols (q/floor (/ (q/width) w))
        rows (q/floor (/ (q/height) w))
-       empty-grid (vec
-                   (repeatedly
-                    cols
-                    (partial
-                     vec
-                     (repeat
-                      rows nil))))
-       grid-of-cells (reduce
-                      #(%2 %1)
-                      empty-grid
-                      (for [i (range cols)
-                            j (range rows)]
-                       (fn [grid]
-                        (update grid
-                                i #(assoc %
-                                    j (cell/make i j))))))
+       grid-of-cells
+       (loop [i (int 0)
+              cs []]
+        (if (>= i cols)
+         cs
+         (recur
+          (inc i)
+          (conj cs
+                (loop [j (int 0)
+                       rs []]
+                 (if (>= j rows)
+                  rs
+                  (recur
+                   (inc j)
+                   (conj rs
+                         (cell/make i j)))))))))
        grid (update grid-of-cells
                     0 (fn [row]
                        (update row
@@ -108,12 +108,12 @@
         :stack #(conj % previous-current))
        (assoc
         :current next-current))
-   (if (seq stack)
+   (if-let [cs (peek stack)]
     (-> sketch
         (update
          :stack pop)
         (assoc
-         :current (peek stack)))
+         :current cs))
     sketch))))
 
 (defn draw [{grid :grid

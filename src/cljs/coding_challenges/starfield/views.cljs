@@ -24,14 +24,13 @@
                      :as sketch}]
  (update sketch
          :stars
-         #(loop [i (count %)
-                 stars (vec %)
+         #(loop [stars %
                  updated-stars []]
-           (if (zero? i)
-            updated-stars
-            (recur (dec i) (pop stars)
+           (if-let [cs (peek stars)]
+            (recur (pop stars)
                    (conj updated-stars
-                         (star/update* speed (peek stars))))))))
+                         (star/update* speed cs)))
+            updated-stars))))
 
 (defn update* [sketch]
  (->> sketch

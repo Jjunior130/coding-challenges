@@ -15,14 +15,15 @@
 
 (defn reset? [{z :z
                :as star}]
- (cond->
-  star
-  (< z 1)
-  (assoc
-   :z (q/width)
-   :x (q/random (- (q/width)) (q/width))
-   :y (q/random (- (q/height)) (q/height))
-   :pz (q/width))))
+ (let [nz (q/width)]
+  (cond->
+   star
+   (< z 1)
+   (assoc
+    :z nz
+    :x (q/random (- (q/width)) (q/width))
+    :y (q/random (- (q/height)) (q/height))
+    :pz nz))))
 
 (defn update* [speed star]
  (->> star
