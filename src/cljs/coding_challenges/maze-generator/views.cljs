@@ -9,26 +9,29 @@
 (def w 600)
 (def h 600)
 
+(defn u [a k f]
+ (aset a k (f (aget a k)))
+ a)
+
 (defn setup []
  (let [w 40
        cols (q/floor (/ (q/width) w))
        rows (q/floor (/ (q/height) w))
        grid-of-cells
-       (let [cs (array)]
-        (dotimes [i cols]
-         (let [rs (array)]
-          (dotimes [j rows]
+       (let [cs #js []]
+        (dotimes [i rows]
+         (let [rs #js []]
+          (dotimes [j cols]
            (aset rs j (cell/make i j)))
-          (aset cs i (vec rs))))
+          (aset cs i rs)))
         cs)
        grid
-       (do
-        (aset grid-of-cells
-              0 (update (aget grid-of-cells 0)
-                        0 #(assoc %
-                            :visited true)))
-        (vec grid-of-cells))
-       current ((grid 0) 0)]
+       (u grid-of-cells
+          0 (fn [fr]
+             (u fr
+                0 #(assoc %
+                    :visited true))))
+       current (cell/index grid 0 0)]
   {:w w
    :cols cols
    :rows rows
@@ -41,18 +44,18 @@
                     {ni :i
                      nj :j} next-wall]
  (-> grid
-     (update
+     (u
       ci (fn [row]
-          (update row
-                  cj (fn [cell]
-                      (update cell
-                              :walls #(disj % previous-wall))))))
-     (update
+          (u row
+             cj (fn [cell]
+                 (update cell
+                         :walls #(disj % previous-wall))))))
+     (u
       ni (fn [row]
-          (update row
-                  nj (fn [cell]
-                      (update cell
-                              :walls #(disj % next-wall))))))))
+          (u row
+             nj (fn [cell]
+                 (update cell
+                         :walls #(disj % next-wall))))))))
 
 (defn remove-wall [grid
                    {ci :i
@@ -63,7 +66,8 @@
                     :as next-current}]
  (let [x (- ci ni)
        y (- cj nj)]
-  (cond-> grid
+  (cond->
+   grid
    (= x 1)
    (remove-walls previous-current :left
                  next-current :right)
@@ -83,6 +87,7 @@
                  cj :j
                  :as previous-current} :current
                 :as sketch}]
+
  (let [{ni :i
         nj :j
         :as next-current}
@@ -92,11 +97,11 @@
        (update
         :grid (fn [grid]
                (-> grid
-                   (update
+                   (u
                     ni (fn [row]
-                        (update row
-                                nj #(assoc %
-                                     :visited true))))
+                        (u row
+                           nj #(assoc %
+                                :visited true))))
                    (remove-wall previous-current next-current))))
        (update
         :stack #(conj % previous-current))
@@ -116,9 +121,15 @@
               cj :j} :current
              :as sketch}]
  (q/background 51)
- (doseq [cell (flatten grid)]
-  (cell/draw w cell))
- (cell/highlight w ((grid ci) cj)))
+ (dotimes [i (alength grid)]
+  (u grid
+     i (fn [row]
+        (dotimes [j (alength row)]
+         (u row
+            j #(do (cell/draw w %)
+                %)))
+        row)))
+ (cell/highlight w (cell/index grid ci cj)))
 
 (q/defsketch maze-generator-sketch
              :setup  setup

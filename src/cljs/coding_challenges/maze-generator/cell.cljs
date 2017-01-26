@@ -8,7 +8,9 @@
   :walls #{:top :right :bottom :left}})
 
 (defn index [grid i j]
- ((grid i (constantly nil)) j nil))
+ (if-let [rw (aget grid i)]
+  (aget rw j)
+  nil))
 
 (defn check-neighbors [grid
                        {ci :i
@@ -21,24 +23,24 @@
         :as bottom} (index grid ci (inc cj))
        {left-visited? :visited
         :as left} (index grid (dec ci) cj)
-       neighbors (cond->
-                  []
-                  (and top (not top-visited?))
-                  (conj top)
-                  (and right (not right-visited?))
-                  (conj right)
-                  (and bottom (not bottom-visited?))
-                  (conj bottom)
-                  (and left (not left-visited?))
-                  (conj left))]
+       neighbors
+       (cond->
+        []
+        (and top (not top-visited?))
+        (conj top)
+        (and right (not right-visited?))
+        (conj right)
+        (and bottom (not bottom-visited?))
+        (conj bottom)
+        (and left (not left-visited?))
+        (conj left))]
   (when (seq neighbors)
    (rand-nth neighbors))))
 
 (defn update* [cell])
 
 (defn highlight [w {i :i
-                    j :j
-                    :as cell}]
+                    j :j}]
  (q/no-stroke)
  (q/fill 0 0 255 100)
  (let [x (* i w)
