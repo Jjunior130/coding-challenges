@@ -9,53 +9,40 @@
 (def w 600)
 (def h 600)
 
-(defn u [a k f]
- (aset a k (f (aget a k)))
- a)
+(defrecord Sketch [w grid current stack]
+ IFn
+ (-invoke [this k v & kvs]
+          (apply assoc this k v kvs)))
 
 (defn setup []
  (let [w 40
        cols (q/floor (/ (q/width) w))
        rows (q/floor (/ (q/height) w))
        grid-of-cells
-       (let [cs #js []]
-        (dotimes [i rows]
-         (let [rs #js []]
-          (dotimes [j cols]
-           (aset rs j (cell/make i j)))
-          (aset cs i rs)))
-        cs)
-       grid
-       (u grid-of-cells
-          0 (fn [fr]
-             (u fr
-                0 #(assoc %
-                    :visited true))))
-       current (cell/index grid 0 0)]
-  {:w w
-   :cols cols
-   :rows rows
-   :grid grid
-   :current current}))
+       (loop [i (int 0)
+              rs (transient [])]
+        (if (< i rows)
+         (recur
+          (inc i)
+          (conj!
+           rs (loop [j (int 0)
+                     cells (transient [])]
+               (if (< j cols)
+                (recur
+                 (inc j) (conj!
+                          cells (cell/make i j)))
+                (persistent! cells)))))
+         (persistent! rs)))
+       current ((grid-of-cells 0) 0)
+       grid (current grid-of-cells :visited true)]
+  (Sketch. w grid current [])))
 
 (defn remove-walls [grid
-                    {ci :i
-                     cj :j} previous-wall
-                    {ni :i
-                     nj :j} next-wall]
+                    previous-current previous-wall
+                    next-current next-wall]
  (-> grid
-     (u
-      ci (fn [row]
-          (u row
-             cj (fn [cell]
-                 (update cell
-                         :walls #(disj % previous-wall))))))
-     (u
-      ni (fn [row]
-          (u row
-             nj (fn [cell]
-                 (update cell
-                         :walls #(disj % next-wall))))))))
+     (previous-current :walls #(disj % previous-wall))
+     (next-current :walls #(disj % next-wall))))
 
 (defn remove-wall [grid
                    {ci :i
@@ -66,8 +53,7 @@
                     :as next-current}]
  (let [x (- ci ni)
        y (- cj nj)]
-  (cond->
-   grid
+  (cond-> grid
    (= x 1)
    (remove-walls previous-current :left
                  next-current :right)
@@ -83,53 +69,34 @@
 
 (defn update* [{grid :grid
                 stack :stack
-                {ci :i
-                 cj :j
-                 :as previous-current} :current
+                previous-current :current
                 :as sketch}]
-
  (let [{ni :i
         nj :j
         :as next-current}
        (cell/check-neighbors grid previous-current)]
   (if next-current
-   (-> sketch
-       (update
-        :grid (fn [grid]
-               (-> grid
-                   (u
-                    ni (fn [row]
-                        (u row
-                           nj #(assoc %
-                                :visited true))))
-                   (remove-wall previous-current next-current))))
-       (update
-        :stack #(conj % previous-current))
-       (assoc
-        :current next-current))
+   (sketch
+    :grid (-> grid
+              (next-current :visited true)
+              (remove-wall previous-current next-current))
+    :stack (conj stack previous-current)
+    :current next-current)
    (if-let [cs (peek stack)]
-    (-> sketch
-        (update
-         :stack pop)
-        (assoc
-         :current cs))
+    (sketch
+     :stack (pop stack)
+     :current cs)
     sketch))))
 
 (defn draw [{grid :grid
              w :w
-             {ci :i
-              cj :j} :current
+             current :current
              :as sketch}]
  (q/background 51)
- (dotimes [i (alength grid)]
-  (u grid
-     i (fn [row]
-        (dotimes [j (alength row)]
-         (u row
-            j #(do (cell/draw w %)
-                %)))
-        row)))
- (cell/highlight w (cell/index grid ci cj)))
+ (doseq [cells grid]
+  (doseq [cell cells]
+   (cell/draw w cell)))
+ (cell/highlight w current))
 
 (q/defsketch maze-generator-sketch
              :setup  setup
@@ -175,50 +142,40 @@
              "(def w 600)
 (def h 600)
 
+(defrecord Sketch [w grid current stack]
+ IFn
+ (-invoke [this k v & kvs]
+          (apply assoc this k v kvs)))
+
 (defn setup []
  (let [w 40
        cols (q/floor (/ (q/width) w))
        rows (q/floor (/ (q/height) w))
        grid-of-cells
-       (let [cs (array)]
-        (dotimes [i cols]
-         (let [rs (array)]
-          (dotimes [j rows]
-           (aset rs j (cell/make i j)))
-          (aset cs i (vec rs))))
-        cs)
-       grid
-       (do
-        (aset grid-of-cells
-              0 (update (aget grid-of-cells 0)
-                        0 #(assoc %
-                            :visited true)))
-        (vec grid-of-cells))
-       current ((grid 0) 0)]
-  {:w w
-   :cols cols
-   :rows rows
-   :grid grid
-   :current current}))
+       (loop [i (int 0)
+              rs (transient [])]
+        (if (< i rows)
+         (recur
+          (inc i)
+          (conj!
+           rs (loop [j (int 0)
+                     cells (transient [])]
+               (if (< j cols)
+                (recur
+                 (inc j) (conj!
+                          cells (cell/make i j)))
+                (persistent! cells)))))
+         (persistent! rs)))
+       current ((grid-of-cells 0) 0)
+       grid (current grid-of-cells :visited true)]
+  (Sketch. w grid current [])))
 
 (defn remove-walls [grid
-                    {ci :i
-                     cj :j} previous-wall
-                    {ni :i
-                     nj :j} next-wall]
+                    previous-current previous-wall
+                    next-current next-wall]
  (-> grid
-     (update
-      ci (fn [row]
-          (update row
-                  cj (fn [cell]
-                      (update cell
-                              :walls #(disj % previous-wall))))))
-     (update
-      ni (fn [row]
-          (update row
-                  nj (fn [cell]
-                      (update cell
-                              :walls #(disj % next-wall))))))))
+     (previous-current :walls #(disj % previous-wall))
+     (next-current :walls #(disj % next-wall))))
 
 (defn remove-wall [grid
                    {ci :i
@@ -245,46 +202,34 @@
 
 (defn update* [{grid :grid
                 stack :stack
-                {ci :i
-                 cj :j
-                 :as previous-current} :current
+                previous-current :current
                 :as sketch}]
  (let [{ni :i
         nj :j
         :as next-current}
        (cell/check-neighbors grid previous-current)]
   (if next-current
-   (-> sketch
-       (update
-        :grid (fn [grid]
-               (-> grid
-                   (update
-                    ni (fn [row]
-                        (update row
-                                nj #(assoc %
-                                     :visited true))))
-                   (remove-wall previous-current next-current))))
-       (update
-        :stack #(conj % previous-current))
-       (assoc
-        :current next-current))
+   (sketch
+    :grid (-> grid
+              (next-current :visited true)
+              (remove-wall previous-current next-current))
+    :stack (conj stack previous-current)
+    :current next-current)
    (if-let [cs (peek stack)]
-    (-> sketch
-        (update
-         :stack pop)
-        (assoc
-         :current cs))
+    (sketch
+     :stack (pop stack)
+     :current cs)
     sketch))))
 
 (defn draw [{grid :grid
              w :w
-             {ci :i
-              cj :j} :current
+             current :current
              :as sketch}]
  (q/background 51)
- (doseq [cell (flatten grid)]
-  (cell/draw w cell))
- (cell/highlight w ((grid ci) cj)))"]]
+ (doseq [cells grid]
+  (doseq [cell cells]
+   (cell/draw w cell)))
+ (cell/highlight w current))"]]
            [:pre
             [:code.javascript
              "// Daniel Shiffman
@@ -385,41 +330,49 @@ function removeWalls(a, b) {
           :children
           [[:pre
             [:code.clojure
-             "(defn make [i j]
- {:type 'Cell
-  :i i
-  :j j
-  :walls #{:top :right :bottom :left}})
+             "(defrecord Cell [i j walls]
+ IFn
+ (-invoke [this k]
+          (k this))
+ (-invoke [this grid k v]
+          (update
+           grid i (fn [row]
+                   (update
+                    row j (fn [cell]
+                           (if (fn? v)
+                            (update cell k v)
+                            (assoc cell k v))))))))
+(defn make [i j]
+ (Cell. i j #{:top :right :bottom :left}))
+
+(defn index [grid i j]
+ ((grid i (constantly nil)) j nil))
 
 (defn check-neighbors [grid
-                       {ci :i
-                        cj :j}]
- (let [{top-visited? :visited
-        :as top} ((grid ci) (dec cj))
-       {right-visited? :visited
-        :as right} ((grid (inc ci)) cj)
-       {bottom-visited? :visited
-        :as bottom} ((grid ci) (inc cj))
-       {left-visited? :visited
-        :as left} ((grid (dec ci)) cj)
-       neighbors (cond->
-                  []
-                  (and top (not top-visited?))
-                  (conj top)
-                  (and right (not right-visited?))
-                  (conj right)
-                  (and bottom (not bottom-visited?))
-                  (conj bottom)
-                  (and left (not left-visited?))
-                  (conj left))]
+                       {i :i
+                        j :j}]
+ (let [top    (index grid      i (dec j))
+       right  (index grid (inc i)     j)
+       bottom (index grid      i (inc j))
+       left   (index grid (dec i)     j)
+       neighbors
+       (cond->
+        []
+        (and top (not (top :visited)))
+        (conj top)
+        (and right (not (right :visited)))
+        (conj right)
+        (and bottom (not (bottom :visited)))
+        (conj bottom)
+        (and left (not (left :visited)))
+        (conj left))]
   (when (seq neighbors)
    (rand-nth neighbors))))
 
 (defn update* [cell])
 
 (defn highlight [w {i :i
-                    j :j
-                    :as cell}]
+                    j :j}]
  (q/no-stroke)
  (q/fill 0 0 255 100)
  (let [x (* i w)
@@ -430,8 +383,7 @@ function removeWalls(a, b) {
             {i :i
              j :j
              walls :walls
-             visited? :visited
-             :as cell}]
+             visited? :visited}]
  (q/stroke 255)
  (let [x (* i w)
        y (* j w)]

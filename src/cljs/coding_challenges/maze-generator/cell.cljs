@@ -1,38 +1,41 @@
 (ns coding-challenges.maze-generator.cell
  (:require [quil.core :as q :include-macros true]))
 
+(defrecord Cell [i j walls]
+ IFn
+ (-invoke [this k]
+          (k this))
+ (-invoke [this grid k v]
+          (update
+           grid i (fn [row]
+                   (update
+                    row j (fn [cell]
+                           (if (fn? v)
+                            (update cell k v)
+                            (assoc cell k v))))))))
 (defn make [i j]
- {:type 'Cell
-  :i i
-  :j j
-  :walls #{:top :right :bottom :left}})
+ (Cell. i j #{:top :right :bottom :left}))
 
 (defn index [grid i j]
- (if-let [rw (aget grid i)]
-  (aget rw j)
-  nil))
+ ((grid i (constantly nil)) j nil))
 
 (defn check-neighbors [grid
-                       {ci :i
-                        cj :j}]
- (let [{top-visited? :visited
-        :as top} (index grid ci (dec cj))
-       {right-visited? :visited
-        :as right} (index grid (inc ci) cj)
-       {bottom-visited? :visited
-        :as bottom} (index grid ci (inc cj))
-       {left-visited? :visited
-        :as left} (index grid (dec ci) cj)
+                       {i :i
+                        j :j}]
+ (let [top    (index grid      i (dec j))
+       right  (index grid (inc i)     j)
+       bottom (index grid      i (inc j))
+       left   (index grid (dec i)     j)
        neighbors
        (cond->
         []
-        (and top (not top-visited?))
+        (and top (not (top :visited)))
         (conj top)
-        (and right (not right-visited?))
+        (and right (not (right :visited)))
         (conj right)
-        (and bottom (not bottom-visited?))
+        (and bottom (not (bottom :visited)))
         (conj bottom)
-        (and left (not left-visited?))
+        (and left (not (left :visited)))
         (conj left))]
   (when (seq neighbors)
    (rand-nth neighbors))))
@@ -51,8 +54,7 @@
             {i :i
              j :j
              walls :walls
-             visited? :visited
-             :as cell}]
+             visited? :visited}]
  (q/stroke 255)
  (let [x (* i w)
        y (* j w)]
